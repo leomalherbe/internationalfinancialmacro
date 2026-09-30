@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>International Financial Macroeconomics</title>
+<meta name="description" content="KEDGE Business School · Master · International Financial Macroeconomics — course slides and lab materials.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2437; --muted:#5b6475; --bg:#fbfaf6; --card:#ffffff; --line:#e6e2d6;
+  --gold:#c29d2c; --gold-soft:#f5ecd2; --navy:#14213d; --blue:#2f5d9e; --blue-soft:#e6eef9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy) 60%);color:#fff;padding:64px 0 56px}
+.kicker{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6em}
+h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2rem,5vw,3.1rem);line-height:1.08}
+header .sub{color:#d9dce4;font-size:1.05rem;margin:.9em 0 0;max-width:640px}
+header .who{margin-top:1.4em;font-weight:500}
+
+/* class list */
+main{padding:44px 0 64px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sechead h2{color:var(--navy);font-size:1.6rem}
+.sechead .muted{color:var(--muted);font-size:.9rem}
+.classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.cls{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 2px rgba(20,33,61,.04);transition:border-color .2s,box-shadow .2s,transform .2s}
+.cls:hover{border-color:var(--navy);box-shadow:0 6px 20px rgba(20,33,61,.08);transform:translateY(-2px)}
+.cls .top{display:flex;align-items:center;gap:14px}
+.num{font-family:"Source Serif 4",serif;font-weight:700;font-size:2.1rem;line-height:1;color:var(--gold);min-width:1.3em}
+.cls .lbl{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cls h3{font-size:1.25rem;color:var(--navy);line-height:1.2}
+.topics{list-style:none;margin:0;padding:0;font-size:.9rem;color:var(--muted)}
+.topics li{padding:3px 0 3px 1.2em;position:relative}
+.topics li::before{content:"";position:absolute;left:0;top:.72em;width:.45em;height:.45em;border-radius:2px;background:var(--gold)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.88rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1.5px solid var(--navy)}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.primary:hover{background:#24365e}
+.btn.ghost{color:var(--navy);background:transparent}
+.btn.ghost:hover{background:var(--blue-soft)}
+.cls.soon{background:transparent;border-style:dashed;box-shadow:none;justify-content:center;align-items:center;text-align:center;color:var(--muted);min-height:180px}
+.cls.soon:hover{transform:none;border-color:var(--line);box-shadow:none}
+
+footer{border-top:1px solid var(--line);padding:22px 0 36px;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:520px){header{padding:44px 0 40px}.classes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">KEDGE Business School · Master · 2026</div>
+    <h1>International Financial Macroeconomics</h1>
+    <p class="sub">Slides and labs for each class. Pick a class below; slides open in your browser (<b>→</b> next, <b>F</b> full screen, <b>O</b> overview).</p>
+    <p class="who">Thomas Lagoarde-Ségot &amp; Léo Malherbe</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="sechead">
+      <h2>Classes</h2>
+      <span class="muted" id="count"></span>
+    </div>
+    <div class="classes" id="classes"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>International Financial Macroeconomics · KEDGE Business School</span>
+    <span>Last updated: 30 September 2026</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   COURSE CONTENTS — edit this list to add a class or a link.
+   url: relative to this page (e.g. "seance3" → /internationalfinancialmacro/seance3)
+   ============================================================ */
+const CLASSES = [
+  {
+    n: 1,
+    title: "Inflation and deflation",
+    topics: [
+      "Apprehending inflation / deflation",
+      "Impact on income distribution",
+      "Responses to inflation",
+      "Causes of inflation: a simple supply-side model"
+    ],
+    links: [
+      { label: "Slides", url: "seance1", primary: true }
+    ]
+  },
+  {
+    n: 2,
+    title: "Interest rates and monetary policy",
+    topics: [
+      "Understanding liquidity preference",
+      "Liquidity preference and financial markets",
+      "Discovering how a central bank works",
+      "Monetary policy, credit and money: the ‘horizontalist’ model"
+    ],
+    links: [
+      { label: "Slides", url: "seance2", primary: true }
+    ]
+  }
+];
+const SHOW_COMING_SOON = true;
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const box = document.getElementById('classes');
+box.innerHTML = CLASSES.map(c => `
+  <article class="cls">
+    <div class="top">
+      <div class="num">${c.n}</div>
+      <div><div class="lbl">Class ${c.n}</div><h3>${esc(c.title)}</h3></div>
+    </div>
+    <ul class="topics">${c.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+    <div class="links">${c.links.map(l =>
+      `<a class="btn ${l.primary ? 'primary' : 'ghost'}" href="${esc(l.url)}">${esc(l.label)} →</a>`).join('')}</div>
+  </article>`).join('') +
+  (SHOW_COMING_SOON ? `<div class="cls soon"><div><div class="num" style="color:var(--line)">${CLASSES.length + 1}</div><p>Next class coming soon</p></div></div>` : '');
+document.getElementById('count').textContent = CLASSES.length + (CLASSES.length > 1 ? ' classes online' : ' class online');
+</script>
+</body>
+</html>
