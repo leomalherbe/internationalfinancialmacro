@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IFM · Class 5 · Modelling the open economy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<style>
+:root{
+  --ink:#1b2437; --muted:#5b6475; --bg:#fbfaf6; --card:#ffffff; --line:#e6e2d6;
+  --gold:#c29d2c; --gold-soft:#f5ecd2; --navy:#14213d; --gain:#1f8a70; --gain-soft:#e1f3ec;
+  --loss:#c8453b; --loss-soft:#fbe6e3; --blue:#2f5d9e; --blue-soft:#e6eef9;
+}
+html,body{background:var(--bg);}
+.reveal{font-family:Inter,system-ui,sans-serif;color:var(--ink);font-size:29px;}
+.reveal .slides{text-align:left;}
+.reveal .slides section{height:100%;padding:28px 48px 40px;box-sizing:border-box;}
+.reveal h1,.reveal h2,.reveal h3{font-family:"Source Serif 4",Georgia,serif;color:var(--navy);text-transform:none;letter-spacing:-.01em;margin:0 0 .45em;}
+.reveal h1{font-size:2.3em;line-height:1.08}
+.reveal h2{font-size:1.55em;line-height:1.15}
+.reveal h3{font-size:1.05em;}
+.reveal p{margin:.35em 0;line-height:1.45}
+.reveal ul,.reveal ol{margin:.3em 0 .3em 1.1em;display:block}
+.reveal li{margin:.28em 0;line-height:1.38}
+.reveal a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+.reveal strong{color:var(--navy)}
+.kicker{font-size:.62em;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35em}
+.src{position:absolute;left:48px;bottom:14px;font-size:.52em;color:var(--muted)}
+.small{font-size:.78em}.xs{font-size:.64em}.muted{color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+.cols.c64{grid-template-columns:1.45fr 1fr}.cols.c46{grid-template-columns:1fr 1.45fr}.cols.c3{grid-template-columns:1fr 1fr 1fr;gap:22px}
+.cols>*,.cols>div{min-width:0}
+.chart canvas{max-width:100%}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;box-shadow:0 1px 2px rgba(20,33,61,.04)}
+.card h3{margin-bottom:.3em}
+.pill{display:inline-block;padding:.12em .6em;border-radius:999px;font-size:.72em;font-weight:600;background:var(--gold-soft);color:#7a5f0e}
+.hl{background:linear-gradient(transparent 55%,var(--gold-soft) 55%);padding:0 .1em}
+.big{font-size:1.9em;font-weight:700;color:var(--navy);font-family:"Source Serif 4",serif;line-height:1}
+.chart{position:relative;width:100%;height:470px}
+.chart.sm{height:380px}
+.formula{background:var(--card);border-left:4px solid var(--gold);border-radius:8px;padding:10px 18px;margin:.5em 0;font-size:1.02em}
+/* section divider */
+section.divider{background:var(--navy);color:#fff}
+.reveal section.divider h1,.reveal section.divider h2{color:#fff}
+section.divider .kicker{color:var(--gold)}
+.toc{list-style:none;margin:1.2em 0 0!important;padding:0}
+.toc li{display:flex;gap:18px;align-items:baseline;padding:.42em 0;border-bottom:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.55);font-size:1.02em}
+.toc li b{font-family:"Source Serif 4",serif;color:var(--gold);width:1.6em}
+.toc li.on{color:#fff;font-weight:600}
+/* title */
+section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy) 60%);color:#fff}
+.reveal section.title h1{color:#fff;font-size:2.6em;margin-top:2.2em}
+.keys{font-size:.55em;color:rgba(255,255,255,.6);position:absolute;bottom:26px;left:48px}
+.keys kbd{border:1px solid rgba(255,255,255,.35);border-radius:4px;padding:1px 6px;margin:0 2px}
+/* T-accounts */
+.tacct{width:100%;border-collapse:collapse;font-size:.72em;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.tacct caption{font-weight:700;color:var(--navy);text-align:left;padding:0 0 6px;font-size:1.1em}
+.tacct th{background:var(--navy);color:#fff;font-weight:600;padding:7px 12px;text-align:left;width:50%}
+.tacct td{padding:6px 12px;vertical-align:top;border-top:1px solid var(--line)}
+.tacct td+td,.tacct th+th{border-left:2px solid var(--navy)}
+.tacct .row{display:flex;justify-content:space-between;gap:10px;padding:2px 0;transition:background .4s}
+.tacct .row.chg{background:var(--gold-soft);border-radius:4px}
+.tacct .row.neg span:last-child{color:var(--loss);font-weight:700}
+.tacct .row.eq span:last-child{font-weight:700}
+.tacct tfoot td{font-weight:600;color:var(--muted);font-size:.9em}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:var(--card);padding:3px;gap:2px}
+.seg button{font:inherit;font-size:.62em;border:0;background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--navy);color:#fff}
+.ctrls{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:.2em 0 .6em}
+.ctrls .lab{font-size:.58em;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.story{font-size:.7em;min-height:3.2em;color:var(--ink);background:var(--blue-soft);border-radius:10px;padding:10px 14px;margin-top:12px}
+.realbox{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.realbox div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.62em}
+.realbox b{display:block;font-size:1.45em;font-family:"Source Serif 4",serif;color:var(--navy)}
+/* sliders */
+.slider{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:12px;margin:10px 0;font-size:.72em}
+.slider input{width:100%;accent-color:var(--gold)}
+.slider output{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.result{font-size:.8em;margin-top:.5em}
+.result .big{font-size:2.4em}
+/* distribution table */
+.dist{width:100%;border-collapse:separate;border-spacing:8px;font-size:.74em}
+.dist th{background:var(--navy);color:#fff;padding:10px;border-radius:8px}
+.dist td{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.dist td.res{text-align:center;font-weight:700;width:120px}
+.gain{background:var(--gain-soft)!important;color:var(--gain);border-color:var(--gain)!important}
+.loss{background:var(--loss-soft)!important;color:var(--loss);border-color:var(--loss)!important}
+/* causal chain */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.78em;margin:.6em 0}
+.chain .n{background:var(--card);border:1.5px solid var(--navy);border-radius:10px;padding:8px 14px;font-weight:600}
+.chain .n.up::before{content:"↑ ";color:var(--loss)}
+.chain .n.dn::before{content:"↓ ";color:var(--blue)}
+.chain .ar{color:var(--gold);font-weight:700;font-size:1.2em}
+/* quiz */
+.quiz{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:.8em}
+.quiz button{font:inherit;font-size:.8em;text-align:left;padding:16px 20px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink);transition:all .25s}
+.quiz button:hover{border-color:var(--navy)}
+.quiz button.right{background:var(--gain-soft);border-color:var(--gain);color:var(--gain);font-weight:600}
+.quiz button.wrong{background:var(--loss-soft);border-color:var(--loss);color:var(--loss);opacity:.75}
+.quiz-fb{font-size:.7em;margin-top:.8em;min-height:1.6em;color:var(--muted)}
+.qtag{display:inline-block;background:var(--gold);color:#fff;border-radius:6px;padding:2px 10px;font-size:.6em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6em}
+.imgbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.imgbox img{max-width:100%;max-height:500px;margin:0!important;display:inline-block}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat .lbl{font-size:.6em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.grid-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 30px}
+.chk li{list-style:none;position:relative;padding-left:1.3em}
+.chk li::before{content:"";position:absolute;left:0;top:.5em;width:.55em;height:.55em;border-radius:2px;background:var(--gold)}
+.reveal .progress{color:var(--gold);height:4px}
+.reveal .slide-number{background:transparent;color:var(--muted);font-family:Inter;font-size:13px}
+.reveal .controls{color:var(--gold)}
+.reveal .katex{font-size:1.05em}
+.fragment.hl-in.visible{background:var(--gold-soft);border-radius:6px}
+
+/* ---- class 2 additions ---- */
+.tacct.sm{font-size:.68em}
+.tacct .row span:last-child{white-space:nowrap}
+.agg .bar{height:76px!important}
+.slider{grid-template-columns:185px 1fr 86px!important}
+.slider output{white-space:nowrap}
+.eqtab td:nth-child(2){white-space:nowrap;width:34%}
+.tacct .row.pos span:last-child{color:var(--gain);font-weight:700}
+.tacct .row.coll{font-style:italic;color:var(--muted)}
+.tacct .row.strike span{text-decoration:line-through;color:var(--muted)}
+.cls{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center;font-size:.66em;margin-top:.6em}
+.cls .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+.cls .opts{display:flex;gap:6px}
+.cls .opts button{font:inherit;font-size:.92em;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+.cls .opts button.right{background:var(--gain-soft);border-color:var(--gain);color:var(--gain);font-weight:600}
+.cls .opts button.wrong{background:var(--loss-soft);border-color:var(--loss);color:var(--loss)}
+.cls .why{grid-column:1/3;font-size:.9em;color:var(--muted);margin:-4px 0 4px 14px;display:none}
+.cls .why.on{display:block}
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:.4em}
+.ladder div{border-radius:10px;padding:10px 8px;text-align:center;font-size:.6em;font-weight:600;color:#fff}
+.axisrow{display:flex;justify-content:space-between;font-size:.55em;color:var(--muted);margin-top:6px}
+.axisrow span b{color:var(--navy)}
+.diag{width:100%;height:auto;display:block;font-family:Inter,system-ui,sans-serif}
+.diag text{font-size:15px;fill:var(--ink)}
+.diag .ax{stroke:var(--ink);stroke-width:1.6;fill:none}
+.diag .gd{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+.diag .ghost{opacity:.28}
+.agg{margin-top:.5em}
+.agg .bar{display:flex;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.agg .bar div{display:flex;align-items:center;justify-content:center;font-size:.46em;font-weight:600;color:#fff;text-align:center;line-height:1.15;transition:opacity .35s,filter .35s;padding:0 2px;overflow:hidden}
+.agg .bar div.off{opacity:.14;filter:grayscale(1)}
+.agg .lbl{font-size:.55em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin:14px 0 6px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.66em}
+.kv b{font-family:"Source Serif 4",serif;color:var(--navy)}
+.eqtab{width:100%;border-collapse:collapse;font-size:.74em}
+.eqtab td{padding:7px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.eqtab td:first-child{width:52px;font-weight:700;color:var(--gold)}
+.eqtab td:last-child{color:var(--muted);font-size:.85em}
+.eqtab tr{transition:background .3s}
+.eqtab tr.on{background:var(--gold-soft)}
+.outs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.outs div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:.56em}
+.outs b{display:block;font-size:1.5em;font-family:"Source Serif 4",serif;color:var(--navy)}
+.outs i{font-style:normal;font-size:.85em}
+.up{color:var(--gain)}.dn{color:var(--loss)}
+.slider.tight{margin:6px 0}
+.todo{border:2px dashed var(--gold);border-radius:14px;padding:18px 22px;color:#d9dce4}
+
+/* ---- class 3 additions ---- */
+.tacct.sm{font-size:.62em}
+.tacct .row span:last-child{white-space:nowrap}
+.tacct .row.pos span:last-child{color:var(--gain);font-weight:700}
+.tacct .row.coll{font-style:italic;color:var(--muted)}
+.tacct .row.strike span{text-decoration:line-through;color:var(--muted)!important}
+.tacct th{padding:6px 10px}
+.cols.c4{grid-template-columns:repeat(4,1fr);gap:12px}
+.cls{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center;font-size:.64em;margin-top:.6em}
+.cls .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+.cls .opts{display:flex;gap:6px}
+.cls .opts button{font:inherit;font-size:.92em;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+.cls .opts button.right{background:var(--gain-soft);border-color:var(--gain);color:var(--gain);font-weight:600}
+.cls .opts button.wrong{background:var(--loss-soft);border-color:var(--loss);color:var(--loss)}
+.cls .why{grid-column:1/3;font-size:.9em;color:var(--muted);margin:-4px 0 4px 14px;display:none}
+.cls .why.on{display:block}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:.6em 0}
+.chain .n{background:var(--card);border:1.5px solid var(--navy);border-radius:10px;padding:8px 14px;font-weight:600}
+.chain .ar{color:var(--gold);font-weight:700;font-size:1.2em}
+.diag{width:100%;height:auto;display:block;font-family:Inter,system-ui,sans-serif}
+.diag text{font-size:15px;fill:var(--ink)}
+.diag .ax{stroke:var(--ink);stroke-width:1.6;fill:none}
+.diag .gd{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+.flow{stroke-dasharray:10 7;animation:flow 1.1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-34}}
+.outs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.outs div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:.56em}
+.outs b{display:block;font-size:1.5em;font-family:"Source Serif 4",serif;color:var(--navy)}
+.outs i{font-style:normal;font-size:.85em}
+.up{color:var(--gain)}.dn{color:var(--loss)}
+.slider{grid-template-columns:185px 1fr 86px}
+.slider output{white-space:nowrap}
+.slider.tight{margin:6px 0}
+.rt{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:.66em;margin-top:.4em}
+.rt th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;font-weight:600}
+.rt th:first-child{border-radius:8px 0 0 8px}.rt th:last-child{border-radius:0 8px 8px 0}
+.rt td{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 12px;vertical-align:top;line-height:1.35}
+.rt td:first-child{border-left:1px solid var(--line);border-radius:8px 0 0 8px;width:24%}
+.rt td:last-child{border-right:1px solid var(--line);border-radius:0 8px 8px 0}
+.rt td.up,.rt td.dn{font-weight:700;white-space:nowrap}
+.rt.hist td:first-child{width:22%}.rt.hist td{width:39%}
+.dist{width:100%;border-collapse:separate;border-spacing:8px;font-size:.64em}
+.dist th{background:var(--navy);color:#fff;padding:10px;border-radius:8px}
+.dist td{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;line-height:1.35}
+.gain{background:var(--gain-soft)!important;color:#145f4d;border-color:var(--gain)!important}
+.loss{background:var(--loss-soft)!important;color:#9b2f27;border-color:var(--loss)!important}
+.inline-slider{display:flex;align-items:center;gap:8px;font-size:.62em}
+
+.cols.g4{grid-template-columns:1fr 1fr;gap:12px 22px}
+.tacct.md{font-size:.7em}
+.tacct.md td{padding:5px 12px}
+.diag.big text{font-size:17px}
+.inline-slider input{width:130px;accent-color:var(--gold)}
+.inline-slider output{font-weight:700;min-width:3em}
+.seg.nw button{white-space:nowrap}
+.keyidea{background:var(--navy);color:#fff;border-radius:14px;padding:14px 20px;border-top:4px solid var(--gold)}
+.reveal .keyidea h3{color:#fff;font-size:.95em;margin:.15em 0 .35em;line-height:1.2}
+.keyidea p{color:#d9dce4;margin:0}.reveal .keyidea strong{color:#fff}
+.keyidea .qtag{margin-bottom:.2em}
+
+
+/* ---- class 4 additions ---- */
+.lgbtns{display:grid;gap:7px}
+.lgbtns button{font:inherit;font-size:.56em;text-align:left;padding:8px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink);transition:all .2s;line-height:1.3}
+.lgbtns button:hover{border-color:var(--navy)}
+.lgbtns button.on{background:var(--gold-soft);border-color:var(--gold);font-weight:600}
+.lgreset{font:inherit;font-size:.52em;margin-top:8px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 14px;cursor:pointer;color:var(--muted)}
+.bop{width:100%;border-collapse:collapse;font-size:.6em;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.bop th{background:var(--navy);color:#fff;text-align:left;padding:7px 12px;font-weight:600}
+.bop th:last-child,.bop td:last-child{text-align:right;width:28%;font-variant-numeric:tabular-nums}
+.bop td{padding:5px 12px;border-top:1px solid var(--line)}
+.bop td.ind{padding-left:28px;color:var(--muted)}
+.bop tr.tot td{font-weight:700;color:var(--navy);background:#faf8f1}
+.bop tr.chk td{font-weight:700;background:var(--gain-soft);color:#145f4d}
+.bop tr.flash td{background:var(--gold-soft)}
+.bop .neg{color:var(--loss)}.bop .pos{color:var(--gain)}
+.rt.pm td.p,.rt.pm td.m{text-align:center;font-size:1.5em;font-weight:700;width:14%}
+.rt.pm td.p{color:var(--gain)}.rt.pm td.m{color:var(--loss)}
+.rt.pm th{text-align:center}.rt.pm th:last-child{text-align:left}
+.rt.pm td:first-child{width:14%}
+.eqpm td:first-child{font-size:1.2em;text-align:center}
+.eqpm td:last-child{color:var(--ink)!important;font-size:1em!important}
+.eqpm td{padding:6px 12px}
+
+.eqpm{font-size:.66em}
+.eqpm td:nth-child(2){white-space:normal!important;width:auto!important}
+.cmphead{display:flex;flex-direction:column;margin-bottom:4px}
+.cmphead b{font-family:"Source Serif 4",serif;color:var(--navy);font-size:.8em}
+.cmphead span{font-size:.46em;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.chips button{font:inherit;font-size:.42em;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:3px 9px;cursor:pointer;color:var(--ink)}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chips select{font:inherit;font-size:.42em;border:1px solid var(--line);border-radius:999px;padding:2px 6px;background:var(--card);color:var(--ink)}
+#cmp-pre button{font-size:.5em;padding:5px 10px}
+.sblegend{font-size:.46em;color:var(--muted);margin:-2px 0 6px;display:flex;align-items:center;gap:6px}
+.sblegend span{display:inline-block;width:12px;height:12px;border-radius:2px;margin-left:10px}
+.sblegend span:first-child{margin-left:0}
+
+/* ---- class 5 additions ---- */
+.mx{width:100%;border-collapse:collapse;font-size:.6em;font-variant-numeric:tabular-nums;background:var(--card);border:1px solid var(--line)}
+.mx th{background:var(--navy);color:#fff;font-weight:600;padding:7px 10px;text-align:center}
+.mx th:first-child{text-align:left}
+.mx td{padding:5px 10px;text-align:center;border-top:1px solid var(--line);transition:background .35s}
+.mx td:first-child{text-align:left;color:var(--muted);font-weight:500}
+.mx tr.blk td{background:#f3f1ea;font-weight:700;color:var(--navy);text-align:left;font-size:.9em;letter-spacing:.06em;text-transform:uppercase}
+.mx tr.sum td{font-weight:700;border-top:2px solid var(--navy);color:var(--navy)}
+.mx td.on{background:var(--gold-soft);color:var(--navy);font-weight:700}
+.mx td.z{color:var(--muted)}
+.eqs{width:100%;border-collapse:collapse;font-size:.66em}
+.eqs td{padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.eqs td:first-child{width:46px;font-weight:700;color:var(--gold)}
+.eqs td:nth-child(2){width:46%}
+.eqs td:last-child{color:var(--muted);font-size:.9em}
+.eqs tr.hid td{background:var(--gold-soft)}
+.flowsvg text{font-family:Inter,system-ui,sans-serif}
+.flowsvg .box{fill:var(--card);stroke:var(--navy);stroke-width:2}
+.flowsvg .bt{font-size:17px;font-weight:700;fill:var(--navy)}
+.flowsvg .bs{font-size:12.5px;fill:var(--muted)}
+.flowsvg .ar{fill:none;stroke-width:2.2}
+.flowsvg .real{stroke:var(--navy)}
+.flowsvg .fin{stroke:var(--gold);stroke-dasharray:7 5}
+.flowsvg .lb{font-size:14px;font-weight:600}
+.flowsvg .lr{fill:var(--navy)}.flowsvg .lf{fill:#8a6a12}
+.sheet{display:grid;grid-template-columns:1fr 2.2fr;gap:14px;font-size:.66em}
+.sheet .zone{border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--card)}
+.sheet .zone b{display:block;color:var(--navy);font-family:"Source Serif 4",serif;font-size:1.25em;margin-bottom:.15em}
+.sheet .z1{border-color:var(--blue)}.sheet .z2{border-color:var(--gold);background:var(--gold-soft)}.sheet .z3{grid-row:1/3;grid-column:2;border-color:var(--navy)}
+.cbar{display:flex;gap:4px;margin:.25em 0}
+.cbar span{flex:1;height:10px;border-radius:3px;background:var(--line)}
+.cbar span.s{background:var(--gold)}
+.simtiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.simtiles div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:.54em;font-variant-numeric:tabular-nums}
+.simtiles b{display:block;font-size:1.55em;font-family:"Source Serif 4",serif;color:var(--navy)}
+.chart.md{height:330px}
+.num{font-variant-numeric:tabular-nums}
+.task{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line)}
+.task .n{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8em}
+.task p{margin:0}
+.shk{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:.5em}
+.shk>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.shk .p{font-family:"Source Serif 4",serif;font-size:1.3em;font-weight:700;color:var(--navy)}
+.shk .d{font-size:.58em;color:var(--muted)}
+.simtiles i{display:block;font-style:normal;font-size:.85em;color:var(--muted)}
+
+.cols.shockc{grid-template-columns:1.05fr 1fr}
+.shtxt{font-size:.68em}
+.shtxt p{margin:.3em 0}
+.shtxt .chk li{margin:.3em 0;line-height:1.35}
+.shtxt .formula{font-size:1.2em}
+.shtxt .keyidea p{font-size:.95em}
+.shtxt .xs{font-size:1em}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ============ TITLE ============ -->
+<section class="title" data-background-color="#14213d">
+  <div class="kicker">KEDGE Business School · Master · 2026</div>
+  <h1>International Financial Macroeconomics</h1>
+  <p style="font-size:1.1em;color:#d9dce4">Class 5 — Modelling the open economy: a stock-flow consistent approach</p>
+  <p style="margin-top:1.4em;color:#fff">Thomas Lagoarde-Ségot &amp; Léo Malherbe</p>
+  <div class="keys"><a href="https://leomalherbe.github.io/internationalfinancialmacro/" style="color:#d9dce4">← Course home</a> &nbsp;·&nbsp; <kbd>→</kbd> next &nbsp; <kbd>F</kbd> full screen &nbsp; <kbd>O</kbd> overview &nbsp; <kbd>S</kbd> speaker notes</div>
+</section>
+
+<section>
+  <div class="kicker">Today</div>
+  <h2>Today’s roadmap</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:1em">
+    <div class="card"><div class="big">A</div><h3 style="margin-top:.5em">Why stock-flow consistency?</h3><p class="small muted">Everything comes from somewhere and goes somewhere</p></div>
+    <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">The accounting</h3><p class="small muted">The transaction-flow matrix and the balance sheet matrix</p></div>
+    <div class="card"><div class="big">C</div><h3 style="margin-top:.5em">The equations</h3><p class="small muted">The real side, the multiplier, the financial side</p></div>
+    <div class="card"><div class="big">D</div><h3 style="margin-top:.5em">What the model tells us</h3><p class="small muted">Two shocks, one at a time: endogenous money, sterilisation, twin deficits, the external constraint</p></div>
+  </div>
+  <p class="small muted" style="margin-top:1.2em">Then: the lab — introducing the assignment and the <strong>OPEN_SFC</strong> spreadsheet. Reading: Godley &amp; Lavoie (2006).</p>
+</section>
+
+<section>
+  <span class="qtag">Warm-up</span>
+  <h2>A country runs a trade surplus of 3 and a balanced budget. What happens to private wealth?</h2>
+  <div class="quiz" data-answer="1" data-fb="Last week’s identity: private balance + public balance + external balance = 0. With a balanced budget, the private surplus equals the external surplus: wealth rises by 3. Today’s model shows how, period by period, and who ends up holding the claim on the rest of the world.">
+    <button>Nothing: the budget is balanced</button><button>It rises by 3</button><button>It falls by 3</button><button>It depends on the exchange rate</button>
+  </div>
+  <div class="quiz-fb"></div>
+</section>
+
+<!-- ============ PART A ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Modelling the open economy</div>
+  <h1>Why stock-flow consistency?</h1>
+  <ul class="toc"><li class="on"><b>A</b>Why stock-flow consistency?</li><li><b>B</b>The accounting</li><li><b>C</b>The equations</li><li><b>D</b>What the model tells us</li></ul>
+</section>
+
+<section>
+  <div class="kicker">A · The method</div>
+  <h2>Three rules of stock-flow consistent (SFC) modelling</h2>
+  <div class="cols c3" style="margin-top:.6em">
+    <div class="card fragment"><div class="big">1</div><h3 style="margin-top:.4em">Every flow has a counterpart</h3><p class="small muted">A payment is an outflow for one sector and an inflow for another. Nothing leaks out of the system.</p></div>
+    <div class="card fragment"><div class="big">2</div><h3 style="margin-top:.4em">Stocks cumulate flows</h3><p class="small muted">This period’s wealth is last period’s wealth plus this period’s saving: \(V = V_{-1} + \Delta V\).</p></div>
+    <div class="card fragment"><div class="big">3</div><h3 style="margin-top:.4em">Accounts first, behaviour second</h3><p class="small muted">Write down the matrices, then add behavioural assumptions to “close” them into a model.</p></div>
+  </div>
+  <div class="keyidea fragment" style="margin-top:18px"><span class="qtag">Key idea</span>
+    <h3>The accounting removes degrees of freedom</h3>
+    <p class="xs">Once every flow is recorded twice, many outcomes that look possible on paper simply cannot happen. Class 4’s sectoral-balances identity was a first example; today we build a full model on the same principle (Godley &amp; Lavoie; the term “SFC” is due to Dos Santos, 2002).</p></div>
+  <aside class="notes">Link back to Class 4: private + public + external balances = 0. SFC models are that identity plus stocks, plus behaviour.</aside>
+</section>
+
+<section>
+  <div class="kicker">A · The model economy</div>
+  <h2>One small open economy, five sectors</h2>
+  <div class="cols c64" style="gap:22px">
+    <svg class="flowsvg" viewBox="0 0 700 430" role="img" aria-label="Flows between households, firms, government, central bank and the rest of the world">
+      <defs>
+        <marker id="mn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#14213d"/></marker>
+        <marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c29d2c"/></marker>
+      </defs>
+      <rect class="box" x="20" y="170" width="150" height="74" rx="10"/><text class="bt" x="95" y="203" text-anchor="middle">Households</text><text class="bs" x="95" y="224" text-anchor="middle">hold bills and cash</text>
+      <rect class="box" x="275" y="20" width="150" height="74" rx="10"/><text class="bt" x="350" y="53" text-anchor="middle">Firms</text><text class="bs" x="350" y="74" text-anchor="middle">produce Y</text>
+      <rect class="box" x="275" y="336" width="150" height="74" rx="10"/><text class="bt" x="350" y="369" text-anchor="middle">Government</text><text class="bs" x="350" y="390" text-anchor="middle">issues T-bills</text>
+      <rect class="box" x="530" y="336" width="150" height="74" rx="10"/><text class="bt" x="605" y="369" text-anchor="middle">Central bank</text><text class="bs" x="605" y="390" text-anchor="middle">sets r</text>
+      <rect class="box" x="530" y="20" width="150" height="74" rx="10"/><text class="bt" x="605" y="53" text-anchor="middle">Rest of world</text><text class="bs" x="605" y="74" text-anchor="middle">fixed exchange rate</text>
+      <!-- real flows -->
+      <path class="ar real" d="M110,170 C130,90 200,60 272,52" marker-end="url(#mn)"/><text class="lb lr" x="160" y="92">C</text>
+      <path class="ar real" d="M275,78 C200,100 160,130 140,167" marker-end="url(#mn)"/><text class="lb lr" x="215" y="128">Y</text>
+      <path class="ar real" d="M350,336 L350,97" marker-end="url(#mn)"/><text class="lb lr" x="358" y="215">G</text>
+      <path class="ar real" d="M530,48 L428,48" marker-end="url(#mn)"/><text class="lb lr" x="470" y="40">X</text>
+      <path class="ar real" d="M428,72 L527,72" marker-end="url(#mn)"/><text class="lb lr" x="466" y="90">IM</text>
+      <path class="ar real" d="M95,244 C110,330 200,368 272,372" marker-end="url(#mn)"/><text class="lb lr" x="150" y="330">T</text>
+      <!-- financial flows -->
+      <path class="ar fin" d="M275,392 C170,400 80,330 70,247" marker-end="url(#mg)"/><text class="lb lf" x="70" y="350">ΔB<tspan font-size="10" dy="3">p</tspan></text>
+      <path class="ar fin" d="M428,384 L527,384" marker-end="url(#mg)"/><text class="lb lf" x="460" y="376">ΔB<tspan font-size="10" dy="3">cb</tspan></text>
+      <path class="ar fin" d="M530,350 C420,280 250,230 173,212" marker-end="url(#mg)"/><text class="lb lf" x="410" y="262">ΔH</text>
+      <path class="ar fin" d="M630,97 L630,333" marker-end="url(#mg)"/><text class="lb lf" x="638" y="215">ΔR</text>
+    </svg>
+    <div class="small">
+      <p style="margin-top:0"><strong>Simplifying assumptions</strong> (pp. 243–244):</p>
+      <ul class="chk xs">
+        <li>Fixed exchange rate, <strong>no private capital flows</strong>: residents hold no foreign assets, foreigners hold no domestic debt</li>
+        <li>No commercial banks, no investment, no price changes</li>
+        <li>The central bank <strong>sets the interest rate</strong> \(r\)</li>
+        <li>Think of a developing economy before financial liberalisation</li>
+      </ul>
+      <p class="xs muted" style="margin-top:.8em"><span style="color:var(--navy);font-weight:700">——</span> income and spending flows &nbsp; <span style="color:var(--gold);font-weight:700">- - -</span> financial flows</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART B ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Modelling the open economy</div>
+  <h1>The accounting</h1>
+  <ul class="toc"><li><b>A</b>Why stock-flow consistency?</li><li class="on"><b>B</b>The accounting</li><li><b>C</b>The equations</li><li><b>D</b>What the model tells us</li></ul>
+</section>
+
+<section>
+  <div class="kicker">B · Table 1, upper part</div>
+  <h2 style="margin-bottom:.25em">The transaction-flow matrix</h2>
+  <div class="cols c64" style="gap:24px">
+    <table class="mx" id="tfm">
+      <thead><tr><th>Flows per period</th><th>Households</th><th>Firms</th><th>Central bank</th><th>Government</th><th>Foreign sector</th><th>Σ</th></tr></thead>
+      <tbody>
+        <tr class="blk"><td colspan="7">National accounts</td></tr>
+        <tr data-r="c"><td>Consumption</td><td data-c="h">−C</td><td data-c="f">+C</td><td></td><td></td><td></td><td class="z">0</td></tr>
+        <tr data-r="g"><td>Government spending</td><td></td><td data-c="f">+G</td><td></td><td data-c="g">−G</td><td></td><td class="z">0</td></tr>
+        <tr data-r="x"><td>Exports</td><td></td><td data-c="f">+X</td><td></td><td></td><td data-c="w">−X</td><td class="z">0</td></tr>
+        <tr data-r="im"><td>Imports</td><td></td><td data-c="f">−IM</td><td></td><td></td><td data-c="w">+IM</td><td class="z">0</td></tr>
+        <tr data-r="y"><td>Income / output</td><td data-c="h">+Y</td><td data-c="f">−Y</td><td></td><td></td><td></td><td class="z">0</td></tr>
+        <tr data-r="t"><td>Taxes</td><td data-c="h">−T</td><td></td><td></td><td data-c="g">+T</td><td></td><td class="z">0</td></tr>
+        <tr class="blk"><td colspan="7">Flow of funds</td></tr>
+        <tr data-r="b"><td>Change in T-bills</td><td data-c="h">−ΔB<sub>p</sub></td><td></td><td data-c="cb">−ΔB<sub>cb</sub></td><td data-c="g">+ΔB</td><td></td><td class="z">0</td></tr>
+        <tr data-r="hh"><td>Change in cash</td><td data-c="h">−ΔH</td><td></td><td data-c="cb">+ΔH</td><td></td><td></td><td class="z">0</td></tr>
+        <tr data-r="r"><td>Change in reserves</td><td></td><td></td><td data-c="cb">−ΔR</td><td></td><td data-c="w">+ΔR</td><td class="z">0</td></tr>
+        <tr class="sum"><td>Σ</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="xs">
+      <p style="margin-top:0"><strong>Sign convention:</strong> a <strong>+</strong> is a source of funds (a receipt, or an increase in a liability); a <strong>−</strong> is a use of funds (a payment, or an increase in an asset).</p>
+      <p class="fragment" data-hl="row:c"><span class="pill">Reading a row</span><br>Consumption is spent by households (−C) and received by firms (+C). Each row is <strong>one transaction seen from two sides</strong>.</p>
+      <p class="fragment" data-hl="col:h"><span class="pill">Reading a column</span><br>Households receive Y, pay C and T, and put what is left into bills and cash. Each column is <strong>one sector’s budget constraint</strong>.</p>
+      <p class="fragment muted" data-hl="none">Your turn in the assignment: explain every row and column, and why each sums to zero.</p>
+    </div>
+  </div>
+  <aside class="notes">Only two examples on purpose; the rest is question 2 of the assignment. Note that firms have no saving column entry: no investment, no retained profits.</aside>
+</section>
+
+<section>
+  <div class="kicker">B · Table 1, lower part</div>
+  <h2 style="margin-bottom:.3em">The balance sheet matrix, and the baseline numbers</h2>
+  <div class="cols" style="gap:28px">
+    <div>
+      <table class="mx" id="bsm">
+        <thead><tr><th>Stocks, end of period</th><th>Households</th><th>Central bank</th><th>Government</th><th>Foreign</th><th>Σ</th></tr></thead>
+        <tbody>
+          <tr data-r="b"><td>T-bills</td><td data-c="h">+B<sub>p</sub></td><td data-c="cb">+B<sub>cb</sub></td><td data-c="g">−B</td><td></td><td class="z">0</td></tr>
+          <tr data-r="hh"><td>Cash</td><td data-c="h">+H</td><td data-c="cb">−H</td><td></td><td></td><td class="z">0</td></tr>
+          <tr data-r="r"><td>Reserves</td><td></td><td data-c="cb">+R</td><td></td><td data-c="w">−R</td><td class="z">0</td></tr>
+          <tr class="sum" data-r="nw"><td>Net worth</td><td data-c="h">+V</td><td data-c="cb">0</td><td data-c="g">−B</td><td data-c="w">−R</td><td>0</td></tr>
+        </tbody>
+      </table>
+      <div class="xs" style="margin-top:12px">
+        <p style="margin-top:0"><strong>Sign convention:</strong> a <strong>+</strong> is an <strong>asset</strong>, a <strong>−</strong> is a <strong>liability</strong>. Every financial asset is someone else’s liability, so each row sums to zero.</p>
+        <p class="fragment" data-hl="bsm|row:b"><span class="pill">Reading a row</span><br>T-bills are a liability of the government (−B) and an asset for whoever holds them: households (+B<sub>p</sub>) and the central bank (+B<sub>cb</sub>). So \(B_p + B_{cb} - B = 0\).</p>
+        <p class="fragment" data-hl="bsm|row:nw"><span class="pill">The net worth row</span><br>Assets minus liabilities, sector by sector: the central bank’s net worth is zero, the government’s is −B and the rest of the world’s is −R. Since the row sums to zero, household wealth is \(V = B + R\).</p>
+      </div>
+    </div>
+    <div>
+      <table class="mx" style="font-size:.62em">
+        <thead><tr><th>Baseline (period 0)</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Household wealth \(V\)</td><td>100</td></tr>
+          <tr><td>… held as T-bills \(B_p\)</td><td>70</td></tr>
+          <tr><td>… held as cash \(H\)</td><td>30</td></tr>
+          <tr><td>T-bills outstanding \(B\)</td><td>90</td></tr>
+          <tr><td>… held by the central bank \(B_{cb}\)</td><td>20</td></tr>
+          <tr><td>Foreign reserves \(R\)</td><td>10</td></tr>
+        </tbody>
+      </table>
+      <div class="formula fragment" data-hl="bsm|row:nw" style="margin-top:12px"><p class="xs" style="margin:0">Net worth sums to zero: \(V = B + R\), i.e. \(100 = 90 + 10\). Private wealth is the mirror of public debt plus the country’s claims on the rest of the world.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART C ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Modelling the open economy</div>
+  <h1>The equations</h1>
+  <ul class="toc"><li><b>A</b>Why stock-flow consistency?</li><li><b>B</b>The accounting</li><li class="on"><b>C</b>The equations</li><li><b>D</b>What the model tells us</li></ul>
+</section>
+
+<section>
+  <div class="kicker">C · The real side</div>
+  <h2>Five equations determine income and wealth</h2>
+  <table class="eqs">
+    <tr><td>(1)</td><td>\(Y = C + G + X - IM\)</td><td>GDP: domestic output equals demand for it</td></tr>
+    <tr><td>(2)</td><td>\(\Delta V = Y - T - C\)</td><td>Household saving adds to wealth</td></tr>
+    <tr><td>(3)</td><td>\(T = \theta \cdot Y \qquad 0&lt;\theta&lt;1\)</td><td>Taxes, with tax rate \(\theta\)</td></tr>
+    <tr><td>(4)</td><td>\(IM = \mu \cdot Y \qquad 0&lt;\mu&lt;1\)</td><td>Imports, with propensity to import \(\mu\)</td></tr>
+    <tr><td>(5)</td><td>\(C = \alpha_1 (1-\theta) Y + \alpha_2 V_{-1}\)</td><td>Consumption out of disposable income and out of <strong>last period’s</strong> wealth</td></tr>
+  </table>
+  <div class="keyidea fragment" style="margin-top:16px"><span class="qtag">Key idea</span>
+    <h3>The lagged stock \(V_{-1}\) is what makes the model move through time</h3>
+    <p class="xs">Today’s spending depends on yesterday’s wealth, and today’s saving changes tomorrow’s wealth. \(G\) and \(X\) are exogenous: decided by the government and by foreign demand.</p></div>
+  <aside class="notes">Do not classify the equations into identities vs behavioural here — that is assignment question 3. If asked, hint: which of these could be false?</aside>
+</section>
+
+<section>
+  <div class="kicker">C · Solving the real side</div>
+  <h2>The open-economy multiplier</h2>
+  <div class="cols" style="gap:30px">
+    <div>
+      <p class="small" style="margin-top:0">Substitute (3), (4) and (5) into (1):</p>
+      <div class="formula">\[Y = m\,\big(G + X + \alpha_2 V_{-1}\big)\]</div>
+      <div class="formula">\[m = \frac{1}{1-\alpha_1(1-\theta)+\mu}\]</div>
+      <p class="xs muted">With \(\alpha_1 = 0.8,\ \theta = 0.2,\ \mu = 0.25\): \(m = 1/0.61 \approx 1.64\).</p>
+    </div>
+    <div>
+      <div class="card fragment"><h3>Short run</h3><p class="xs">Given last period’s wealth, \(Y = 1.64 \times (20 + 25 + 0.16 \times 100) = 100\).</p></div>
+      <div class="card fragment" style="margin-top:12px"><h3>Steady state</h3><p class="xs">Wealth stops changing when its ratio to disposable income reaches the target \(\alpha_3 = (1-\alpha_1)/\alpha_2 = 1.25\). Then</p>
+        <p class="xs" style="text-align:center">\(Y^* = \dfrac{G + X}{\theta + \mu} = \dfrac{45}{0.45} = 100\)</p></div>
+    </div>
+  </div>
+  <aside class="notes">Leave the comparative statics of m (what happens when each parameter changes) to the students: assignment question 4. You can ask them which parameters appear in m but not in Y*.</aside>
+</section>
+
+<section>
+  <div class="kicker">C · The financial side</div>
+  <h2>Where does saving go? Portfolio choice and the central bank</h2>
+  <table class="eqs">
+    <tr><td>(10)</td><td>\(B_{p,d} = V\,\big[(1-\lambda_0) + \lambda_1 r\big]\)</td><td>Household demand for bills: falls with liquidity preference \(\lambda_0\), rises with the interest rate</td></tr>
+    <tr><td>(11)</td><td>\(H_d = V - B_{p,d}\)</td><td>Cash is the residual: one decision, not two</td></tr>
+    <tr><td>(12)</td><td>\(\Delta B_s = G - T\)</td><td>The government issues bills to cover its deficit</td></tr>
+    <tr><td>(13)</td><td>\(B_{p,s} = B_{p,d}\)</td><td>At the target rate, households get the bills they want</td></tr>
+    <tr><td>(14)</td><td>\(B_{cb,s} = B_s - B_{p,s}\)</td><td>The central bank takes the rest…</td></tr>
+    <tr><td>(15)</td><td>\(B_{cb,d} = B_{cb,s}\)</td><td>… whatever the amount</td></tr>
+    <tr><td>(16)</td><td>\(\Delta R = X - IM\)</td><td>No capital flows: trade imbalances change reserves</td></tr>
+    <tr><td>(17)</td><td>\(H_s = R + B_{cb}\)</td><td>Cash supply comes from the central bank’s balance sheet</td></tr>
+  </table>
+  <p class="xs muted" style="margin-top:.6em">\(\lambda_0\) is households’ <strong>liquidity preference</strong>: it shifts the demand for cash, so a higher \(\lambda_0\) means households hold a larger share of their wealth as cash at any given interest rate. \(\lambda_1\) measures how much the bill share rises with \(r\). Baseline: \(\lambda_0 = 0.4,\ \lambda_1 = 5,\ r = 2\%\), so households keep \(0.6 + 5 \times 0.02 = 70\%\) of their wealth in bills.</p>
+</section>
+
+<section>
+  <div class="kicker">C · Closing the model</div>
+  <h2>The hidden equation</h2>
+  <div class="cols c64" style="gap:30px">
+    <div class="small">
+      <p style="margin-top:0">Count: every endogenous variable now has its own equation. Yet one condition is still missing from the list:</p>
+      <div class="formula">\[H_s = H_d\]</div>
+      <p class="fragment">We <strong>must not</strong> add it. It is implied by all the other equations, because the accounting is complete: if every other row and column balances, the last one must balance too.</p>
+      <p class="fragment">In the spreadsheet it is never imposed. It is <strong>computed and checked</strong>: if \(H_d - H_s \neq 0\), a formula is wrong.</p>
+    </div>
+    <div class="keyidea fragment"><span class="qtag">Key idea</span>
+      <h3>Money is endogenous</h3>
+      <p class="xs">The central bank fixes the price of money (\(r\)), not its quantity. The stock of cash is whatever households want to hold at that rate. The central bank supplies it by adjusting how many T-bills it holds.</p></div>
+  </div>
+  <aside class="notes">Analogy with Walras’ law: with n markets, n−1 clearing conditions suffice. The paper calls it the redundant equation.</aside>
+</section>
+
+<section>
+  <span class="qtag">Check</span>
+  <h2>The central bank raises \(r\) from 2% to 3%. Wealth stays at 100 and nothing else changes yet. What happens to the central bank’s holdings of T-bills?</h2>
+  <div class="quiz" data-answer="3" data-fb="Equation (10): the share of bills rises from 0.6 + 5 × 0.02 = 70% to 0.6 + 5 × 0.03 = 75%, so households want 5 more bills and 5 less cash. Only the central bank can supply those bills: it sells 5 (eq. 14). The next slide shows why.">
+    <button>They rise by 5</button><button>They are unchanged: only the government issues bills</button><button>They fall by 1</button><button>They fall by 5</button>
+  </div>
+  <div class="quiz-fb"></div>
+</section>
+
+<section>
+  <div class="kicker">C · Endogenous money, step by step</div>
+  <h2>Why the money stock falls when \(r\) rises</h2>
+  <div class="cols c64" style="gap:26px">
+    <div class="shtxt">
+      <p style="margin-top:0" class="fragment"><strong>1 · Households rebalance their portfolio.</strong> Cash pays nothing; bills now pay 3% instead of 2%. Holding cash has become more costly, so households want 75% of their wealth in bills instead of 70% (eq. 10). Wealth is unchanged at 100: they want +5 of bills and −5 of cash.</p>
+      <p class="fragment"><strong>2 · Someone has to supply those bills.</strong> The government issues nothing new (no deficit). If nobody sold, bill prices would be bid up and their yield would fall back below 3%. The target would be missed.</p>
+      <p class="fragment"><strong>3 · The central bank sells from its portfolio.</strong> To hold \(r\) at 3%, it sells 5 of bills (eq. 14–15). Households pay with cash, which returns to the central bank and disappears: \(H\) falls from 30 to 25.</p>
+    </div>
+    <div>
+      <div class="fragment">
+      <table class="tacct sm">
+        <caption>Households</caption>
+        <thead><tr><th>Assets</th><th>Liabilities</th></tr></thead>
+        <tbody><tr><td><div class="row chg pos"><span>T-bills</span><span>+5</span></div><div class="row chg neg"><span>Cash</span><span>−5</span></div></td><td><div class="row"><span>Net worth</span><span>0</span></div></td></tr></tbody>
+      </table>
+      <table class="tacct sm" style="margin-top:12px">
+        <caption>Central bank</caption>
+        <thead><tr><th>Assets</th><th>Liabilities</th></tr></thead>
+        <tbody><tr><td><div class="row chg neg"><span>T-bills</span><span>−5</span></div><div class="row"><span>Reserves</span><span>0</span></div></td><td><div class="row chg neg"><span>Cash</span><span>−5</span></div></td></tr></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <div class="keyidea fragment" style="margin-top:14px"><span class="qtag">Key idea</span><h3>Causality runs from the interest rate to money, not the other way round</h3><p class="xs">The textbook story has the central bank cutting the money supply to push up \(r\). Here it sets \(r\), and the quantity of money follows from households’ portfolio choice. GDP does not move: in this simple model, spending does not depend on \(r\).</p></div>
+</section>
+
+<!-- ============ PART D ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Modelling the open economy</div>
+  <h1>What the model tells us</h1>
+  <ul class="toc"><li><b>A</b>Why stock-flow consistency?</li><li><b>B</b>The accounting</li><li><b>C</b>The equations</li><li class="on"><b>D</b>What the model tells us</li></ul>
+</section>
+
+<section>
+  <div class="kicker">D · Method</div>
+  <h2>Two shocks you will <em>not</em> have to run</h2>
+  <div class="cols" style="gap:26px">
+    <div class="card"><div class="big">1</div><h3 style="margin-top:.4em">Liquidity preference \(\lambda_0\): 0.40 → 0.45</h3><p class="small muted">A purely financial shock: households want more cash.</p></div>
+    <div class="card"><div class="big">2</div><h3 style="margin-top:.4em">Wealth effect \(\alpha_2\): 0.16 → 0.20</h3><p class="small muted">A real shock: households spend more out of their wealth.</p></div>
+  </div>
+  <p class="small" style="margin-top:1em">For each one we follow the same order as in your assignment: GDP, private wealth, the international equilibrium, government finance, the central bank. The model’s main results come out along the way.</p>
+</section>
+
+<section>
+  <div class="kicker">D · Shock 1 · Liquidity preference</div>
+  <h2 style="margin-bottom:.3em">Households want more cash: the central bank supplies it</h2>
+  <div class="cols shockc" style="gap:24px">
+    <div class="shtxt">
+      <p style="margin-top:0">\(\lambda_0\) rises from 0.40 to 0.45: at \(r = 2\%\), households now want 65% of their wealth in bills instead of 70% (eq. 10).</p>
+      <ul class="chk xs">
+        <li class="fragment"><strong>Portfolio:</strong> wealth stays at 100. Households sell 5 of bills and want 5 more cash (eq. 11).</li>
+        <li class="fragment"><strong>Central bank:</strong> to stop the bill yield from rising above 2%, it buys those 5 bills and pays with new cash. \(B_{cb}\) goes from 20 to 25, \(H\) from 30 to 35. Reserves do not move.</li>
+        <li class="fragment"><strong>Real side:</strong> nothing changes. GDP, consumption, wealth, the trade balance and the budget stay at their baseline values.</li>
+      </ul>
+      <div class="keyidea fragment" style="margin-top:12px"><span class="qtag">Result</span><h3>The money supply is demand-determined</h3><p class="xs">Money grew by 5 without any decision to “print money” and without any real effect. \(H_s = H_d\) holds automatically: this is the hidden equation at work.</p></div>
+</div>
+    <div><div class="chart" style="height:400px"><canvas data-chart="sim:l0:cb"></canvas></div><p class="xs muted" style="margin:.2em 0 0">Permanent shock from period 5. Same equations and baseline as OPEN_SFC.</p></div>
+  </div>
+  <aside class="notes">Mirror image of the r shock seen in Part C: there the demand for cash fell, here it rises. In both cases the central bank accommodates.</aside>
+</section>
+
+<section>
+  <div class="kicker">D · Shock 2 · Wealth effect · GDP and wealth</div>
+  <h2 style="margin-bottom:.3em">Spending more out of wealth: a boom that fades</h2>
+  <div class="cols shockc" style="gap:24px">
+    <div class="shtxt">
+      <p style="margin-top:0">\(\alpha_2\) rises from 0.16 to 0.20 (eq. 5).</p>
+      <ul class="chk xs">
+        <li class="fragment"><strong>Impact (period 5):</strong> with \(V_{-1} = 100\), consumption out of wealth rises by \(0.04 \times 100 = 4\). Through the multiplier, \(Y\) rises by \(1.64 \times 4 = 6.6\).</li>
+        <li class="fragment"><strong>Leakages:</strong> part of the extra income goes to taxes (\(\theta \Delta Y = 1.3\)) and imports (\(\mu \Delta Y = 1.6\)).</li>
+        <li class="fragment"><strong>Wealth falls:</strong> households consume more than their disposable income, so \(\Delta V = Y - T - C = -2.95\) (eq. 2).</li>
+        <li class="fragment"><strong>Feedback:</strong> lower wealth means less consumption out of wealth next period. \(C\) and \(Y\) slide back.</li>
+        <li class="fragment"><strong>New steady state:</strong> \(Y^* = (G+X)/(\theta+\mu) = 100\) does not contain \(\alpha_2\), so GDP returns to 100. Wealth settles at \(V^* = (1-\alpha_1)(1-\theta)Y^*/\alpha_2 = 80\).</li>
+      </ul>
+</div>
+    <div><div class="chart" style="height:400px"><canvas data-chart="sim:a2:real"></canvas></div><p class="xs muted" style="margin:.2em 0 0">Permanent shock from period 5. Same equations and baseline as OPEN_SFC.</p></div>
+  </div>
+  <aside class="notes">Behaviour towards wealth changes the level of stocks for good, but flows only for a while. Target wealth-to-disposable-income ratio alpha3 goes from 1.25 to 1.</aside>
+</section>
+
+<section>
+  <div class="kicker">D · Shock 2 · Wealth effect · international equilibrium</div>
+  <h2 style="margin-bottom:.3em">Where does the household dissaving go?</h2>
+  <div class="cols shockc" style="gap:24px">
+    <div class="shtxt">
+      <p style="margin-top:0">Add up the flow-of-funds rows of Table 1: \(\Delta V - \Delta B - \Delta R = 0\), so every period</p>
+      <div class="formula">\[\Delta V = (G - T) + (X - IM)\]</div>
+      <ul class="chk xs">
+        <li class="fragment"><strong>Period 5:</strong> \(-2.95 = -1.31 + (-1.64)\). Higher income brings in more taxes: the budget moves into <strong>surplus</strong> and the government retires bills. Higher imports push trade into <strong>deficit</strong>.</li>
+        <li class="fragment"><strong>Transition:</strong> as \(Y\) returns to 100, all three balances go back to zero.</li>
+        <li class="fragment"><strong>Stocks:</strong> the 20 of wealth lost are split between public debt (−8.9) and foreign reserves (−11.1). Still \(V = B + R\): \(80 = 81.1 - 1.1\).</li>
+      </ul>
+</div>
+    <div><div class="chart" style="height:400px"><canvas data-chart="sim:a2:ext"></canvas></div><p class="xs muted" style="margin:.2em 0 0">Permanent shock from period 5. Same equations and baseline as OPEN_SFC.</p></div>
+  </div>
+  <aside class="notes">This is Class 4’s sectoral balances identity, now with a mechanism behind each term. Point out that reserves end slightly negative: next slides.</aside>
+</section>
+
+<section>
+  <div class="kicker">D · Shock 2 · Wealth effect · central bank</div>
+  <h2 style="margin-bottom:.3em">Reserves fall, cash falls, yet the central bank holds more bills</h2>
+  <div class="cols shockc" style="gap:24px">
+    <div class="shtxt">
+      <p style="margin-top:0">The central bank’s balance sheet: \(H = R + B_{cb}\) (eq. 17).</p>
+      <ul class="chk xs">
+        <li class="fragment"><strong>Reserves fall</strong> (eq. 16): every period of trade deficit, importers buy foreign currency from the central bank and pay with domestic cash. Cumulated loss: 10 → −1.1.</li>
+        <li class="fragment"><strong>Cash falls</strong>, but less: households keep 30% of a shrinking wealth in cash, \(H\) goes from 30 to 24 (eqs. 10–11).</li>
+        <li class="fragment"><strong>So bills must rise.</strong> Losing 11.1 of reserves would drain 11.1 of cash, but households only want to give up 6. To keep \(r\) on target, the central bank buys the difference: \(B_{cb}\) goes from 20 to 25.1.</li>
+        <li class="fragment"><strong>Same story from the bill market</strong> (eq. 14): households sell 14 of bills (70% of 20), the government retires only 8.9. The central bank absorbs the other 5.1.</li>
+      </ul>
+</div>
+    <div><div class="chart" style="height:400px"><canvas data-chart="sim:a2:cb"></canvas></div><p class="xs muted" style="margin:.2em 0 0">Permanent shock from period 5. Same equations and baseline as OPEN_SFC.</p></div>
+  </div>
+  <aside class="notes">Opposite movements of bills and cash are what endogenous sterilisation looks like in a deficit country. The paper shows the surplus case (Table 2).</aside>
+</section>
+
+<section>
+  <div class="kicker">D · Result 1</div>
+  <h2>Sterilisation is endogenous</h2>
+  <div class="cols c46" style="gap:28px">
+    <div>
+      <table class="tacct">
+        <caption>Central bank, first period after exports rise by 5</caption>
+        <thead><tr><th>Assets</th><th>Liabilities</th></tr></thead>
+        <tbody><tr>
+          <td><div class="row chg pos"><span>Foreign reserves</span><span>+3.0</span></div><div class="row chg neg"><span>T-bills</span><span>−2.6</span></div></td>
+          <td><div class="row chg pos"><span>Cash</span><span>+0.4</span></div></td>
+        </tr></tbody>
+      </table>
+      <p class="xs muted">Source: Godley &amp; Lavoie (2006), Table 2, p. 251.</p>
+    </div>
+    <div class="small">
+      <p style="margin-top:0">We just saw it for a deficit: reserves fell, and the central bank bought bills. The paper shows the surplus case. Reserves rise by 3; the textbook expects the money supply to rise by 3.</p>
+      <p class="fragment">It rises by only 0.4, because households only want 0.4 more cash. The central bank keeps \(r\) on target by <strong>selling 2.6 of T-bills</strong>.</p>
+      <p class="fragment">Nobody decides to sterilise: it follows from targeting an interest rate.</p>
+    </div>
+  </div>
+  <div class="keyidea fragment" style="margin-top:14px"><span class="qtag">Key idea</span><h3>The “rules of the game” do not apply</h3><p class="xs">There is no automatic link from reserves to money, to interest rates, to the trade balance. Nothing in the model pushes exports back towards imports.</p></div>
+</section>
+
+<section>
+  <div class="kicker">D · Result 2</div>
+  <h2>Twin deficits in the quasi steady state</h2>
+  <div class="cols" style="gap:30px">
+    <div class="small">
+      <p style="margin-top:0">We saw it with shock 2: every period,</p>
+      <div class="formula">\[\Delta V = (G - T) + (X - IM)\]</div>
+      <p class="fragment">When wealth has stopped growing (\(\Delta V = 0\)):</p>
+      <div class="formula fragment">\[IM - X = G - T\]</div>
+      <p class="fragment xs">A trade deficit goes with an equal budget deficit. This is a <strong>quasi</strong> steady state: flows are constant, but reserves and public debt keep changing every period.</p>
+    </div>
+    <div class="card fragment">
+      <h3>Why “twin” only at the end</h3>
+      <p class="xs">During the transition, households accumulate or run down wealth, so the private balance absorbs part of the gap. The identity holds every period; the twin-deficit result needs \(\Delta V = 0\) (footnote 15).</p>
+      <p class="xs muted">With the \(\alpha_2\) shock, all balances return to zero because \(Y^*\) does not change. Shocks that move \(Y^*\) away from \(X/\mu\) leave twin deficits or twin surpluses: look for them in your simulations.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">D · Result 3</div>
+  <h2>The external constraint and the super steady state</h2>
+  <div class="cols c64" style="gap:30px">
+    <div class="small">
+      <p style="margin-top:0">A deficit country loses reserves every period. When they run out, it must restrict demand until \(X = IM\). Then all stocks <em>and</em> all flows are constant:</p>
+      <div class="formula">\[Y^{**} = \frac{X}{\mu} = \frac{G}{\theta}\]</div>
+      <ul class="chk xs">
+        <li class="fragment">Output is set by exports relative to the import propensity: <strong>Harrod’s foreign-trade multiplier</strong>, whose growth version is <strong>Thirlwall’s law</strong> (Class 4, Part D).</li>
+        <li class="fragment">Fiscal policy loses its autonomy: \(G/\theta\) has to adjust to \(X/\mu\).</li>
+      </ul>
+    </div>
+    <div class="keyidea fragment"><span class="qtag">Key idea</span><h3>An asymmetric world</h3><p class="xs">Deficit countries are forced into austerity when reserves run out. Surplus countries face no such limit: a central bank can accumulate foreign T-bills and sterilise indefinitely, as China did under its dollar peg. Keynes made the same point at Bretton Woods.</p></div>
+  </div>
+</section>
+
+<section>
+  <span class="qtag">Check</span>
+  <h2>Exports are 25 and the propensity to import is 0.25. What is the highest GDP this country can sustain without running down its reserves?</h2>
+  <div class="quiz" data-answer="0" data-fb="Y** = X / μ = 25 / 0.25 = 100. Above that level, imports (0.25 × Y) exceed exports and reserves fall every period. Raising exports or lowering μ is the only way to relax the constraint durably.">
+    <button>100</button><button>125</button><button>164</button><button>There is no limit with a fixed exchange rate</button>
+  </div>
+  <div class="quiz-fb"></div>
+</section>
+
+<section>
+  <div class="kicker">D · Reading the simulations</div>
+  <h2>What does a negative stock mean?</h2>
+  <p class="small" style="margin-top:0">The model has no floor on any stock. A stock below zero is not a bug: it tells you which institution would have to change sides, and whether the situation can last.</p>
+  <div class="cols c3" style="margin-top:.4em">
+    <div class="card"><h3>Reserves below zero</h3><p class="xs">Reserves are balances held with foreign central banks (p. 248). Below zero, the central bank owes foreign currency: it has borrowed from other central banks or the IMF. Without capital flows, this cannot last. The country must restrict demand until \(X = IM\) (p. 252), or the peg breaks.</p></div>
+    <div class="card"><h3>Central bank bills below zero</h3><p class="xs">Households want more bills than the government has issued, typically after reserves have piled up. The central bank must sell bills it does not have: in practice it issues <strong>its own bills</strong>, or the government holds deposits with it (fn. 27, p. 270). China’s central bank bills worked this way.</p></div>
+    <div class="card"><h3>Public debt below zero</h3><p class="xs">After a long run of budget surpluses, the government has repaid all its bills and becomes a net creditor. It now holds assets, for example deposits at the central bank or a sovereign wealth fund.</p></div>
+  </div>
+  <div class="keyidea" style="margin-top:14px"><span class="qtag">Key idea</span><h3>The asymmetry again</h3><p class="xs">Negative reserves signal a constraint that will bind. Negative central bank bills only signal a change in instruments: a surplus country can keep sterilising.</p></div>
+</section>
+
+<section>
+  <div class="kicker">D · Wrapping up</div>
+  <h2>Three textbook claims, revisited</h2>
+  <table class="rt">
+    <thead><tr><th style="width:42%">The textbook view (Mundell–Fleming, “rules of the game”)</th><th>What the SFC model finds</th></tr></thead>
+    <tbody>
+      <tr class="fragment"><td>A balance-of-payments surplus raises reserves and therefore the money supply, unless the central bank deliberately “sterilises”.</td><td>Sterilisation is <strong>automatic</strong> when the central bank targets an interest rate. Money is demand-determined (shock 1, Result 1).</td></tr>
+      <tr class="fragment"><td>Trade imbalances correct themselves, through money, interest rates and prices.</td><td>Nothing forces exports back to imports. A trade deficit can last as long as reserves do (Result 2).</td></tr>
+      <tr class="fragment"><td>Deficit and surplus countries face symmetric pressures.</td><td>Deficit countries must eventually adjust; surplus countries never have to (Result 3).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="kicker">D · Going further <span class="pill">optional</span></div>
+  <h2>The same logic with two countries and a floating exchange rate</h2>
+  <div class="cols" style="gap:26px">
+    <div class="small">
+      <p style="margin-top:0">The second part of the paper (pp. 254–271) lets residents of two countries trade each other’s T-bills. The exchange rate clears the market for internationally held bills.</p>
+      <ul class="chk xs">
+        <li><strong>Fiscal expansion</strong> raises output permanently and depreciates the currency.</li>
+        <li><strong>A higher interest rate</strong> appreciates the currency at once, slows the economy, then wears off: its effect is temporary.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The Mundell–Fleming result, reversed</h3>
+      <p class="xs">Mundell–Fleming concludes that fiscal policy is ineffective under floating rates. The difference comes from assuming that the central bank fixes the money stock instead of the interest rate.</p>
+      <p class="xs muted">Book version: Godley &amp; Lavoie (2007), <em>Monetary Economics</em>, ch. 6 (model OPEN) and ch. 12.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAB ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Lab</div>
+  <h1>The assignment</h1>
+  <p style="color:#d9dce4;font-size:.9em">Introduction to macroeconomic modelling with the OPEN_SFC spreadsheet</p>
+</section>
+
+<section>
+  <div class="kicker">Lab · What you have to do</div>
+  <h2>Five tasks</h2>
+  <div class="small">
+    <div class="task"><div class="n">1</div><p><strong>Read</strong> “A single open economy with a fixed exchange rate”, pp. 243–251.</p></div>
+    <div class="task"><div class="n">2</div><p><strong>Table 1</strong> (p. 244): explain each row and each column, and why rows and columns sum to zero.</p></div>
+    <div class="task"><div class="n">3</div><p><strong>Equations:</strong> explain each one and say whether it is an accounting identity or a behavioural equation. Ignore (6a), (8a), (9a), (10a).</p></div>
+    <div class="task"><div class="n">4</div><p><strong>The multiplier \(m\):</strong> explain its meaning, then how a change in each parameter affects \(m\) and GDP.</p></div>
+    <div class="task"><div class="n">5</div><p><strong>Simulations:</strong> run six shocks in Excel, export the six diagrams for each into a Word document, and comment on each diagram in two lines.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Lab · The spreadsheet</div>
+  <h2>How OPEN_SFC is organised</h2>
+  <div class="sheet">
+    <div class="zone z1"><b>Table 1 · Initial parameters</b>Periods 0–4. The baseline: \(\theta, \alpha_1, \alpha_2, G, \mu, \lambda_0, \lambda_1, r, X\), and \(m\). <strong>Do not touch.</strong></div>
+    <div class="zone z3"><b>Table 3 · Economic variables</b>One row per variable, one column per period (from −1). Columns before period 5 use Table 1; from period 5 onwards they use Table 2.
+      <div class="cbar" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span></div>
+      <p class="muted" style="margin:.2em 0 .5em">0 &nbsp;1 &nbsp;2 &nbsp;3 &nbsp;4 &nbsp;│ 5 → shock is permanent</p>
+      <p style="margin:0"><strong>Real side:</strong> G, X, V, m, Y, T, C, IM, X − IM<br><strong>Financial side:</strong> \(B_{p,d}\), \(H_d\), \(B_s\), \(B_{cb}\), R, G − T, ΔV<br><strong>Checks:</strong> the macroeconomic equality and the hidden equation must stay at 0</p></div>
+    <div class="zone z2"><b>Table 2 · Shocked parameters</b>Applies from period 5. <strong>This is the only table you change.</strong></div>
+  </div>
+  <p class="xs muted" style="margin-top:.8em">Six charts update automatically: GDP decomposition · household wealth · government finances and T-bills · trade balance and reserves · international macroeconomic equilibrium · central bank balance sheet.</p>
+</section>
+
+<section>
+  <div class="kicker">Lab · Simulations</div>
+  <h2>Six permanent shocks, run separately</h2>
+  <div class="shk">
+    <div><div class="p">G = 25</div><div class="d">Higher government spending</div></div>
+    <div><div class="p">G = 15</div><div class="d">Lower government spending</div></div>
+    <div><div class="p">θ = 30%</div><div class="d">Higher tax rate</div></div>
+    <div><div class="p">θ = 10%</div><div class="d">Lower tax rate</div></div>
+    <div><div class="p">X = 30</div><div class="d">Higher exports</div></div>
+    <div><div class="p">μ = 0.3</div><div class="d">Higher propensity to import</div></div>
+  </div>
+  <div class="cols" style="gap:24px;margin-top:18px">
+    <div class="card"><h3>Method</h3><ol class="xs" style="margin-left:1.2em"><li>Change one cell in Table 2.</li><li>Check that both control rows stay at 0.</li><li>Copy the six charts into Word.</li><li>Reset Table 2 to the baseline before the next shock.</li></ol></div>
+    <div class="card"><h3>For each diagram, compare with the baseline</h3><ul class="chk xs"><li>GDP and its components</li><li>Private wealth and its components</li><li>The international macroeconomic equilibrium</li><li>Government finance and T-bill issues</li><li>The central bank’s balance sheet</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Lab · What a good comment looks like</div>
+  <h2>Two lines, one mechanism, one equation</h2>
+  <p class="small" style="margin-top:0">Example on a shock that is <strong>not</strong> in the assignment: \(r\) rises from 2% to 3%.</p>
+  <div class="cols" style="gap:24px">
+    <div class="card" style="border-left:4px solid var(--loss)"><span class="pill" style="background:var(--loss-soft);color:var(--loss)">Too vague</span><p class="xs" style="margin-top:.5em">“Cash goes down and the central bank holds fewer bills because of the interest rate.”</p></div>
+    <div class="card" style="border-left:4px solid var(--gain)"><span class="pill" style="background:var(--gain-soft);color:var(--gain)">Good</span><p class="xs" style="margin-top:.5em">“The higher rate raises the share of bills in household wealth from 70% to 75% (eq. 10), so cash falls by 5 (eq. 11). The central bank sells 5 of bills to keep \(r\) on target (eq. 14): money adjusts to demand, and GDP is unaffected.”</p></div>
+  </div>
+  <div class="keyidea" style="margin-top:16px"><span class="qtag">Tip</span><h3>Distinguish impact, transition and new steady state</h3><p class="xs">Say what happens in period 5, how variables move afterwards, and where they settle. Some stocks never settle: when a stock turns negative, say what it means using the slide “What does a negative stock mean?” (p. 252 and fn. 27, p. 270).</p></div>
+</section>
+
+<section>
+  <div class="kicker">Next class</div>
+  <h2>To prepare</h2>
+  <div class="cols">
+    <div class="card"><div class="big">📖</div><h3 style="margin-top:.5em">Read pp. 243–251</h3><p class="small muted">Godley &amp; Lavoie (2006) on the single open economy, available on the intranet.</p></div>
+    <div class="card"><div class="big">📊</div><h3 style="margin-top:.5em">Submit your Word document</h3><p class="small muted">Answers to tasks 2–4, then six diagrams per simulation with two lines of comment under each.</p></div>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script>const C = {ink:'#1b2437',muted:'#5b6475',gold:'#c29d2c',navy:'#14213d',gain:'#1f8a70',loss:'#c8453b',blue:'#2f5d9e',line:'#e6e2d6',grey:'#b9bfca'};
+Chart.defaults.font.family='Inter, system-ui, sans-serif';
+Chart.defaults.font.size=14;
+Chart.defaults.color=C.muted;
+Chart.defaults.plugins.legend.labels.boxWidth=14;
+const grid={color:'#ece9e0'};
+const charts={};
+const $id=id=>document.getElementById(id);
+const fmt=v=>{const a=Math.abs(Math.round(v*100)/100).toLocaleString('en-US',{maximumFractionDigits:2}); return (Math.round(v*100)<0?'−':'')+a;};
+
+/* ---------- quizzes ---------- */
+document.querySelectorAll('.quiz').forEach(q=>{
+  const ans=+q.dataset.answer, fb=q.nextElementSibling;
+  q.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{
+    q.querySelectorAll('button').forEach((bb,j)=>{bb.classList.remove('right','wrong'); if(j===ans) bb.classList.add('right'); else if(j===i) bb.classList.add('wrong');});
+    fb.textContent=(i===ans?'✓ Correct. ':'Not quite. ')+q.dataset.fb;
+  }));
+});
+
+/* ---------- matrix highlighting ---------- */
+function clearHl(){document.querySelectorAll('.mx td.on').forEach(td=>td.classList.remove('on'));}
+function hl(key){
+  clearHl();
+  if(!key||key==='none') return;
+  let id='tfm', spec=key;
+  if(key.includes('|')) [id,spec]=key.split('|');
+  const t=$id(id); if(!t) return;
+  const [kind,k]=spec.split(':');
+  if(kind==='row') t.querySelectorAll(`tr[data-r="${k}"] td[data-c]`).forEach(td=>td.classList.add('on'));
+  else t.querySelectorAll(`td[data-c="${k}"]`).forEach(td=>td.classList.add('on'));
+}
+function syncHl(slide){
+  const shown=[...slide.querySelectorAll('[data-hl].visible')];
+  hl(shown.length?shown[shown.length-1].dataset.hl:null);
+}
+
+/* ---------- OPEN model (Godley & Lavoie, single economy) ---------- */
+const BASE={G:20,X:25,th:.2,mu:.25,a1:.8,a2:.16,l0:.4,l1:5,r:.02};
+const SHOCKS={l0:{l0:.45},a2:{a2:.2}};
+const T=40, PER=[...Array(T+1).keys()];
+function run(shock){
+  let V=100,B=90,R=10; const o={Y:[],C:[],V:[],R:[],Bcb:[],H:[],TB:[],F:[],dV:[]};
+  for(const t of PER){
+    const p=t>=5?Object.assign({},BASE,shock):BASE;
+    const m=1/(1-p.a1*(1-p.th)+p.mu);
+    const Y=m*(p.G+p.X+p.a2*V), Tx=p.th*Y, Cn=p.a1*(Y-Tx)+p.a2*V, IM=p.mu*Y;
+    const V0=V; V=V+Y-Tx-Cn; B+=p.G-Tx; R+=p.X-IM;
+    const Bp=V*((1-p.l0)+p.l1*p.r), H=V-Bp, Bcb=B-Bp;
+    o.Y.push(Y);o.C.push(Cn);o.V.push(V);o.R.push(R);o.Bcb.push(Bcb);o.H.push(H);o.TB.push(p.X-IM);o.F.push(Tx-p.G);o.dV.push(V-V0);
+  }
+  return o;
+}
+function simOpts(){return {maintainAspectRatio:false,animation:{duration:300},interaction:{mode:'index',intersect:false},
+  plugins:{legend:{position:'top',align:'start'},tooltip:{callbacks:{title:it=>'Period '+it[0].label,label:c=>` ${c.dataset.label}: ${fmt(c.raw)}`}}},
+  scales:{x:{grid:{display:false},title:{display:true,text:'Period'},ticks:{maxTicksLimit:9}},y:{grid}}};}
+const ln=(label,data,color,dash)=>({label,data,borderColor:color,backgroundColor:color,borderWidth:2.6,pointRadius:0,tension:.15,borderDash:dash||[]});
+const PANELS={
+  real:o=>[ln('GDP  Y',o.Y,C.navy),ln('Consumption  C',o.C,C.blue,[6,4]),ln('Household wealth  V',o.V,C.gold)],
+  ext:o=>[ln('Change in wealth  ΔV',o.dV,C.gold),ln('Trade balance  X − IM',o.TB,C.gain),ln('Budget balance  T − G',o.F,C.blue,[6,4])],
+  cb:o=>[ln('Foreign reserves  R',o.R,C.gain),ln('T-bills held  B_cb',o.Bcb,C.blue),ln('Cash issued  H',o.H,C.gold)]
+};
+function buildSim(el,key){
+  const [,shock,panel]=key.split(':');
+  return new Chart(el,{type:'line',data:{labels:PER,datasets:PANELS[panel](run(SHOCKS[shock]))},options:simOpts()});
+}
+function initCharts(slide){
+  if(!slide) return;
+  slide.querySelectorAll('canvas[data-chart]').forEach(cv=>{const k=cv.dataset.chart; if(charts[k]) return; charts[k]=buildSim(cv,k);});
+}
+
+/* ---------- Reveal ---------- */
+Reveal.initialize({hash:true,slideNumber:'c/t',progress:true,center:false,transition:'slide',backgroundTransition:'fade',width:1280,height:720,margin:0.04,
+  katex:{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','code']},
+  plugins:[RevealMath.KaTeX,RevealNotes]}).then(()=>{initCharts(Reveal.getCurrentSlide()); syncHl(Reveal.getCurrentSlide());});
+Reveal.on('slidechanged',e=>{initCharts(e.currentSlide); syncHl(e.currentSlide);});
+Reveal.on('fragmentshown',()=>syncHl(Reveal.getCurrentSlide()));
+Reveal.on('fragmenthidden',()=>syncHl(Reveal.getCurrentSlide()));
+</script>
+</body>
+</html>
