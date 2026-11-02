@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IFM · Class 6 · Playing the open economy: MacSim 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<style>
+:root{
+  --ink:#1b2437; --muted:#5b6475; --bg:#fbfaf6; --card:#ffffff; --line:#e6e2d6;
+  --gold:#c29d2c; --gold-soft:#f5ecd2; --navy:#14213d; --gain:#1f8a70; --gain-soft:#e1f3ec;
+  --loss:#c8453b; --loss-soft:#fbe6e3; --blue:#2f5d9e; --blue-soft:#e6eef9;
+}
+html,body{background:var(--bg);}
+.reveal{font-family:Inter,system-ui,sans-serif;color:var(--ink);font-size:29px;}
+.reveal .slides{text-align:left;}
+.reveal .slides section{height:100%;padding:28px 48px 40px;box-sizing:border-box;}
+.reveal h1,.reveal h2,.reveal h3{font-family:"Source Serif 4",Georgia,serif;color:var(--navy);text-transform:none;letter-spacing:-.01em;margin:0 0 .45em;}
+.reveal h1{font-size:2.3em;line-height:1.08}
+.reveal h2{font-size:1.55em;line-height:1.15}
+.reveal h3{font-size:1.05em;}
+.reveal p{margin:.35em 0;line-height:1.45}
+.reveal ul,.reveal ol{margin:.3em 0 .3em 1.1em;display:block}
+.reveal li{margin:.28em 0;line-height:1.38}
+.reveal a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+.reveal strong{color:var(--navy)}
+.kicker{font-size:.62em;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35em}
+.src{position:absolute;left:48px;bottom:14px;font-size:.52em;color:var(--muted)}
+.small{font-size:.78em}.xs{font-size:.64em}.muted{color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+.cols.c64{grid-template-columns:1.45fr 1fr}.cols.c46{grid-template-columns:1fr 1.45fr}.cols.c3{grid-template-columns:1fr 1fr 1fr;gap:22px}
+.cols>*,.cols>div{min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;box-shadow:0 1px 2px rgba(20,33,61,.04)}
+.card h3{margin-bottom:.3em}
+.pill{display:inline-block;padding:.12em .6em;border-radius:999px;font-size:.72em;font-weight:600;background:var(--gold-soft);color:#7a5f0e}
+.hl{background:linear-gradient(transparent 55%,var(--gold-soft) 55%);padding:0 .1em}
+.big{font-size:1.9em;font-weight:700;color:var(--navy);font-family:"Source Serif 4",serif;line-height:1}
+.chart{position:relative;width:100%;height:470px}
+.chart.sm{height:380px}
+.formula{background:var(--card);border-left:4px solid var(--gold);border-radius:8px;padding:10px 18px;margin:.5em 0;font-size:1.02em}
+section.divider{background:var(--navy);color:#fff}
+.reveal section.divider h1,.reveal section.divider h2{color:#fff}
+section.divider .kicker{color:var(--gold)}
+.toc{list-style:none;margin:1.2em 0 0!important;padding:0}
+.toc li{display:flex;gap:18px;align-items:baseline;padding:.42em 0;border-bottom:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.55);font-size:1.02em}
+.toc li b{font-family:"Source Serif 4",serif;color:var(--gold);width:1.6em}
+.toc li.on{color:#fff;font-weight:600}
+section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy) 60%);color:#fff}
+.reveal section.title h1{color:#fff;font-size:2.6em;margin-top:2.2em}
+.keys{font-size:.55em;color:rgba(255,255,255,.6);position:absolute;bottom:26px;left:48px}
+.keys kbd{border:1px solid rgba(255,255,255,.35);border-radius:4px;padding:1px 6px;margin:0 2px}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.78em;margin:.6em 0}
+.chain .n{background:var(--card);border:1.5px solid var(--navy);border-radius:10px;padding:8px 14px;font-weight:600}
+.chain .n.up::before{content:"↑ ";color:var(--loss)}
+.chain .n.dn::before{content:"↓ ";color:var(--blue)}
+.chain .ar{color:var(--gold);font-weight:700;font-size:1.2em}
+.quiz{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:.8em}
+.quiz button{font:inherit;font-size:.8em;text-align:left;padding:16px 20px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink);transition:all .25s}
+.quiz button:hover{border-color:var(--navy)}
+.quiz button.right{background:var(--gain-soft);border-color:var(--gain);color:var(--gain);font-weight:600}
+.quiz button.wrong{background:var(--loss-soft);border-color:var(--loss);color:var(--loss);opacity:.75}
+.quiz-fb{font-size:.7em;margin-top:.8em;min-height:1.6em;color:var(--muted)}
+.qtag{display:inline-block;background:var(--gold);color:#fff;border-radius:6px;padding:2px 10px;font-size:.6em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6em}
+.chk li{list-style:none;position:relative;padding-left:1.3em}
+.chk li::before{content:"";position:absolute;left:0;top:.5em;width:.55em;height:.55em;border-radius:2px;background:var(--gold)}
+.reveal .progress{color:var(--gold);height:4px}
+.reveal .slide-number{background:transparent;color:var(--muted);font-family:Inter;font-size:13px}
+.reveal .controls{color:var(--gold)}
+.reveal .katex{font-size:1.05em}
+.keyidea{background:var(--blue-soft);border-radius:12px;padding:14px 20px}
+.keyidea h3{margin:.2em 0}
+/* ---- class 6 additions ---- */
+.tbl{width:100%;border-collapse:collapse;font-size:.68em;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tbl th{background:var(--navy);color:#fff;font-weight:600;padding:7px 12px;text-align:left}
+.tbl td{padding:6px 12px;border-top:1px solid var(--line);vertical-align:top}
+.tbl td.num,.tbl th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr.grp td{background:var(--blue-soft);color:var(--navy);font-weight:600;font-size:.9em;letter-spacing:.06em;text-transform:uppercase}
+.tbl .n{display:inline-block;width:1.5em;color:var(--muted)}
+.pos{color:var(--gain);font-weight:600}.neg{color:var(--loss);font-weight:600}
+.econ{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:.5em}
+.econ div{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.7em;text-align:center}
+.econ div b{display:block;font-family:"Source Serif 4",serif;font-size:1.5em;color:var(--navy)}
+.econ div.eu{border-color:var(--blue);background:var(--blue-soft)}
+.econ div.off{opacity:.5;border-style:dashed}
+.econ div .tag{display:inline-block;margin-top:4px;font-size:.78em;padding:1px 8px;border-radius:999px;background:var(--gold);color:#fff;font-weight:600}
+.timeline{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:.6em}
+.timeline .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;position:relative}
+.timeline .step .num{font-family:"Source Serif 4",serif;font-size:1.8em;color:var(--gold);font-weight:700;line-height:1}
+.timeline .step h3{margin:.3em 0 .2em}
+.timeline .step p{font-size:.72em;margin:.2em 0}
+.sign{display:inline-block;width:1.2em;height:1.2em;border-radius:50%;color:#fff;font-weight:700;text-align:center;line-height:1.2em;font-size:.8em}
+.sign.p{background:var(--gain)}.sign.m{background:var(--loss)}
+.eq{font-size:.86em}
+.eq .katex{font-size:1.02em}
+.note{font-size:.66em;color:var(--muted)}
+.screen{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:.66em}
+.screen .row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+.screen .row:last-child{border-bottom:none}
+.screen .in{font-family:ui-monospace,Menlo,monospace;border:1px solid #cfc9b8;border-radius:6px;padding:1px 8px;min-width:3.2em;text-align:right;background:#fff}
+.screen .in.nz{background:var(--gold-soft);border-color:var(--gold);font-weight:700}
+.screen .btn{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;padding:3px 12px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ============ TITLE ============ -->
+<section class="title" data-background-color="#14213d">
+  <div class="kicker">KEDGE Business School · Master · 2026</div>
+  <h1>International Financial Macroeconomics</h1>
+  <p style="font-size:1.1em;color:#d9dce4">Class 6 — Playing the open economy: the MacSim 2 game</p>
+  <p style="margin-top:1.4em;color:#fff">Thomas Lagoarde-Ségot &amp; Léo Malherbe</p>
+  <div class="keys"><a href="https://leomalherbe.github.io/internationalfinancialmacro/" style="color:#d9dce4">← Course home</a> &nbsp;·&nbsp; <kbd>→</kbd> next &nbsp; <kbd>F</kbd> full screen &nbsp; <kbd>O</kbd> overview &nbsp; <kbd>S</kbd> speaker notes</div>
+</section>
+
+<section>
+  <div class="kicker">Today</div>
+  <h2>Today’s roadmap</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:1em">
+    <div class="card"><div class="big">A</div><h3 style="margin-top:.5em">The game</h3><p class="small muted">Ten economies, one objective function, eleven policy levers, shocks from the administrator</p></div>
+    <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">The model in broad strokes</h3><p class="small muted">Demand, supply, prices, trade, money — and the restoring forces that make policies fade</p></div>
+    <div class="card"><div class="big">C</div><h3 style="margin-top:.5em">The warm-up</h3><p class="small muted">Every group governs France for three years, alone; submit, read the report, explain</p></div>
+    <div class="card"><div class="big">D</div><h3 style="margin-top:.5em">The real game</h3><p class="small muted">One country each, year by year, with a council of ministers — after the warm-up</p></div>
+  </div>
+  <p class="small muted" style="margin-top:1.2em">Classes 1–5 gave you the pieces: inflation, interest rates, fiscal policy, the balance of payments, a stock-flow model. Today you put them in motion, in a world where the other countries move too.</p>
+</section>
+
+<section>
+  <span class="qtag">Warm-up question</span>
+  <h2>A government wants, at the same time, more GDP, less unemployment, less inflation, a better budget and a better trade balance. Can it have them all?</h2>
+  <div class="quiz" data-answer="2" data-fb="A demand stimulus raises GDP and employment but worsens the budget and the trade balance and pushes prices up; a supply-side cost cut lowers inflation and helps trade, but slowly, and the budget pays for it. Improving all five at once requires help from abroad — or from the other players.">
+    <button>Yes, with a large enough stimulus</button><button>Yes, with the right mix of instruments</button><button>Rarely: most instruments improve some objectives at the expense of others</button><button>No: the five objectives are mathematically incompatible</button>
+  </div>
+  <div class="quiz-fb"></div>
+</section>
+
+<!-- ============ PART A ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Playing the open economy</div>
+  <h1>The game</h1>
+  <ul class="toc"><li class="on"><b>A</b>The game</li><li><b>B</b>The model in broad strokes</li><li><b>C</b>The warm-up</li><li><b>D</b>The real game</li></ul>
+</section>
+
+<section>
+  <div class="kicker">A · What MacSim 2 is</div>
+  <h2>A macroeconomic simulator, not a forecasting tool</h2>
+  <div class="cols c64">
+    <div>
+      <ul class="small">
+        <li><strong>Ten advanced economies</strong>, each with the same New-Keynesian model: 50–60 equations, 10–15 of them estimated on quarterly data (error-correction form), the rest accounting identities.</li>
+        <li><strong>Linked by trade</strong> (a bilateral trade matrix), by <strong>interest rates</strong> and by <strong>exchange rates</strong>; the rest of the world is passive.</li>
+        <li>Every result is a <strong>deviation from a reference path</strong>: what changes because of what you — and the others — did. Not a forecast.</li>
+        <li>Jean-Louis Brillet, Gilbert Cette &amp; Ian Gambini (INSEE, Banque de France); MacSim 2, Economica, 2012.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Why a game?</h3>
+      <p class="small">Each team is a government. You choose policies, the model computes the consequences — for you and for everybody else — and one number, the objective function, says how well you did.</p>
+      <p class="xs muted" style="margin-top:.6em">The point is not to win: it is to see the mechanisms of classes 1–5 act together, and to feel what interdependence does to a national policy.</p>
+    </div>
+  </div>
+  <aside class="notes">Stress "deviation from reference": students will read tables of +0.11 % and −0.07 pt, not levels. The reference path is the same for everyone; the administrator can disturb it with shocks.</aside>
+</section>
+
+<section>
+  <div class="kicker">A · The world</div>
+  <h2>Ten economies, seven of them in your hands</h2>
+  <div class="econ">
+    <div class="eu"><b>DEU</b>Germany<br><span class="tag">team</span></div>
+    <div class="eu"><b>FRA</b>France<br><span class="tag">team</span></div>
+    <div class="eu"><b>ITA</b>Italy<br><span class="tag">team</span></div>
+    <div class="eu"><b>NLD</b>Netherlands<br><span class="tag">team</span></div>
+    <div class="eu off"><b>BEL</b>Belgium</div>
+    <div><b>GBR</b>United Kingdom<br><span class="tag">team</span></div>
+    <div><b>USA</b>United States<br><span class="tag">team</span></div>
+    <div><b>JPN</b>Japan<br><span class="tag">team</span></div>
+    <div class="eu off"><b>LUX</b>Luxembourg</div>
+    <div class="eu off"><b>OEA</b>Other euro area</div>
+  </div>
+  <div class="cols" style="margin-top:.8em">
+    <div class="small"><span class="pill">blue</span> euro-area members: one short-term interest rate, one exchange rate, set on the <em>average</em> situation of the area. Members may leave, outsiders may join (with the administrator’s consent).</div>
+    <div class="small"><span class="pill">dashed</span> economies nobody plays: they still react to your policies through trade and prices — they are part of the “foreign” effects you will read in your reports. Plus a passive <strong>rest of the world</strong>.</div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">A · The objective</div>
+  <h2>One number to maximise: the objective function</h2>
+  <div class="formula">\( R_{i,t} \;=\; a_1\,\Delta \text{GDP}_{i,t} \;-\; a_2\,\Delta U_{i,t} \;-\; a_3\,\Delta \pi_{i,t} \;+\; a_4\,\Delta \text{PB}_{i,t} \;+\; a_5\,\Delta \text{TB}_{i,t} \)</div>
+  <div class="econ" style="grid-template-columns:repeat(5,1fr)">
+    <div><span class="sign p">+</span><b style="font-size:1.1em">GDP</b>volume, gap in %</div>
+    <div><span class="sign m">−</span><b style="font-size:1.1em">Unemployment</b>rate, gap in points</div>
+    <div><span class="sign m">−</span><b style="font-size:1.1em">Inflation</b>consumer prices, gap in points</div>
+    <div><span class="sign p">+</span><b style="font-size:1.1em">Public balance</b>gap in points of GDP</div>
+    <div><span class="sign p">+</span><b style="font-size:1.1em">Trade balance</b>gap in points of GDP</div>
+  </div>
+  <p class="small" style="margin-top:.7em"><strong>Δ</strong> = deviation from the reference path, for that country and that year. The weights \(a_i\) are set in the software; the software computes \(R\) for every country every year, and the ranking follows it.</p>
+  <p class="small muted">Reading: \(R = +0.10\) means “a tenth of a point of GDP better than doing nothing”, once unemployment, prices and the two balances are netted out.</p>
+  <aside class="notes">The five components are the classic objectives of macro policy (the "magic square" plus the public balance). Insist on the signs: unemployment and inflation enter negatively.</aside>
+</section>
+
+<section>
+  <div class="kicker">A · The objective</div>
+  <h2>Why the five objectives fight each other</h2>
+  <div class="cols">
+    <div class="card fragment">
+      <h3>A demand stimulus (spending ↑, taxes ↓)</h3>
+      <div class="chain"><span class="n up">demand</span><span class="ar">→</span><span class="n up">GDP</span><span class="ar">→</span><span class="n dn">unemployment</span></div>
+      <div class="chain"><span class="ar">…but</span><span class="n up">imports</span><span class="n up">prices</span><span class="n dn">public balance</span></div>
+      <p class="small muted">GDP and jobs improve; the trade balance, the budget and inflation pay.</p>
+    </div>
+    <div class="card fragment">
+      <h3>A supply-side move (labour costs ↓)</h3>
+      <div class="chain"><span class="n dn">costs</span><span class="ar">→</span><span class="n dn">prices</span><span class="ar">→</span><span class="n up">competitiveness</span><span class="ar">→</span><span class="n up">exports</span></div>
+      <div class="chain"><span class="ar">…but</span><span class="n dn">public balance</span><span class="ar">and</span><span class="n">slow</span></div>
+      <p class="small muted">Inflation and trade improve, GDP only gradually; the budget pays for the cut.</p>
+    </div>
+  </div>
+  <div class="keyidea fragment" style="margin-top:16px"><span class="qtag">Key idea</span>
+    <h3>Every lever moves several objectives, with opposite signs — that is why the game is a game</h3>
+    <p class="xs">A good policy is a <em>mix</em> that targets each objective with the instrument that hurts the others least, and a <em>timing</em> that lets the slow effects arrive before the costs accumulate.</p></div>
+</section>
+
+<section>
+  <div class="kicker">A · The instruments</div>
+  <h2>Eleven levers, in the order of the administrator’s screen</h2>
+  <div class="cols c64" style="gap:22px">
+    <table class="tbl" style="font-size:.6em">
+      <tr class="grp"><td colspan="3">Demand side — household income and public spending</td></tr>
+      <tr><td><span class="n">1</span>Public employment</td><td class="muted">number of civil servants</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">2</span>Public demand</td><td class="muted">real public purchases</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">4</span>Employee social contributions</td><td class="muted">rate on gross wages</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">5</span>Real social benefits</td><td class="muted">pensions, allowances, insurance</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">7</span>Household income tax</td><td class="muted">average rate</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">10</span>Public / private relative wage</td><td class="muted">public wage vs private wage</td><td class="num">% of reference</td></tr>
+      <tr class="grp"><td colspan="3">Supply side — costs and profitability of firms</td></tr>
+      <tr><td><span class="n">3</span>Employer social contributions</td><td class="muted">rate on gross wages</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">6</span>Corporate tax</td><td class="muted">rate on profits</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">8</span>Subsidies to firms</td><td class="muted">rate on value added</td><td class="num">% of reference</td></tr>
+      <tr><td><span class="n">9</span>VAT</td><td class="muted">rate on domestic consumption</td><td class="num">% of reference</td></tr>
+      <tr class="grp"><td colspan="3">Trade, money, structure</td></tr>
+      <tr><td><span class="n">11</span>Import tariffs</td><td class="muted">by partner country</td><td class="num">points</td></tr>
+      <tr><td><span class="n">–</span>Euro area: leave / join · TFP shock</td><td class="muted">with the administrator’s consent</td><td class="num">—</td></tr>
+    </table>
+    <div>
+      <div class="card"><h3>How a value is read</h3>
+        <p class="xs">Each value is a <strong>relative change, in %, from the country’s own reference level</strong>, for that year. VAT +5 means the VAT rate rises by 5 % of its level (from 20 % to 21 %), not by 5 points.</p>
+        <p class="xs"><strong>0 = back to the reference.</strong> A measure kept for three years is entered three times.</p>
+        <p class="xs">Bounds in our game: <strong>±10 %</strong> per lever; tariffs ±10 points.</p>
+        <p class="xs muted">VAT sits on the supply side but hits demand too: higher prices cut real wages and consumption.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">A · The shocks</div>
+  <h2>And the administrator holds the dice</h2>
+  <div class="cols">
+    <div>
+      <h3>Global shocks</h3>
+      <ul class="small">
+        <li><strong>World demand</strong>: the rest of the world buys more, or less, from everyone — each country hit according to its openness.</li>
+        <li><strong>Exchange rate vs the rest of the world</strong>: competitiveness and import prices move for all.</li>
+        <li><strong>Terms of trade</strong> and <strong>world tariffs</strong>: the price of what you import, the access to foreign markets.</li>
+      </ul>
+      <h3 style="margin-top:.6em">Country-specific shocks</h3>
+      <ul class="small">
+        <li>Total or active <strong>population</strong>, <strong>total factor productivity</strong>, average <strong>wages</strong>, the <strong>risk premium</strong> on sovereign debt.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>How you will learn about them</h3>
+      <p class="small">Through the <strong>administrator’s communiqué</strong> on your page, at the start of each round — and in your results, where the report separates <em>the effects of the shocks</em> from the effects of your policy and of the other countries’ policies.</p>
+      <p class="small muted" style="margin-top:.6em">Shocks are what a government actually faces: you do not choose the storm, you choose the sails.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">A · The rhythm</div>
+  <h2>How the session unfolds</h2>
+  <div class="timeline">
+    <div class="step"><div class="num">1</div><h3>Warm-up</h3><p>Every group governs <strong>France</strong> for three years. The other countries do nothing. A plan is submitted in one go, with a written strategy; the report comes back; you explain what happened.</p></div>
+    <div class="step"><div class="num">2</div><h3>The game, year by year</h3><p>One country per group. The administrator announces the year’s shocks; you decide for the year; the simulation runs; everybody reads the results and the ranking; next year.</p></div>
+    <div class="step"><div class="num">3</div><h3>The council of ministers</h3><p>At some point the council meets: pledges are public, decisions remain secret until the year is run. Then the gap between words and deeds is revealed.</p></div>
+  </div>
+  <p class="small muted" style="margin-top:1em">One licence, one administrator: you submit on your page (one PIN per group), the administrator types the decisions into MacSim and feeds the report back to the page. Nothing of what other teams decide is visible until the round is closed.</p>
+</section>
+
+<section>
+  <div class="kicker">A · The report</div>
+  <h2>What comes back after each run</h2>
+  <div class="cols c46">
+    <div>
+      <p class="small">For your country and year, five deviations from the reference path and the value of \(R\). Each one is split in three:</p>
+      <ul class="small chk">
+        <li><strong>effects of the shocks</strong> — the administrator’s doing</li>
+        <li><strong>your own policy</strong> — what you would have obtained in a world where nobody else moved</li>
+        <li><strong>foreign policies</strong> — what the other governments did to you, through trade, prices and interest rates</li>
+      </ul>
+      <p class="small muted">Zero in the warm-up, this last line is the whole point of the real game.</p>
+    </div>
+    <table class="tbl" style="font-size:.58em">
+      <tr><th style="white-space:nowrap">France, year 1</th><th class="num">GDP %</th><th class="num">Unemp. pt</th><th class="num">Infl. pt</th><th class="num">Pub. bal.</th><th class="num">Trade bal.</th><th class="num">R</th></tr>
+      <tr><td><strong>Total</strong></td><td class="num pos">+0.112</td><td class="num pos">−0.068</td><td class="num neg">+0.100</td><td class="num neg">−0.041</td><td class="num neg">−0.042</td><td class="num pos">+0.008</td></tr>
+      <tr><td class="muted" style="white-space:nowrap">of which own policy</td><td class="num">+0.112</td><td class="num">−0.068</td><td class="num">+0.100</td><td class="num">−0.041</td><td class="num">−0.042</td><td class="num">+0.008</td></tr>
+      <tr><td class="muted" style="white-space:nowrap">of which foreign policies</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td></tr>
+      <tr><td class="muted" style="white-space:nowrap">of which shocks</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td></tr>
+      <tr><td colspan="7" class="muted" style="font-size:.85em">Test run of 2 November 2026: public employment +1 % in year 1 (then +0.6 %, +0.5 %), nobody else moves.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ PART B ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Playing the open economy</div>
+  <h1>The model in broad strokes</h1>
+  <ul class="toc"><li><b>A</b>The game</li><li class="on"><b>B</b>The model in broad strokes</li><li><b>C</b>The warm-up</li><li><b>D</b>The real game</li></ul>
+</section>
+
+<section>
+  <div class="kicker">B · Architecture</div>
+  <h2>Five blocks per country, and two optional loops</h2>
+  <div class="cols c64" style="gap:22px">
+    <svg viewBox="0 0 720 430" role="img" aria-label="Blocks of the MacSim model and their links" style="width:100%;height:auto">
+      <defs><marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#14213d"/></marker>
+      <marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c29d2c"/></marker></defs>
+      <style>.bx{fill:#fff;stroke:#14213d;stroke-width:2}.bt{font:600 17px Inter,sans-serif;fill:#14213d}.lb{font:12.5px Inter,sans-serif;fill:#5b6475}.lo{font:12.5px Inter,sans-serif;fill:#8a6d1c}.ln{stroke:#14213d;stroke-width:2;fill:none;marker-end:url(#ma)}.op{stroke:#c29d2c;stroke-width:2.4;stroke-dasharray:7 5;fill:none;marker-end:url(#mg)}</style>
+      <rect class="bx" x="30" y="30" width="190" height="56" rx="10"/><text class="bt" x="125" y="64" text-anchor="middle">Interest rates</text>
+      <rect class="bx" x="500" y="30" width="190" height="56" rx="10"/><text class="bt" x="595" y="64" text-anchor="middle">Exchange rates</text>
+      <rect class="bx" x="265" y="160" width="190" height="60" rx="10"/><text class="bt" x="360" y="196" text-anchor="middle">Prices</text>
+      <rect class="bx" x="30" y="330" width="190" height="60" rx="10"/><text class="bt" x="125" y="366" text-anchor="middle">Public finances</text>
+      <rect class="bx" x="265" y="330" width="190" height="60" rx="10"/><text class="bt" x="360" y="366" text-anchor="middle">Product market</text>
+      <rect class="bx" x="500" y="330" width="190" height="60" rx="10"/><text class="bt" x="595" y="366" text-anchor="middle">Labour market</text>
+      <!-- always-on relations -->
+      <path class="ln" d="M125,86 C125,220 230,300 300,330"/><text class="lb" x="196" y="244">consumption, investment</text>
+      <path class="ln" d="M595,86 L595,120 L420,120 L420,158"/><text class="lb" x="428" y="113">import prices</text>
+      <path class="ln" d="M345,330 L345,222"/><text class="lb" x="292" y="282" text-anchor="end">demand</text>
+      <path class="ln" d="M375,222 L375,328"/><text class="lb" x="382" y="282">prices, real income</text>
+      <path class="ln" d="M560,330 L560,212 L457,212"/><text class="lb" x="500" y="236">wages</text>
+      <path class="ln" d="M455,345 L498,345"/><text class="lb" x="476" y="332" text-anchor="middle">employment</text>
+      <path class="ln" d="M498,375 L457,375"/><text class="lb" x="476" y="402" text-anchor="middle">consumption</text>
+      <path class="ln" d="M265,352 L222,352"/><text class="lb" x="224" y="344">taxes</text>
+      <path class="ln" d="M222,374 L263,374"/><text class="lb" x="224" y="396">spending</text>
+      <path class="ln" d="M595,390 L595,410 L125,410 L125,392"/><text class="lb" x="360" y="424" text-anchor="middle">public employment, social benefits</text>
+      <!-- options -->
+      <path class="op" d="M330,160 L330,74 L224,74"/><text class="lo" x="238" y="68">Taylor rule</text>
+      <path class="op" d="M498,42 L224,42"/><text class="lo" x="262" y="36">uncovered interest parity (option)</text>
+      <path class="op" d="M80,330 L80,88"/><text class="lo" x="88" y="312">risk premium</text>
+      <path class="op" d="M455,180 L640,180 L640,88"/><text class="lo" x="470" y="174">purchasing-power parity</text>
+    </svg>
+    <div class="small">
+      <p><strong>Solid arrows</strong>: always on. <strong>Dashed</strong>: the financial options chosen by the administrator. In our game: short-term rates follow a <strong>Taylor rule</strong> plus a <strong>risk premium</strong> on public deficits; exchange rates follow <strong>purchasing-power parity</strong>; the euro area shares one rate and one currency.</p>
+      <p class="muted">All ten countries have the same equations; only the estimated coefficients and the trade matrix differ.</p>
+    </div>
+  </div>
+  <div class="src">After Brillet, Cette &amp; Gambini (2012), “Real and financial economy interactions”.</div>
+</section>
+
+<section>
+  <div class="kicker">B · Demand</div>
+  <h2>Households consume income; firms invest when demand and profits justify it</h2>
+  <div class="cols">
+    <div class="card eq">
+      <h3>Consumption</h3>
+      <div class="formula">\( \Delta C = 0.24\,\Delta \text{Income} \;-\; 0.40\,\Delta U \;-\; 0.05\,\Delta \pi \)</div>
+      <ul class="small">
+        <li>a fraction of disposable income (net of taxes and contributions)…</li>
+        <li>…lower when unemployment rises (precautionary saving)…</li>
+        <li>…and when inflation rises (real balances).</li>
+      </ul>
+    </div>
+    <div class="card eq">
+      <h3>Investment</h3>
+      <div class="formula">\( K = 0.05\,K^{D} + 0.95\,K_{-1} + 0.10\,\text{Profit}, \quad K^{D} = \text{TFP}\cdot\text{GDP} - 0.65\,CK \)</div>
+      <ul class="small">
+        <li>the desired capital stock follows demand (accelerator) and falls with the <strong>cost of capital</strong> \(CK = P\,(r_{LT} - \delta + 0.02)\)</li>
+        <li>profits speed the adjustment; the long-term interest rate slows it.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:.6em">Hence the first chain of the game: public demand or lower taxes → income → consumption → GDP → investment. And its leaks: part of the demand goes to imports, part is saved.</p>
+  <div class="src">Coefficients: simplified reading of the MacSim 2 equations (course deck).</div>
+</section>
+
+<section>
+  <div class="kicker">B · Supply and the labour market</div>
+  <h2>Employment follows output and the cost of labour</h2>
+  <div class="cols c64">
+    <div class="card eq">
+      <div class="formula">\( L = \text{TFP}\cdot \text{GDP} - 0.35\,WC, \qquad U = \text{POP} - L \)</div>
+      <div class="formula">\( WC = (1+\tau)\,WB, \qquad WB = 0.56\,\pi \;-\; 2\,\Delta U \;+\; \text{residual} \)</div>
+      <ul class="small">
+        <li>Cobb-Douglas production; employment \(L\) rises with GDP and falls with the labour cost \(WC\) = wage bill × (1 + employer contribution rate \(\tau\)).</li>
+        <li>Wages index on inflation and fall when unemployment rises — a wage–price loop with a <strong>NAIRU</strong> for each country.</li>
+        <li>Unemployment is the gap between the active population and employment; public employment adds to \(L\) directly.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Which levers act here</h3>
+      <ul class="small chk">
+        <li>Employer contributions (3): labour cost → employment, prices</li>
+        <li>Public employment (1): jobs now, a wage bill forever</li>
+        <li>Relative public wage (10): a cost with no output</li>
+        <li>TFP shock: more output per worker — and fewer workers for a given output</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">B · Prices</div>
+  <h2>Inflation comes from costs and from tensions</h2>
+  <div class="cols c64">
+    <div>
+      <div class="formula eq">\( \pi = \alpha\,\Delta \text{Costs} \;+\; 0.19\,\Delta UT \;+\; \text{residual} \)</div>
+      <ul class="small">
+        <li><strong>Costs</strong>: wages, employer contributions, VAT, import prices — so labour-cost cuts and tariffs both show up here, with opposite signs.</li>
+        <li><strong>Capacity utilisation \(UT\)</strong>: when demand runs ahead of capacity, firms raise prices — the first restoring force against a demand stimulus.</li>
+        <li>A price-wage loop (WS–PS logic): prices → wages → costs → prices, damped by unemployment.</li>
+      </ul>
+    </div>
+    <table class="tbl">
+      <tr><th>Country</th><th class="num">\(\alpha\): pass-through of costs</th></tr>
+      <tr><td>France</td><td class="num">0.47</td></tr>
+      <tr><td>Netherlands</td><td class="num">0.39</td></tr>
+      <tr><td>Germany</td><td class="num">0.30</td></tr>
+      <tr><td>Italy</td><td class="num">0.27</td></tr>
+      <tr><td>United States</td><td class="num">0.24</td></tr>
+      <tr><td colspan="2" class="muted" style="font-size:.85em">The same cost shock moves French prices twice as much as American prices.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">B · Trade</div>
+  <h2>Your imports are their exports</h2>
+  <div class="cols c64">
+    <div class="eq">
+      <div class="formula">\( \Delta M_{i,j} = 1.0\,\Delta \text{GDP}_i \;-\; 0.49\,\frac{MP_j}{DP_i} \;+\; 0.047\,UT_i, \qquad X_{j,i} = M_{i,j} \)</div>
+      <div class="formula">\( \Delta XP_{i,j} = 0.27\,\Delta\pi_i + 0.14\,\Delta\lambda_{i,j} + \text{tariffs}_{i,j} \)</div>
+      <ul class="small">
+        <li>Imports of country \(i\) rise one-for-one with its GDP, fall with the <strong>price competitiveness</strong> of domestic firms (import price over domestic price), rise when domestic capacity is saturated.</li>
+        <li>The share of each supplier \(j\) in \(i\)’s imports depends on \(j\)’s export prices and on how saturated \(j\) is.</li>
+        <li>Export prices rise with domestic inflation and with an appreciation of the currency; a tariff raises them for the buyer.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Three consequences for players</h3>
+      <ul class="small chk">
+        <li>A stimulus at home is a gift to your suppliers: <strong>trade deficit</strong> for you, extra exports for them.</li>
+        <li>Inflation at home prices your exporters out — unless the exchange rate compensates.</li>
+        <li>Your tariff on Germany raises your import prices (inflation ↑) and Germany’s loss is other suppliers’ gain.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">B · Money and exchange rates</div>
+  <h2>The central bank reacts; the exchange rate follows prices</h2>
+  <div class="cols c64">
+    <div class="card eq">
+      <h3>Short-term rate: a Taylor rule plus a risk premium</h3>
+      <div class="formula" style="font-size:.92em">\( r_{ST} = \pi + 0.5\,(\pi - 2\%) + 0.5\,(UT - UT_{LT}) + \text{Premium} \)</div>
+      <div class="formula" style="font-size:.92em">\( \text{Premium} = a\,(\text{PB} - \text{PB}_{LT}) \qquad r_{LT} = 0.5\,r_{ST} + 0.5\,r_{ST,-1} + c \)</div>
+      <p class="small">Inflation above 2 % or demand above capacity → rates up; a public deficit above its long-run value → a premium on top. Long rates smooth short rates and drive investment.</p>
+    </div>
+    <div class="card eq">
+      <h3>Exchange rate: purchasing-power parity</h3>
+      <div class="formula">\( \Delta \lambda_{i,j} = \pi_j - \pi_i \)</div>
+      <p class="small">Your currency depreciates when your inflation exceeds your partner’s — restoring competitiveness, slowly. Inside the euro area there is nothing to restore: one rate, one currency, set on the <em>average</em> member.</p>
+      <p class="small muted">Which is why an inflationary stimulus in a euro member is a transfer of competitiveness to the others.</p>
+    </div>
+  </div>
+  <aside class="notes">Link with class 2 (Taylor rule, term structure) and class 4 (exchange-rate regimes). The risk premium links the budget to the cost of capital: the public balance is not only an objective, it is a transmission channel.</aside>
+</section>
+
+<section>
+  <div class="kicker">B · Restoring forces</div>
+  <h2>Why policies fade: three tensions, three brakes</h2>
+  <table class="tbl" style="font-size:.74em">
+    <tr><th>Tension indicator</th><th>Where it bites</th><th>Horizon</th></tr>
+    <tr><td><strong>Capacity utilisation</strong> (product market)</td><td>prices ↑, exports ↓, imports ↑</td><td>transitory</td></tr>
+    <tr><td><strong>Unemployment vs NAIRU</strong> (labour market)</td><td>wages, prices, external and internal demand</td><td>medium to long term</td></tr>
+    <tr><td><strong>Public balance</strong> (in points of GDP)</td><td>short and long interest rates → household and firm demand</td><td>medium term</td></tr>
+  </table>
+  <div class="cols" style="margin-top:.8em">
+    <div class="keyidea"><span class="qtag">Rule 1</span><h3>Demand policies do not move the long-run equilibrium</h3><p class="xs">They buy output now; prices, interest rates and imports take it back over the years.</p></div>
+    <div class="keyidea"><span class="qtag">Rule 2</span><h3>Only supply policies move the NAIRU, productivity or participation</h3><p class="xs">Slower to act, but their effects last — the “sustainable growth strategy” of the model’s authors.</p></div>
+  </div>
+  <div class="src">Brillet, Cette &amp; Gambini (2012), §V.2.</div>
+</section>
+
+<section>
+  <div class="kicker">B · Two experiments</div>
+  <h2>What one point of policy buys — in France, and in Germany next door</h2>
+  <div class="cols c64" style="gap:22px">
+    <div class="chart sm"><canvas data-chart="exp"></canvas></div>
+    <div class="small">
+      <p><strong>Demand shock</strong>: public demand +1 point of GDP. Year 1: GDP +0.56 %, trade balance −0.44 pt, public balance −0.48 pt. Year 8: GDP +0.41 % only, prices +0.40 %.</p>
+      <p><strong>Supply shock</strong>: employer contributions −1 point. Year 1: GDP +0.22 %, prices −0.56 %. Year 8: GDP +0.90 %, trade balance +0.25 pt.</p>
+      <p class="muted">Germany, which did nothing, gains +0.10 % of GDP and a better trade balance from the French stimulus — the “foreign policies” line of its report.</p>
+    </div>
+  </div>
+  <div class="src">Brillet, Cette &amp; Gambini (2012), §VI.2, simulations on France; deviations from the reference account.</div>
+</section>
+
+<section>
+  <span class="qtag">Check</span>
+  <h2>France raises public demand by one point of GDP, alone. In year 1, which of these is most likely?</h2>
+  <div class="quiz" data-answer="1" data-fb="In the model, GDP rises by about half the impulse (+0.56 %), imports follow demand and the trade balance worsens by −0.44 pt; the budget pays the spending minus the extra tax receipts (−0.48 pt). Prices barely move in year 1 — the capacity tension builds up later.">
+    <button>GDP +1 %, trade balance unchanged, budget −1 pt</button><button>GDP +0.5 %, trade balance −0.4 pt, budget −0.5 pt</button><button>GDP +0.5 %, trade balance +0.4 pt, budget −0.5 pt</button><button>GDP +0.2 %, prices −0.5 %, budget −0.2 pt</button>
+  </div>
+  <div class="quiz-fb"></div>
+</section>
+
+<!-- ============ PART C ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Playing the open economy</div>
+  <h1>The warm-up</h1>
+  <ul class="toc"><li><b>A</b>The game</li><li><b>B</b>The model in broad strokes</li><li class="on"><b>C</b>The warm-up</li><li><b>D</b>The real game</li></ul>
+</section>
+
+<section>
+  <div class="kicker">C · The assignment</div>
+  <h2>Govern France for three years — alone</h2>
+  <div class="cols" style="gap:18px">
+    <div class="card" style="padding:12px 18px"><h3>The setting</h3><p class="xs">Every group governs <strong>France</strong>; the nine other economies keep their policies unchanged. The administrator has applied the same <strong>initial shock</strong> to everyone — read the communiqué on your page.</p></div>
+    <div class="card" style="padding:12px 18px"><h3>The instruments</h3><p class="xs">A policy for <strong>years 1, 2 and 3</strong> among six levers: public employment, public demand, social benefits, income tax, employer contributions, VAT. <strong>At most four</strong>, each within <strong>±10 %</strong> of its reference level.</p></div>
+    <div class="card" style="padding:12px 18px"><h3>Before the run: your strategy</h3><p class="xs">150 characters at least: which objective each lever targets, through which mechanism, what you expect for the five components of \(R\). One submission per group, revisable until the round closes.</p></div>
+    <div class="card" style="padding:12px 18px"><h3>After the run: your analysis</h3><p class="xs">Your page shows the five deviations, \(R\) and the breakdown. Explain the gaps with your forecast: which restoring force, which leak, which timing you had missed.</p></div>
+  </div>
+  <div class="keyidea" style="margin-top:12px;padding:10px 20px"><span class="qtag">Objective</span>
+    <h3 style="font-size:.95em">Maximise \(R\) over three years — and predict the sign and the size of each result before you see it</h3>
+    <p class="xs">Being right for the right reasons is worth more than a good \(R\). Debrief: all plans and all results side by side.</p></div>
+</section>
+
+<section>
+  <div class="kicker">C · How to submit</div>
+  <h2>Your page: one PIN per group, one submission per group</h2>
+  <div class="cols c46" style="gap:28px">
+    <div class="xs">
+      <ol>
+        <li>Open the course site → <strong>MacSim 2 · Policy desk</strong>; enter your group’s 4-digit PIN (one device submits, the others watch).</li>
+        <li>Read the <strong>administrator’s communiqué</strong>: the shock, the time left (a countdown runs).</li>
+        <li>Fill the three columns. <strong>0 = no change from the reference</strong>; a measure kept for three years is typed three times.</li>
+        <li>The counter tells you how many instruments you are using; the bounds are checked as you type.</li>
+        <li>Write the strategy, <strong>Submit</strong>. Resubmitting replaces the previous plan.</li>
+        <li>When your results are published, your page shows the five deviations, \(R\), and the breakdown; then the box for your analysis.</li>
+      </ol>
+    </div>
+    <div class="screen">
+      <div class="row"><span><strong>Your 3-year plan for France</strong></span><span class="muted">Year 1 · Year 2 · Year 3</span></div>
+      <div class="row"><span>1. Public employment <span class="muted">% of ref.</span></span><span><span class="in nz">1</span> <span class="in nz">0.6</span> <span class="in nz">0.5</span></span></div>
+      <div class="row"><span>2. Public demand <span class="muted">% of ref.</span></span><span><span class="in">0</span> <span class="in">0</span> <span class="in">0</span></span></div>
+      <div class="row"><span>3. Employer social contribution rate</span><span><span class="in nz">-3</span> <span class="in nz">-3</span> <span class="in nz">-3</span></span></div>
+      <div class="row"><span>7. Household income tax rate</span><span><span class="in">0</span> <span class="in">0</span> <span class="in">0</span></span></div>
+      <div class="row"><span>9. VAT rate</span><span><span class="in">0</span> <span class="in nz">2</span> <span class="in nz">2</span></span></div>
+      <div class="row"><span class="muted">Instruments used: 3 / 4</span><span class="muted">301 / 150 characters</span></div>
+      <div class="row"><span class="muted">Your strategy, a priori…</span><span class="btn">Submit our decisions</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">C · Before you click</div>
+  <h2>Design a policy like an economist, not like a gambler</h2>
+  <div class="cols c3">
+    <div class="card"><div class="big">1</div><h3>Which objective?</h3><p class="small muted">Pick the components of \(R\) you go for, and those you accept to lose. You cannot win all five alone.</p></div>
+    <div class="card"><div class="big">2</div><h3>Which channel?</h3><p class="small muted">For each instrument, trace the chain to the objective — and the side chains to the other four (prices, imports, budget, interest rates).</p></div>
+    <div class="card"><div class="big">3</div><h3>Which timing?</h3><p class="small muted">Demand acts now and fades; supply acts late and lasts. A three-year profile is a choice, not three copies of year 1.</p></div>
+  </div>
+  <div class="keyidea" style="margin-top:18px"><span class="qtag">Orders of magnitude</span>
+    <h3>From the test run: public employment +1 % → GDP +0.11 % in year 1, unemployment −0.07 pt, prices +0.10 pt, both balances −0.04 pt</h3>
+    <p class="xs">A +10 % shock on one lever is about ten times that. Write your expected signs and sizes in the strategy box: the debrief compares them with the report.</p></div>
+</section>
+
+<!-- ============ PART D ============ -->
+<section class="divider" data-background-color="#14213d">
+  <div class="kicker">Playing the open economy</div>
+  <h1>The real game</h1>
+  <ul class="toc"><li><b>A</b>The game</li><li><b>B</b>The model in broad strokes</li><li><b>C</b>The warm-up</li><li class="on"><b>D</b>The real game</li></ul>
+</section>
+
+<section>
+  <div class="kicker">D · After the warm-up</div>
+  <h2>One country each, year by year, with everybody else moving</h2>
+  <div class="cols">
+    <div>
+      <ul class="small">
+        <li>Each group receives a country: Germany, France, Italy, Netherlands, United Kingdom, United States, Japan.</li>
+        <li>Each year: the administrator’s communiqué (the shocks), a timer, your decisions for the year with a short justification, the run, the results and the ranking on the board.</li>
+        <li>All eleven levers are open, within ±10 %; leaving or joining the euro and productivity shocks need the administrator’s consent.</li>
+        <li>Decisions stay <strong>secret while the round is open</strong>; once it is closed, everyone sees what everyone did.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The council of ministers</h3>
+      <p class="small">At some point the council is convened: each government may post a <strong>public pledge</strong> (“we stimulate by 0.5 if you do”). Decisions remain private until the year is run; afterwards the board shows who kept their word.</p>
+      <p class="small muted" style="margin-top:.6em">Coordination, free-riding, retaliation: the prisoner’s dilemma, lived before it is discussed.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">D · To think about during the warm-up</div>
+  <h2>What changes when the others play too?</h2>
+  <ul>
+    <li>Your stimulus leaks abroad through imports; theirs leaks to you. A joint stimulus has no trade-balance cost for anyone; a lonely stimulus pays for everybody’s recovery.</li>
+    <li>A cost cut at home is a competitiveness gain against partners who do nothing — and nothing at all if everybody does it.</li>
+    <li>Inside the euro area, the central bank reacts to the <em>average</em>: your inflation is partly their problem, their rigour is partly your interest rate.</li>
+    <li>Tariffs redirect trade more than they create it; expect an answer.</li>
+  </ul>
+  <p class="small muted" style="margin-top:1em">Read your warm-up report with this in mind: the line “foreign policies” is empty today. Next time it will be where the game is decided.</p>
+  <div class="src">Reading for the game: Brillet, Cette &amp; Gambini (2012), sections I–V; course deck on international coordination.</div>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script>const C = {ink:'#1b2437',muted:'#5b6475',gold:'#c29d2c',navy:'#14213d',gain:'#1f8a70',loss:'#c8453b',blue:'#2f5d9e',line:'#e6e2d6',grey:'#b9bfca'};
+Chart.defaults.font.family='Inter, system-ui, sans-serif';
+Chart.defaults.font.size=14;
+Chart.defaults.color=C.muted;
+Chart.defaults.plugins.legend.labels.boxWidth=14;
+const grid={color:'#ece9e0'};
+const charts={};
+
+/* ---------- quizzes ---------- */
+document.querySelectorAll('.quiz').forEach(q=>{
+  const ans=+q.dataset.answer, fb=q.nextElementSibling;
+  q.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{
+    q.querySelectorAll('button').forEach((bb,j)=>{bb.classList.remove('right','wrong'); if(j===ans) bb.classList.add('right'); else if(j===i) bb.classList.add('wrong');});
+    fb.textContent=(i===ans?'✓ Correct. ':'Not quite. ')+q.dataset.fb;
+  }));
+});
+
+/* ---------- Brillet, Cette & Gambini (2012) §VI.2: two simple shocks on France ---------- */
+const EXP={
+  labels:['GDP (%)','Consumer prices (%)','Current account (pt GDP)','Public balance (pt GDP)'],
+  demand1:[0.56,-0.03,-0.44,-0.48], demand8:[0.41,0.40,-0.46,-0.31],
+  supply1:[0.22,-0.56,-0.01,-0.19], supply8:[0.90,-1.13,0.25,-0.20]
+};
+function buildExp(el){
+  return new Chart(el,{type:'bar',data:{labels:EXP.labels,datasets:[
+    {label:'Public demand +1 pt · year 1',data:EXP.demand1,backgroundColor:C.navy},
+    {label:'Public demand +1 pt · year 8',data:EXP.demand8,backgroundColor:'#8fa3c7'},
+    {label:'Employer contributions −1 pt · year 1',data:EXP.supply1,backgroundColor:C.gold},
+    {label:'Employer contributions −1 pt · year 8',data:EXP.supply8,backgroundColor:'#e4cf8e'}
+  ]},options:{maintainAspectRatio:false,animation:{duration:400},
+    plugins:{legend:{position:'top',align:'start'},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw>0?'+':''}${c.raw.toFixed(2)}`}}},
+    scales:{x:{grid:{display:false}},y:{grid,title:{display:true,text:'deviation from the reference account'}}}}});
+}
+function initCharts(slide){
+  if(!slide) return;
+  slide.querySelectorAll('canvas[data-chart]').forEach(cv=>{const k=cv.dataset.chart; if(charts[k]) return; charts[k]=buildExp(cv);});
+}
+
+/* ---------- Reveal ---------- */
+Reveal.initialize({hash:true,slideNumber:'c/t',progress:true,center:false,transition:'slide',backgroundTransition:'fade',width:1280,height:720,margin:0.04,
+  katex:{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','code']},
+  plugins:[RevealMath.KaTeX,RevealNotes]}).then(()=>initCharts(Reveal.getCurrentSlide()));
+Reveal.on('slidechanged',e=>initCharts(e.currentSlide));
+</script>
+</body>
+</html>
