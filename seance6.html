@@ -76,6 +76,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 .tbl th{background:var(--navy);color:#fff;font-weight:600;padding:7px 12px;text-align:left}
 .tbl td{padding:6px 12px;border-top:1px solid var(--line);vertical-align:top}
 .tbl td.num,.tbl th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl.bs td,.tbl.bs th{padding:3px 8px}
 .tbl tr.grp td{background:var(--blue-soft);color:var(--navy);font-weight:600;font-size:.9em;letter-spacing:.06em;text-transform:uppercase}
 .tbl .n{display:inline-block;width:1.5em;color:var(--muted)}
 .pos{color:var(--gain);font-weight:600}.neg{color:var(--loss);font-weight:600}
@@ -120,7 +121,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
   <h2>Today’s roadmap</h2>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:1em">
     <div class="card"><div class="big">A</div><h3 style="margin-top:.5em">The game</h3><p class="small muted">A monetary union, one objective function, four policy levers, shocks from the administrator</p></div>
-    <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">The model in broad strokes</h3><p class="small muted">The open-economy model of class 5, with several members, one currency and one stock of reserves</p></div>
+    <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">The model in broad strokes</h3><p class="small muted">The open-economy model of class 5, with several members, firms and banks, one currency and one stock of reserves</p></div>
     <div class="card"><div class="big">C</div><h3 style="margin-top:.5em">The warm-up</h3><p class="small muted">Every group governs France for three years, alone; submit, read the report, explain</p></div>
     <div class="card"><div class="big">D</div><h3 style="margin-top:.5em">The real game</h3><p class="small muted">One country each, year by year, with a council of ministers — after the warm-up</p></div>
   </div>
@@ -250,7 +251,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
       <h3>Shocks on the whole union</h3>
       <ul class="small">
         <li><strong>World demand</strong>: the rest of the world buys more, or less, from everyone — each member hit according to its exports.</li>
-        <li><strong>Central-bank rate</strong>: one rate for the union — the interest households earn, the cost of every government’s debt.</li>
+        <li><strong>Central-bank rate</strong>: one rate for the union — it cuts firms’ investment with a one-year lag (contractionary) and raises the debt service of every government.</li>
         <li><strong>Household confidence</strong>: the propensity to consume out of income moves up or down.</li>
         <li><strong>Import propensity</strong> (an oil-type shock): more is spent abroad for the same output.</li>
       </ul>
@@ -297,20 +298,24 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 <section>
   <div class="kicker">B · Who holds what</div>
   <h2>The balance sheet of the union</h2>
-  <table class="tbl" style="font-size:.66em">
-    <tr><th style="width:18%"></th><th class="num">Households of \(i\)</th><th class="num">Government of \(i\)</th><th class="num">Central bank</th><th class="num">Rest of the world</th><th class="num">Σ</th></tr>
-    <tr><td>Cash</td><td class="num">\(+H_i\)</td><td class="num"></td><td class="num">\(-\sum_i H_i\)</td><td class="num"></td><td class="num">0</td></tr>
-    <tr><td>Government bills</td><td class="num">\(+B_{h,i}\)</td><td class="num">\(-B_i\)</td><td class="num">\(+\sum_i B_{cb,i}\)</td><td class="num"></td><td class="num">0</td></tr>
-    <tr><td>Foreign reserves</td><td class="num"></td><td class="num"></td><td class="num">\(+xr\cdot R\)</td><td class="num">\(-xr\cdot R\)</td><td class="num">0</td></tr>
-    <tr><td><strong>Net worth</strong></td><td class="num">\(V_i\)</td><td class="num">\(-B_i\)</td><td class="num">\(NW_{cb}\)</td><td class="num">\(-xr\cdot R\)</td><td class="num">0</td></tr>
+  <table class="tbl bs" style="font-size:.54em">
+    <tr><th style="width:15%"></th><th class="num">Households of \(i\)</th><th class="num">Firms of \(i\)</th><th class="num">Banks of \(i\)</th><th class="num">Government of \(i\)</th><th class="num">Central bank</th><th class="num">Rest of the world</th><th class="num">Σ</th></tr>
+    <tr><td>Cash</td><td class="num">\(+H_i\)</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">\(-\sum_i H_i\)</td><td class="num"></td><td class="num">0</td></tr>
+    <tr><td>Deposits</td><td class="num">\(+M_i\)</td><td class="num"></td><td class="num">\(-M_i\)</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">0</td></tr>
+    <tr><td>Loans</td><td class="num"></td><td class="num">\(-L_i\)</td><td class="num">\(+L_i\)</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">0</td></tr>
+    <tr><td>Capital</td><td class="num"></td><td class="num">\(+K_i\)</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">\(K_i\)</td></tr>
+    <tr><td>Government bills</td><td class="num">\(+B_{h,i}\)</td><td class="num"></td><td class="num">\(+B_{b,i}\)</td><td class="num">\(-B_i\)</td><td class="num">\(+\sum_i B_{cb,i}\)</td><td class="num"></td><td class="num">0</td></tr>
+    <tr><td>Advances</td><td class="num"></td><td class="num"></td><td class="num">\(-A_i\)</td><td class="num"></td><td class="num">\(+\sum_i A_i\)</td><td class="num"></td><td class="num">0</td></tr>
+    <tr><td>Foreign reserves</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">\(+xr\cdot R\)</td><td class="num">\(-xr\cdot R\)</td><td class="num">0</td></tr>
+    <tr><td><strong>Net worth</strong></td><td class="num">\(V_i\)</td><td class="num">\(K_i - L_i = 0\)</td><td class="num">0</td><td class="num">\(-B_i\)</td><td class="num">\(NW_{cb}\)</td><td class="num">\(-xr\cdot R\)</td><td class="num">\(K_i\)</td></tr>
   </table>
-  <div class="cols" style="margin-top:12px;gap:22px">
-    <div class="small">
-      <p>Households hold their wealth \(V_i\) in <strong>cash</strong> and in the <strong>bills</strong> of their own government. Each government’s only liability is its bills \(B_i\). The <strong>common central bank</strong> issues the cash, holds the bills households do not want, and holds the union’s <strong>foreign reserves</strong> \(R\).</p>
-      <p class="muted">Every row sums to zero: a claim for someone is a liability for someone else — class 5’s first rule.</p>
+  <div class="cols" style="margin-top:8px;gap:22px">
+    <div class="xs">
+      <p style="margin:.2em 0">Households hold their wealth \(V_i\) in <strong>cash</strong>, <strong>deposits</strong> and the <strong>bills</strong> of their own government. <strong>Firms</strong> own the capital and owe it to the <strong>banks</strong>, which created the deposits by lending; a bank short of deposits borrows from the central bank. The <strong>common central bank</strong> issues the cash, refinances the banks, buys the bills nobody else wants, and holds the union’s <strong>reserves</strong> \(R\).</p>
+      <p class="muted" style="margin:.2em 0">Every financial row sums to zero: a claim for someone is a liability for someone else. Only real capital is net wealth for the union.</p>
     </div>
-    <div class="card" style="font-size:.64em;padding:10px 16px"><h3 style="font-size:1.2em">Notation</h3>
-      <p>\(i\): a member of the union · \(H_i\): cash · \(B_{h,i}\): bills held by households · \(B_i\): bills issued by the government · \(B_{cb,i}\): bills held by the central bank</p>
+    <div class="card" style="font-size:.56em;padding:6px 12px"><h3 style="font-size:1.2em;margin-bottom:.1em">Notation</h3>
+      <p>\(i\): a member · \(H_i\): cash · \(M_i\): deposits · \(L_i\): bank loans to firms · \(K_i\): capital stock · \(B_{h,i}\), \(B_{b,i}\), \(B_{cb,i}\): bills held by households, banks, the central bank · \(B_i\): bills issued · \(A_i\): central-bank advances to banks</p>
       <p>\(R\): reserves, in world currency · \(xr\): price of one unit of world currency in the union’s currency (\(xr\) up = devaluation) · \(V_i\): household wealth · \(NW_{cb}\): central-bank net worth (valuation gains on reserves only)</p></div>
   </div>
 </section>
@@ -320,24 +325,51 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
   <h2>Households spend out of income and wealth — class 5, again</h2>
   <div class="cols c64" style="gap:22px">
     <div>
-<div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( Y_i = C_i + G_i + X_i - IM_i \)</div>
+<div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( Y_i = C_i + G_i + I_i + X_i - IM_i \)</div>
       <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( CE_i = \alpha_1\, YD_i + \alpha_2\, V_{i,-1}, \qquad C_i = (1-\tau_{c,i})\, CE_i \)</div>
       <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( V_i = V_{i,-1} + YD_i - CE_i \)</div>
-      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( B_{h,i} = V_i\,(\lambda_0 + \lambda_1\, r), \qquad H_i = V_i - B_{h,i} \)</div>
+      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( B_{h,i} = V_i\,(\lambda_0 + \lambda_1\, r), \qquad M_i = \nu\,(V_i - B_{h,i}), \qquad H_i = V_i - B_{h,i} - M_i \)</div>
       <ul class="small">
-        <li>Output is what is bought: consumption, public demand, exports — minus what is bought abroad.</li>
-        <li>Households spend a fraction of disposable income (\(\alpha_1 = 0.75\)) plus a fraction of last year’s wealth; what they do not spend becomes wealth, held in bills or cash depending on the interest rate.</li>
+        <li>Output is what is bought: consumption, public demand, firms’ investment, exports — minus what is bought abroad.</li>
+        <li>Households spend a fraction of disposable income (\(\alpha_1 = 0.75\)) plus a fraction of last year’s wealth; what they do not spend becomes wealth, held in <strong>bills, deposits or cash</strong> — more bills when the interest rate is higher.</li>
         <li>Part of their spending is the <strong>consumption tax</strong>; the rest is demand for goods.</li>
       </ul>
     </div>
     <div class="card" style="font-size:.64em">
       <h3 style="font-size:1.2em">Notation</h3>
-      <p>\(Y_i\): output (GDP); \(C_i\): consumption of goods; \(G_i\): public demand; \(X_i\): exports; \(IM_i\): imports, in the union’s currency</p>
+      <p>\(Y_i\): output (GDP); \(C_i\): consumption of goods; \(G_i\): public demand; \(I_i\): investment; \(X_i\): exports; \(IM_i\): imports, in the union’s currency</p>
       <p>\(CE_i\): household spending, tax included; \(YD_i\): disposable income</p>
       <p>\(\tau_{c,i} = \tau_i/(1+\tau_i)\): share of spending taken by the consumption tax</p>
-      <p>\(V_i\): wealth; \(B_{h,i}\): bills held; \(H_i\): cash; \(r\): the central bank’s rate</p>
-      <p>\(\alpha_1, \alpha_2\): propensities to consume out of income and wealth; \(\lambda_0, \lambda_1\): portfolio parameters</p>
+      <p>\(V_i\): wealth; \(B_{h,i}\): bills held; \(M_i\): deposits; \(H_i\): cash; \(r\): the central bank’s rate</p>
+      <p>\(\alpha_1, \alpha_2\): propensities to consume out of income and wealth; \(\lambda_0, \lambda_1, \nu\): portfolio parameters</p>
       <p>\(x_{-1}\): last year’s value of \(x\)</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">B · Firms and banks</div>
+  <h2>Firms borrow to invest; banks lend what is asked</h2>
+  <div class="cols c64" style="gap:22px">
+    <div>
+<div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( I_i = I^*_i\,\big(1 - \iota\,(r_{-1} - r^*)\big), \qquad I_i \ge \tfrac{1}{2} I^*_i \)</div>
+      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( K_i = K_{i,-1} + I_i - AF_i, \qquad AF_i = \delta\, K^*_i, \qquad L_i = K_i \)</div>
+      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( YF_i = Y_i - AF_i - r_{-1} L_{i,-1} \)</div>
+      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( B_{b,i} = \max(0,\, M_i - L_i), \qquad A_i = \max(0,\, L_i - M_i) \)</div>
+      <ul class="small">
+        <li>At the reference, investment only <strong>replaces</strong> worn-out capital: 10 % of GDP, a tenth of a capital stock worth one year of output.</li>
+        <li>A higher policy rate lowers the capital firms want and <strong>cuts investment the following year</strong> — the contractionary channel of monetary policy — while raising every government’s debt service.</li>
+        <li><strong>Banks accommodate</strong>: every loan creates a deposit (endogenous money, class 2), at zero spread; a bank short of deposits is refinanced by the central bank. What firms neither retain nor pay in interest goes to households.</li>
+      </ul>
+    </div>
+    <div class="card" style="font-size:.58em;padding:8px 14px">
+      <h3 style="font-size:1.2em;margin-bottom:.1em">Notation</h3>
+      <p>\(I_i\): investment; \(I^*_i\): its reference level; \(K_i\): capital stock; \(K^*_i\): its reference (\(= Y^*_i\))</p>
+      <p>\(\delta = 0.10\): depreciation rate; \(AF_i\): amortisation funds retained by firms</p>
+      <p>\(\iota = 12\): sensitivity of investment to the rate; \(r^*\): the reference rate (3 %)</p>
+      <p>\(L_i\): bank loans; \(M_i\): deposits; \(B_{b,i}\): bills held by banks; \(A_i\): advances from the central bank</p>
+      <p>\(YF_i\): income distributed to households by firms</p>
+      <p>Orders of magnitude: rate +1 pt → investment −12 % and GDP ≈ −1.1 % the next year, for every member; public balance ≈ −1 pt</p>
     </div>
   </div>
 </section>
@@ -347,22 +379,23 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
   <h2>Taxes, debt, and a central bank that buys the rest</h2>
   <div class="cols c64" style="gap:22px">
     <div>
-<div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( T_i = \theta_i\,(Y_i + r_{-1} B_{h,i,-1}) + \tau_{c,i}\, CE_i \)</div>
-      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( YD_i = (1-\theta_i)\,(Y_i + r_{-1} B_{h,i,-1}) + TR_i \)</div>
+<div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( T_i = \theta_i\,\big(YF_i + r_{-1} (B_{h,i,-1} + M_{i,-1})\big) + \tau_{c,i}\, CE_i \)</div>
+      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( YD_i = (1-\theta_i)\,\big(YF_i + r_{-1} (B_{h,i,-1} + M_{i,-1})\big) + TR_i \)</div>
       <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( B_i = B_{i,-1} + G_i + TR_i + r_{-1} B_{i,-1} - T_i - F_{cb,i} \)</div>
-      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( B_{cb,i} = B_i - B_{h,i} \)</div>
+      <div class="formula eq" style="font-size:.86em;margin:.18em 0;padding:5px 16px">\( B_{cb,i} = B_i - B_{h,i} - B_{b,i} \)</div>
       <ul class="small">
-        <li>The government taxes income and interest at rate \(\theta_i\), and spending at rate \(\tau_{c,i}\); it spends on goods and on benefits, and pays interest on its debt.</li>
-        <li>Whatever the deficit, the <strong>bills households do not demand are bought by the central bank</strong>: money is endogenous, the interest rate is the policy variable.</li>
-        <li>The central bank’s interest income \(F_{cb,i}\) is rebated to the government: the state only pays interest on the bills households hold.</li>
+        <li>The government taxes household income — what firms distribute plus the interest on bills and deposits — at rate \(\theta_i\), and spending at rate \(\tau_{c,i}\); it spends on goods and on benefits, and pays interest on its debt.</li>
+        <li>Whatever the deficit, the <strong>bills households and banks do not demand are bought by the central bank</strong>: money is endogenous, the interest rate is the policy variable.</li>
+        <li>The central bank’s interest income \(F_{cb,i}\) — on its bills and on its advances to banks — is rebated to the government.</li>
       </ul>
     </div>
     <div class="card" style="font-size:.64em">
       <h3 style="font-size:1.2em">Notation</h3>
       <p>\(T_i\): tax receipts; \(\theta_i\): income tax rate; \(\tau_{c,i}\): consumption tax share</p>
       <p>\(TR_i\): social benefits; \(G_i\): public demand</p>
-      <p>\(B_i\): government debt (bills); \(B_{cb,i}\): bills held by the central bank; \(B_{h,i}\): by households</p>
-      <p>\(F_{cb,i} = r_{-1} B_{cb,i,-1}\): central-bank profit rebated to government \(i\)</p>
+      <p>\(YF_i\): income distributed by firms; \(M_i\): deposits</p>
+      <p>\(B_i\): government debt (bills); \(B_{h,i}\), \(B_{b,i}\), \(B_{cb,i}\): bills held by households, banks, the central bank</p>
+      <p>\(F_{cb,i} = r_{-1} (B_{cb,i,-1} + A_{i,-1})\): central-bank profit rebated to government \(i\)</p>
       <p>Public balance \(PB_i = T_i + F_{cb,i} - G_i - TR_i - r_{-1} B_{i,-1}\), read in points of GDP</p>
     </div>
   </div>
@@ -445,32 +478,34 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
   <div class="kicker">B · What to expect</div>
   <h2>What a stimulus buys, what it costs, and what brings it back</h2>
   <div class="cols">
-    <div class="card">
+    <div class="card" style="padding:14px 18px">
       <h3>A rise in public demand</h3>
-      <ul class="small chk">
-        <li>Output rises with a <strong>multiplier of about 1.25</strong> at impact: income → consumption → income.</li>
-        <li>Thirty cents of every extra euro of output leak into <strong>imports</strong>: your trade balance worsens, your partners’ exports rise — every trade deficit is someone else’s surplus.</li>
+      <ul class="xs chk">
+        <li>Output rises with a <strong>multiplier of about 1.2</strong> at impact: income → consumption → income.</li>
+        <li>Thirty cents of every extra euro leak into <strong>imports</strong>: your trade balance worsens, your partners’ exports rise — every deficit is someone else’s surplus.</li>
         <li>The <strong>budget</strong> pays: spending up, taxes recover only part of it.</li>
         <li>The <strong>union</strong> pays too: half the leak goes to the rest of the world, out of the shared reserves.</li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="padding:14px 18px">
       <h3>The restoring forces — and the missing one</h3>
-      <ul class="small chk">
-        <li><strong>The wealth target</strong>: households save until wealth matches income, then stop — the stimulus settles at a new level instead of growing.</li>
+      <ul class="xs chk">
+        <li><strong>The wealth target</strong>: households save until wealth matches income, then stop — the stimulus settles at a level instead of growing.</li>
         <li><strong>Taxes</strong>: higher income means higher receipts, part of the deficit closes itself.</li>
         <li><strong>Imports</strong>: part of the extra demand never reaches domestic output.</li>
-        <li><strong>No price force</strong>: prices are read, not played. Nothing erodes competitiveness over time; only the reserves — and the administrator — set a limit.</li>
+        <li><strong>No price force</strong>: prices are read, not played; only the reserves — and the administrator — set a limit.</li>
       </ul>
     </div>
   </div>
+  <div class="keyidea" style="margin-top:8px;padding:6px 20px"><span class="qtag">A rate rise</span>
+    <p class="xs" style="margin:.15em 0">Nothing in year 1; in year 2, investment −12 % and GDP ≈ −1 % for <em>everyone</em> in the union, unemployment up, while every budget pays the higher debt service. One rate, seven economies.</p></div>
 </section>
 
 <section>
   <span class="qtag">Check</span>
   <h2>France raises public demand by 10 % of its reference (about 2 points of GDP), alone, in year 1. Which pattern is most likely?</h2>
-  <div class="quiz" data-answer="0" data-fb="Multiplier of about 1.25 on 2 points of GDP: output +2.5 %; imports take 30 % of the extra output: trade balance −0.7 pt; taxes recover almost half of the spending: public balance −1.1 pt; Okun: unemployment −1 pt; Phillips: inflation +0.75 pt. Germany gets the mirror image: more exports, a better trade balance.">
-    <button>GDP +2.5 %, unemployment −1 pt, trade balance −0.7 pt, public balance −1.1 pt</button><button>GDP +2 %, trade balance unchanged, public balance −2 pt</button><button>GDP +2.5 %, trade balance +0.7 pt, public balance −1.1 pt</button><button>GDP +1 %, inflation −0.5 pt, public balance −0.5 pt</button>
+  <div class="quiz" data-answer="0" data-fb="Multiplier of about 1.2 on 2 points of GDP: output +2.4 %; imports take 30 % of the extra output: trade balance −0.7 pt; taxes recover almost half of the spending: public balance −1.1 pt; Okun: unemployment −1 pt; Phillips: inflation +0.7 pt. Germany gets the mirror image: more exports, a better trade balance.">
+    <button>GDP +2.4 %, unemployment −1 pt, trade balance −0.7 pt, public balance −1.1 pt</button><button>GDP +2 %, trade balance unchanged, public balance −2 pt</button><button>GDP +2.4 %, trade balance +0.7 pt, public balance −1.1 pt</button><button>GDP +1 %, inflation −0.5 pt, public balance −0.5 pt</button>
   </div>
   <div class="quiz-fb"></div>
 </section>
