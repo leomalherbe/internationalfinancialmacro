@@ -434,7 +434,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
       <ul class="small">
         <li>Inside the union, no exchange rate. With the rest of the world, the rate is <strong>fixed</strong>: when the union imports more than it exports, the central bank sells reserves — \(R\) falls.</li>
         <li>The reserves are <strong>shared</strong>: one member’s stimulus leaks into imports, and everybody’s reserves pay for it. Reference stock: three months of the union’s imports from the rest of the world.</li>
-        <li><strong>Alert line</strong> at 25 % of the initial stock. Below it, the administrator may <strong>devalue</strong> (\(xr\) jumps): exports recover, import prices jump, inflation follows.</li>
+        <li><strong>Alert line</strong> at 25 % of the initial stock. Below it, the union must choose — <strong>austerity or devaluation</strong> — by a vote (part D). Reserves gone while the deficit continues: a <strong>forced devaluation</strong>.</li>
       </ul>
       <div class="keyidea" style="margin-top:8px;padding:8px 16px"><span class="qtag">Twin deficits</span>
         <p class="xs" style="margin:.2em 0">At the stationary state households stop saving, so for every member: <strong>public deficit = external deficit</strong>. A permanent stimulus is a permanent drain on the common reserves.</p></div>
@@ -572,7 +572,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
         <li>The four levers are open, within ±10 %.</li>
         <li>Decisions stay <strong>secret while the round is open</strong>; once it is closed, everyone sees what everyone did.</li>
         <li>The union’s <strong>reserves are a shared resource</strong>: what one member drains, all members lose — and the devaluation that follows hits everyone.</li>
-        <li><strong>Two votes travel with your decisions</strong>: the central bank’s rate, and — in a reserves crisis — austerity or devaluation (next slide).</li>
+        <li><strong>Two votes</strong>: the central bank’s rate, with your decisions; and — when the reserves are low — austerity or devaluation, <strong>before</strong> any decision is taken (next slide).</li>
       </ul>
     </div>
     <div class="card">
@@ -585,29 +585,41 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 
 <section>
   <div class="kicker">D · Collective decisions</div>
-  <h2>Two votes at the council</h2>
-  <div class="cols">
+  <h2>Two votes at the council — the two closures of a fixed exchange rate</h2>
+  <div class="cols" style="font-size:.92em">
     <div class="card">
-      <h3>The central bank’s rate</h3>
+      <h3>The central bank’s rate — with your decisions</h3>
       <ul class="small chk">
-        <li>With its yearly decisions, each country votes <strong>cut</strong>, <strong>hold</strong> or <strong>hike</strong>. One country, one vote.</li>
-        <li>A majority moves the rate by <strong>0.5 pt</strong> — permanently, until the next vote.</li>
-        <li>The rate cuts or lifts <strong>investment the following year</strong>, and changes <strong>every budget’s debt service</strong> at once.</li>
+        <li>Each year, each country votes <strong>cut</strong>, <strong>hold</strong> or <strong>hike</strong>; a majority moves the rate by <strong>0.5 pt</strong>, permanently. Secret until the round closes.</li>
+        <li>A higher rate cuts <strong>investment the following year</strong> and raises <strong>every budget’s debt service</strong> at once.</li>
       </ul>
-      <p class="small muted" style="margin-top:.5em">Your inflation is their interest rate.</p>
     </div>
     <div class="card">
-      <h3>When the reserves run low</h3>
+      <h3>The reserves crisis — before your decisions</h3>
       <ul class="small chk">
-        <li>If the union’s reserves end a year <strong>below the alert line</strong>, the next round carries a second vote.</li>
-        <li><strong>Austerity</strong>: every member caps public demand and benefits at 5 % below the reference for the year.</li>
+        <li>Reserves <strong>below the alert line</strong> at the end of a year: the next year opens with a vote, <strong>before</strong> any decision — <strong>austerity</strong> or <strong>devaluation</strong>. Result announced, then decisions open.</li>
+        <li><strong>Austerity</strong>: public demand and benefits at least 5 % below the reference for everyone — no stimulus that year.</li>
         <li><strong>Devaluation</strong> (10 %): exports recover with a lag; import prices and inflation jump.</li>
-        <li>Reserves exhausted: <strong>forced devaluation</strong> of 15 %.</li>
+        <li>Reserves exhausted <em>and</em> the deficit still running: <strong>forced devaluation</strong> of 15 %, no vote.</li>
       </ul>
-      <p class="small muted" style="margin-top:.5em">The two closures of a fixed exchange rate, decided by the players.</p>
     </div>
   </div>
-  <p class="small muted" style="margin-top:.8em">Votes are secret while the round is open and revealed with the decisions.</p>
+</section>
+
+<section>
+  <div class="kicker">D · The external constraint</div>
+  <h2>Curing a trade deficit: four roads, no free lunch</h2>
+  <p class="small" style="margin:0 0 .5em">The union loses reserves whenever it imports more than it exports. Nothing in the model closes the gap by itself: a world-demand shock of −10 % drains about <strong>30 % of the initial stock every year</strong> until somebody acts. What each road buys per year (engine, no other change):</p>
+  <table class="small" style="width:100%;border-collapse:collapse">
+    <thead><tr style="color:var(--muted);text-transform:uppercase;font-size:.72em;letter-spacing:.06em"><th style="text-align:left;padding:4px 6px">Road</th><th style="text-align:left;padding:4px 6px">Mechanism</th><th style="text-align:right;padding:4px 6px">Reserves</th><th style="text-align:right;padding:4px 6px">Union GDP</th><th style="text-align:right;padding:4px 6px">Inflation</th></tr></thead>
+    <tbody>
+      <tr><td style="padding:4px 6px"><strong>Cut your own absorption</strong><br><span class="xs muted">France: public demand −5 %</span></td><td style="padding:4px 6px">less demand → fewer imports (\(IM = \mu Y\)); the trade balance improves, output and employment fall</td><td style="text-align:right;padding:4px 6px"><span class="pos">+1 %</span></td><td style="text-align:right;padding:4px 6px"><span class="neg">−0.3 %</span></td><td style="text-align:right;padding:4px 6px">−0.4 pt (FRA)</td></tr>
+      <tr><td style="padding:4px 6px"><strong>Austerity for all</strong><br><span class="xs muted">public demand and benefits −5 % everywhere</span></td><td style="padding:4px 6px">the same, seven times — and intra-union trade shrinks too, so each member’s cut hurts its neighbours</td><td style="text-align:right;padding:4px 6px"><span class="pos">+9 %</span></td><td style="text-align:right;padding:4px 6px"><span class="neg">−2.2 %</span></td><td style="text-align:right;padding:4px 6px">−0.7 pt</td></tr>
+      <tr><td style="padding:4px 6px"><strong>Devalue</strong><br><span class="xs muted">10 %</span></td><td style="padding:4px 6px">year 1: imports cost more before volumes adjust — the <strong>J-curve</strong>; from year 2: exports up, imports down (elasticities 0.7 + 0.7 &gt; 1)</td><td style="text-align:right;padding:4px 6px"><span class="neg">−9 %</span> then <span class="pos">+12 %/yr</span></td><td style="text-align:right;padding:4px 6px">−0.7 % then +0.9 %</td><td style="text-align:right;padding:4px 6px"><span class="neg">+1.3 pt</span> then +0.3</td></tr>
+      <tr><td style="padding:4px 6px"><strong>Raise the rate</strong><br><span class="xs muted">+0.5 pt, voted</span></td><td style="padding:4px 6px">investment falls next year → less output, fewer imports; every budget pays more interest</td><td style="text-align:right;padding:4px 6px"><span class="pos">+2 %/yr</span> from year 2</td><td style="text-align:right;padding:4px 6px"><span class="neg">−0.5 %</span></td><td style="text-align:right;padding:4px 6px">−0.2 pt</td></tr>
+    </tbody>
+  </table>
+  <p class="xs muted" style="margin-top:.5em">Reserves in % of the initial stock, per year. Absorption cuts work at once but cost output; the devaluation costs a year and some inflation, then pays every year. What the model cannot do: tariffs, capital controls, a bailout.</p>
 </section>
 
 </div></div>
