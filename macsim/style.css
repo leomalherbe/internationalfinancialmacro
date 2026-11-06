@@ -162,6 +162,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .resgrid th{white-space:normal;line-height:1.25}
 .resgrid td{padding:5px 6px}
 .resgrid td:first-child{white-space:nowrap}
+.resgrid td:first-child .hint{white-space:normal;max-width:720px}
+.resgrid select{font-size:.9rem;padding:6px 8px}
+.resgrid select.nz{font-weight:600;background:var(--gold-soft)}
 .resgrid th.num{min-width:72px}
 
 /* union panel (reserves, current account, exchange rate) */
@@ -187,3 +190,11 @@ body.board{font-size:17px}
 .board .grid2{grid-template-columns:3fr 2fr}
 @media (max-width:900px){.board .grid2{grid-template-columns:1fr}}
 .urow.inline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:3px 0}
+
+/* trajectory charts */
+.traj{display:block;max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.trajgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.trajgrid .traj{height:auto}
+.trajcap{font-size:.78rem;color:var(--muted);margin:.4em 0 0}
+.trajlegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;margin:8px 0 0}
+.trajlegend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
