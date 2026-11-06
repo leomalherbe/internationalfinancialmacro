@@ -112,7 +112,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 <section class="title" data-background-color="#14213d">
   <div class="kicker">KEDGE Business School · Master · 2026</div>
   <h1>International Financial Macroeconomics</h1>
-  <p style="font-size:1.1em;color:#d9dce4">Class 7 — The external constraint: prices, competitiveness and the reserves (OPEN-MU v1.2)</p>
+  <p style="font-size:1.1em;color:#d9dce4">Class 7 — The external constraint: prices, capital flows and the exchange-rate regime (OPEN-MU v1.2 → v1.3)</p>
   <p style="margin-top:1.4em;color:#fff">Thomas Lagoarde-Ségot &amp; Léo Malherbe</p>
   <div class="keys"><a href="https://leomalherbe.github.io/internationalfinancialmacro/" style="color:#d9dce4">← Course home</a> &nbsp;·&nbsp; <kbd>→</kbd> next &nbsp; <kbd>F</kbd> full screen &nbsp; <kbd>O</kbd> overview &nbsp; <kbd>S</kbd> speaker notes</div>
 </section>
@@ -124,7 +124,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
     <div class="card"><div class="big">A</div><h3 style="margin-top:.5em">Finishing the game</h3><p class="small muted">The last years of the union you started in class 6, on the model you know</p></div>
     <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">What the game taught</h3><p class="small muted">Stimulus was cheap, the external constraint slow: why, in the model’s own terms</p></div>
     <div class="card"><div class="big">C</div><h3 style="margin-top:.5em">The missing channel</h3><p class="small muted">Prices enter trade: competitiveness, internal devaluation, the Hume mechanism inside a union</p></div>
-    <div class="card"><div class="big">D</div><h3 style="margin-top:.5em">Playing version 1.2</h3><p class="small muted">Smaller reserves, a new chart, the same levers — and strategies that no longer work</p></div>
+    <div class="card"><div class="big">D</div><h3 style="margin-top:.5em">Playing version 1.2 — and opening the capital account</h3><p class="small muted">Smaller reserves, a new chart; then capital flows, a floating rate as an option, and the bond market’s verdict on your debt</p></div>
   </div>
   <p class="small muted" style="margin-top:1.2em">Same union, same seven countries, same objective. What changes is the one thing class 6 could not do: make your prices matter.</p>
 </section>
@@ -309,6 +309,88 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 </section>
 
 <section>
+  <div class="kicker">D · Opening the capital account</div>
+  <h2>So far, nothing but goods crossed the union’s border</h2>
+  <div class="cols">
+    <div>
+      <ul class="small">
+        <li>The rest of the world bought the union’s exports and sold it imports — and held none of its assets. The union held none of theirs.</li>
+        <li>So the balance of payments had a current account and reserves, nothing else: no capital account, no portfolio choice, no interest-rate parity.</li>
+        <li>Class 4 told you where that fails: capital flows are larger than trade flows, and they move on <strong>returns</strong>, not on goods.</li>
+        <li>Godley &amp; Lavoie’s chapter 12 adds exactly that: households of each economy hold both countries’ bills; the exchange rate is fixed if reserves absorb, floating if they do not.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Version 1.3 — what is added</h3>
+      <ul class="small chk">
+        <li>The rest of the world holds union government bills, <strong>30 % of the union’s GDP</strong>; union households hold foreign bills, <strong>15 % of their wealth</strong>.</li>
+        <li>Both portfolios move with the <strong>interest-rate differential</strong> \(r - r_w\) (static exchange-rate expectations).</li>
+        <li>The balance of payments gains a financial account: \(CA' + KA = xr\cdot\Delta R\).</li>
+        <li>A per-year <strong>regime</strong> chosen by the administrator: fixed or floating — switchable during the game.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">D · Opening the capital account</div>
+  <h2>Fixed or floating: the same equation, a different unknown</h2>
+  <div class="cols">
+    <div class="card">
+      <h3>Fixed exchange rate</h3>
+      <div class="formula eq" style="font-size:.8em;padding:5px 14px">\( xr \text{ given} \quad\Rightarrow\quad \Delta R = \frac{CA' + KA}{xr} \)</div>
+      <ul class="small chk">
+        <li>Reserves absorb whatever trade and capital do not balance.</li>
+        <li>A sudden stop drains them; the alert and the crisis vote work as before.</li>
+        <li>The rate vote is a reserves decision: a hike attracts capital and slows the drain.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Floating exchange rate</h3>
+      <div class="formula eq" style="font-size:.8em;padding:5px 14px">\( R \text{ given} \quad\Rightarrow\quad CA'(xr) + KA(xr) = 0 \)</div>
+      <ul class="small chk">
+        <li>No reserves crisis: the currency moves instead — depreciation raises import prices and inflation for everyone, then restores exports.</li>
+        <li>The rate vote is a <strong>currency</strong> decision: hike → inflows → appreciation → lost competitiveness, cheaper imports.</li>
+        <li>A depreciation of more than 10 % in a year opens a vote: <strong>defend</strong> (rate +1 pt) or <strong>let it float</strong>.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:.7em">Mundell–Fleming, written with stocks: the regime decides whether the adjustment falls on the central bank’s balance sheet or on the price of the currency.</p>
+</section>
+
+<section>
+  <div class="kicker">D · Opening the capital account</div>
+  <h2>The bond market looks at your debt — and the central bank decides whether to stand behind you</h2>
+  <div class="cols c64">
+    <div>
+      <div class="formula eq" style="font-size:.82em;margin:.18em 0;padding:5px 16px">\( s_i = \varphi \cdot \max\!\left(0,\; \frac{B_i}{Y_i} - 1.10\right), \qquad \varphi = 5 \;\;(\text{1 point at 130\% of GDP}) \)</div>
+      <ul class="small" style="margin-top:.5em">
+        <li>Above 110 % of GDP, a member pays a <strong>spread</strong> on its bills — to its households, its banks, and the rest of the world. The part paid abroad is a leak in the current account; the part paid at home is income.</li>
+        <li>Foreign investors <strong>flee</strong> high-spread members: their bills are sold, the union’s balance of payments feels it — reserves in a fixed regime, the currency in a floating one. One member’s debt is everybody’s external constraint.</li>
+        <li>The common central bank buys the bills nobody wants, at the common rate: that is the <strong>backstop</strong> that keeps spreads contained (OMT 2012, TPI 2022).</li>
+      </ul>
+    </div>
+    <div class="card" style="font-size:.8em">
+      <h3>Two new administrator shocks</h3>
+      <ul class="small chk">
+        <li><strong>Sudden stop</strong>: the rest of the world cuts its holdings of union bills by x %. Fixed: the reserves pay. Floating: the currency drops.</li>
+        <li><strong>Backstop off</strong>: the central bank stops absorbing the bills of members above the threshold. Their spread applies to their whole debt, the flight is no longer cushioned — Greece 2010, Italy 2011.</li>
+      </ul>
+      <p class="xs muted" style="margin-top:.5em">Both are announced in the communiqué and replayed year by year like the other shocks.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="qtag">Check</span>
+  <h2>Floating regime. The council votes a rate hike of 0.5 point. In the year that follows…</h2>
+  <div class="quiz" data-answer="1" data-fb="Capital flows in, the currency appreciates, import prices fall (less inflation) and exports become dearer; investment falls with the usual lag. A hike is contractionary twice: through investment and through the exchange rate.">
+    <button>the currency depreciates, exports recover</button><button>the currency appreciates, inflation falls, GDP falls</button><button>nothing changes: the rate only matters for investment</button><button>the reserves rise</button>
+  </div>
+  <p class="fb"></p>
+</section>
+
+<section>
   <div class="kicker">D · Playing version 1.2</div>
   <h2>How the session unfolds</h2>
   <div class="cols">
@@ -322,7 +404,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
     <div>
       <h3>B · A new union, version 1.2</h3>
       <ul class="small chk">
-        <li>New class, new PINs, new countries; the same communiqué rhythm.</li>
+        <li>New class, new PINs, new countries; the same communiqué rhythm — in version 1.2, or 1.3 with capital flows, the regime being the administrator’s first decision.</li>
         <li>One rule of thumb before each decision: <em>what does this do to my prices, and for how long do I plan to keep it?</em></li>
         <li>At the end: compare the two games. Same levers, same players — a different economy.</li>
       </ul>
