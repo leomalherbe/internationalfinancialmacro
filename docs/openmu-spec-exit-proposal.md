@@ -1,6 +1,6 @@
-# §12 (proposition, révision 2 du 07/11) — Sortie de l'union monétaire
+# §12 (proposition, révision 3 du 07/11) — Sortie de l'union monétaire
 
-Statut : **proposition**, rien n'est codé. Validé par Léo le 07/11 : bilans à la sortie (12.3) avec redénomination de **toute** la dette publique, y compris celle détenue par le reste du monde ; soldes TARGET ; sortie unilatérale ; régime de change choisi par le pays sortant. Pas de coûts de transition automatiques : ils passent par des chocs administrateur et par un conseil de représailles (12.5). Les ordres de grandeur marqués « cible » sont à mesurer avec `dev/engine-test.js` ; ceux marqués « mesuré » viennent de l'état de référence actuel (v2.0).
+Statut : **proposition**, rien n'est codé. Validé par Léo le 07/11 : bilans à la sortie (12.3) avec redénomination de **toute** la dette publique, y compris celle détenue par le reste du monde ; soldes TARGET ; sortie unilatérale ; régime de change choisi par le pays sortant ; la banque centrale de l'union **garde les titres de X** qu'elle détient, ce qui permet au conseil de les vendre. Pas de coûts de transition automatiques : ils passent par des chocs administrateur et par un conseil de représailles (12.5). Les ordres de grandeur marqués « cible » sont à mesurer avec `dev/engine-test.js` ; ceux marqués « mesuré » viennent de l'état de référence actuel (v2.0).
 
 ## 12.0 État actuel
 
@@ -26,20 +26,26 @@ Notation : X le pays sortant, NC sa nouvelle monnaie, `e_X` = prix d'un euro en 
 
 **Ce qui reste en monnaie étrangère** : les titres étrangers des ménages `Bf_X` (en monnaie mondiale), le solde TARGET (en euros, ci-dessous).
 
+**Ce qui change de détenteur** : rien d'autre que la banque centrale. Les titres de X détenus par la banque centrale de l'union, notés désormais `BcbU_X`, restent à son actif (en NC, redénominés comme le reste de la dette) : l'union devient un créancier de X en NC.
+
 **Conséquences de la redénomination de `Bw_X`** (mesuré à la référence : `Bw_X` = 15 % du PIB, `Bf_X` = 15 % du PIB) :
 - la dette publique de X est entièrement en NC : une dépréciation ne l'alourdit pas ; le ratio dette/PIB et la prime de risque de §9.6 ne bougent que par les flux ;
 - une dépréciation **améliore** la position extérieure nette de X : ses avoirs (`Bf_X`) prennent de la valeur en NC, ses engagements envers le reste du monde (`Bw_X`) n'en prennent pas. Une dépréciation de 20 % ≈ +3 points de PIB de position nette, au profit des ménages ;
 - le perdant est le **reste du monde**, dont la créance sur X se déprécie avec la NC. Pour lui, c'est un défaut partiel : la raison naturelle d'une vente des titres de X, que l'administrateur peut déclencher (12.5).
 
-**Banque centrale nationale (BCN_X)** : reprend `H_X` au passif, `Bcb_X` et `A_X` à l'actif, plus une **part des réserves communes** `R_X = R · Y*_X / ΣY*` (clé de capital = taille de référence). Le solde de son bilan est un **solde TARGET** envers la banque centrale de l'union, en euros :
+**Banque centrale nationale (BCN_X)** : reprend `H_X` au passif, `A_X` à l'actif (mais pas les titres publics, qui restent à l'union), plus une **part des réserves communes** `R_X = R · Y*_X / ΣY*` (clé de capital = taille de référence). Le solde de son bilan est un **solde TARGET** envers la banque centrale de l'union, en euros :
 
 ```
-T2_X = H_X − Bcb_X − A_X − xr · R_X          (en euros, à la date de sortie ; > 0 : BCN_X doit à l'union)
+T2_X = H_X − A_X − xr · R_X                  (en euros, à la date de sortie ; > 0 : BCN_X doit à l'union)
 ```
 
-Mesuré : à la référence `H − Bcb − A` = 3,7 % du PIB pour chaque membre, et la part des réserves par la taille = 3,75 % → **T2 ≈ 0 à la référence**. Il devient non nul quand X a creusé (ou financé) le déficit extérieur de l'union pendant la partie : un pays qui a « consommé » les réserves communes sort avec une dette TARGET. `T2_X` est un stock en euros, rémunéré au taux de l'union `r`, non remboursé sauf décision du conseil (12.5). Comme il est en euros, une dépréciation de la NC alourdit la dette TARGET de la BCN_X (perte en capital de la BCN, dans `NWcb_X`).
+Mesuré à la référence : `H − A` = 8,8 % du PIB, part des réserves 3,75 % → **T2_X ≈ 5,1 % du PIB, soit exactement les titres de X que garde l'union** (`Bcb` = 5,1 %). À la sortie, l'union détient donc 5 % du PIB de X en titres en NC, et la BCN_X lui doit à peu près autant en euros : les deux se compensent à la date de sortie, mais pas ensuite, car l'un est en NC et l'autre en euros. Si X a creusé (ou financé) le déficit extérieur de l'union pendant la partie, `T2_X` est plus grand (ou plus petit) que `BcbU_X`. `T2_X` est un stock en euros, rémunéré au taux de l'union `r`, non remboursé sauf décision du conseil (12.5). Comme il est en euros, une dépréciation de la NC alourdit la dette TARGET de la BCN_X (perte en capital de la BCN, dans `NWcb_X`) et dévalorise en même temps les titres en NC que détient l'union : à la référence, une dépréciation de 20 % alourdit la dette TARGET de la BCN_X d'≈ 1 point de PIB de X et fait perdre à l'union ≈ 0,9 point sur ses titres : les deux effets se compensent presque. Ils divergent si `T2_X` s'écarte de `BcbU_X` pendant la partie, ou dès que l'union vend ses titres.
 
-**Union** : `R` diminue de `R_X` ; la banque centrale de l'union porte `T2_X` en créance (ou dette) sur la BCN_X. Identité de l'union (sans X) : `Σ_{i≠X} H_i = Σ_{i≠X} (Bcb_i + A_i) + xr · R + T2_X − NWcb`.
+**Après la sortie** :
+- `BcbU_X` est constant en NC (renouvelé à l'échéance), rémunéré au taux de X `r_X + s_X`, sauf vente décidée par le conseil (12.5). Les intérêts sont un revenu primaire versé par X à l'union ; le bénéfice de la banque centrale de l'union est reversé aux membres restants.
+- La BCN_X est le prêteur en dernier ressort de X : elle achète les titres nouveaux que ni les ménages, ni les banques, ni le reste du monde ne prennent (`BcbN_X`, en NC, partant de 0) ; son bénéfice est reversé au gouvernement de X. La prime de risque de §9.6 s'applique à X comme à un membre avec backstop.
+
+**Union** : `R` diminue de `R_X` ; la banque centrale de l'union porte `T2_X` en créance (ou dette) sur la BCN_X, en euros, et `BcbU_X` en NC. Identité de l'union (sans X) : `Σ_{i≠X} H_i = Σ_{i≠X} (Bcb_i + A_i) + xr · R + T2_X + BcbU_X / e_X − NWcb` (`NWcb` inclut désormais la perte de valeur de `BcbU_X`).
 
 ## 12.4 Le change du pays sorti
 
@@ -57,8 +63,8 @@ La BCN_X n'intervient pas : ses réserves `R_X` sont gelées. `e_X` est le prix 
 
 ```
 CA'_X(e_X) + KA_X(e_X) = 0
-CA'_X = X_X − e_X·IMU_X − e_X·xr·IMR_X + r_w,−1·e_X·xr·Bf_X,−1 − (r_X,−1 + s_X,−1)·Bw_X,−1 − r_−1·e_X·T2_X
-KA_X  = ΔBw_X − e_X·xr·ΔBf_X
+CA'_X = X_X − e_X·IMU_X − e_X·xr·IMR_X + r_w,−1·e_X·xr·Bf_X,−1 − (r_X,−1 + s_X,−1)·(Bw_X,−1 + BcbU_X,−1) − r_−1·e_X·T2_X
+KA_X  = ΔBw_X + ΔBcbU_X − e_X·xr·ΔBf_X − e_X·ΔT2_X          (ΔBcbU_X < 0 quand l'union vend ; ΔT2_X < 0 quand la BCN_X règle le TARGET)
 ```
 
 Ce qui fait bouger `e_X` : ses déficits commerciaux (avec l'union et avec le monde), l'écart de son taux `r_X` avec ceux de l'union et du monde (flux de capitaux), les chocs de l'administrateur (12.5). Une baisse de `r_X` de 1 point fait sortir des capitaux et déprécie la NC ; ordre de grandeur cible : 5 à 8 % (calibrage du duel : ≈ 7 % par point).
@@ -133,28 +139,32 @@ Un tour à part, comme le vote de crise de §7.6 : ouvert par la console au déb
 
 1. **Tarif sur les importations venant de X** : `tU = sim.retaliationTariff` (10 % par défaut) sur les importations de tous les membres venant de X. Il renchérit les produits de X dans l'union (volume) et rapporte une recette aux importateurs, mais il renchérit aussi la consommation de l'union. Le tarif reste en place jusqu'à ce qu'un conseil ultérieur le lève : l'administrateur peut rouvrir le conseil n'importe quelle année. Cette question câble l'option `allowTariff` aujourd'hui morte.
 2. **Règlement immédiat du solde TARGET** (proposé seulement si `T2_X > 0`) : la BCN_X doit payer `T2_X` dans l'année, en réserves `R_X` d'abord ; ce qui manque la force à vendre de la NC contre des euros, donc à déprécier (flottant) ou à épuiser ses réserves (parité). Les réserves de l'union augmentent d'autant.
-3. **Vente des titres de X** — possible seulement avec une variante des bilans : à la sortie, la banque centrale de l'union **garde** les titres de X qu'elle détient (`Bcb_X`, désormais en NC) au lieu de les transférer à la BCN_X ; `T2_X` diminue d'autant. Le conseil peut alors décider de les vendre : le marché de X doit les absorber (mécanisme « sans backstop » de §9.7, le taux de X monte), et l'union convertit la NC reçue en euros (sortie de capitaux de X, dépréciation). Sans cette variante, aucun agent de l'union ne détient de titres de X dans le modèle, et la vente n'a pas d'objet.
+3. **Vente des titres de X détenus par l'union** (validé) : la banque centrale de l'union vend dans l'année une part `sim.retaliationSale` (50 % par défaut) de `BcbU_X`. Deux effets, comme pour une attaque contre une monnaie :
+   - **sur le taux de X** : les titres vendus doivent trouver preneur dans X. Par défaut, ce sont les ménages et les banques de X, et le taux de X monte jusqu'à ce qu'ils les absorbent (mécanisme de marché « sans backstop » de §9.7, appliqué au seul montant vendu ; plafond 25 %). L'équipe X peut décider que sa BCN les rachète (champ `absorb` de son formulaire, oui/non) : le taux ne monte pas, mais la BCN crée la NC correspondante ;
+   - **sur le change de X** : l'union convertit la NC reçue en euros, ce qui est une sortie de capitaux pour X (`ΔBcbU_X < 0` dans `KA_X`) : la NC se déprécie (flottant) ou la BCN_X perd des réserves (parité).
+
+   Le dilemme pour X est donc entre un taux plus élevé (investissement, dette, prime) et une monnaie plus faible (inflation importée), mais il ne peut pas éviter le second. La vente se répète chaque année tant qu'un conseil ne la lève pas, jusqu'à épuisement des titres. Ordres de grandeur cibles pour la France (vente de 50 % ≈ 2,5 % du PIB de X en un an) : dépréciation 3 à 8 % en flottant, ou une perte de la moitié de `R_X` en parité ; sans rachat par la BCN, taux de X +1 à +3 points.
 
 Le conseil est un lieu de négociation : X peut prendre des engagements (§7.4) avant le vote, par exemple garder une parité ou rembourser le TARGET.
 
 ## 12.6 Affichage et plateforme
 
-- **Page étudiants** : option « Leave the union at the end of this year » avec avertissement (irréversible) et confirmation ; après la sortie, levier « Policy rate », choix du régime (`fx`) et de la parité (`peg`), plus de votes du conseil, panneau « Your currency » (`e_X`, taux croisé `e_X·xr`, variations, `T2_X`, réserves `R_X` et alerte en parité, tarif de l'union s'il y en a un). Pour les membres restants : carte de vote du conseil de représailles au début de N+1.
+- **Page étudiants** : option « Leave the union at the end of this year » avec avertissement (irréversible) et confirmation ; après la sortie, levier « Policy rate », choix du régime (`fx`) et de la parité (`peg`), choix `absorb` quand l'union vend ses titres, plus de votes du conseil, panneau « Your currency » (`e_X`, taux croisé `e_X·xr`, variations, `T2_X`, titres détenus par l'union `BcbU_X`, réserves `R_X` et alerte en parité, tarif de l'union s'il y en a un). Pour les membres restants : carte de vote du conseil de représailles au début de N+1.
 - **Conseil / board** : bandeau « X announced its exit (effective year N+1) » à la publication de N ; résultat du conseil de représailles ; pays sortis grisés dans le panneau de l'union, avec leur change ; majorités sur les membres restants.
 - **Console** : le rejeu lit `euro: 'leave'` dans les décisions et construit `opts.exits = {X: N+1}` ; carte « Retaliation council · year N+1 » (Open / Close and announce / Reopen, comme la carte de crise) ; nouvelles lignes de chocs (12.5) ; la console enregistre `state.exits` et `state.retaliation[N]` à la publication.
 - **Décomposition** : la sortie, le régime et la parité sont des politiques de X : « own policy » pour X, « foreign » pour les autres ; les mesures de représailles sont des politiques des autres : « foreign » pour X.
 - **Page du modèle** : section dépliable « Leaving the union », équations ci-dessus et ordres de grandeur mesurés.
-- **Backend** (1.9 ou suivante) : `validateDecision` accepte `rate`, `fx` et `peg` pour un pays présent dans `state.exits` à partir de son année de sortie ; refuse les votes du conseil d'un pays sorti et un second `leave` ; nouveau tour `phase: 'retaliation'` (sur le modèle de `phase: 'crisis'`). Un collage de `Code.gs`.
+- **Backend** (1.9 ou suivante) : `validateDecision` accepte `rate`, `fx`, `peg` et `absorb` pour un pays présent dans `state.exits` à partir de son année de sortie ; refuse les votes du conseil d'un pays sorti et un second `leave` ; nouveau tour `phase: 'retaliation'` (sur le modèle de `phase: 'crisis'`). Un collage de `Code.gs`.
 
 ## 12.7 Moteur et tests
 
 - `params.exit` dans `simulateV11` : aucun pays sorti → chemin actuel inchangé ; v1.1–v2.0 et duel reproduits **au bit près** (tests de régression).
-- `dev/engine-test.js`, bloc EXIT : sortie à la référence sans choc → rien ne bouge (`e_X` = 1, `T2_X` = 0) ; identités sur 20 graines × 40 ans : bilan de la BCN_X, identité de l'union avec T2, somme des balances des paiements union + X + RdM = 0, richesse des ménages de X = actifs (en NC), en flottant et en parité ; ordres de grandeur imprimés : baisse de `r_X` d'un point, chocs `exitFlows` −20 et `exitConfidence` −3, tarif de 10 %, règlement du TARGET, dévaluation de 10 % en parité.
+- `dev/engine-test.js`, bloc EXIT : sortie à la référence sans choc → rien ne bouge (`e_X` = 1, `T2_X` = `BcbU_X`) ; identités sur 20 graines × 40 ans : bilan de la BCN_X, identité de l'union avec `T2_X` et `BcbU_X`, somme des balances des paiements union + X + RdM = 0, richesse des ménages de X = actifs (en NC), en flottant et en parité ; ordres de grandeur imprimés : baisse de `r_X` d'un point, chocs `exitFlows` −20 et `exitConfidence` −3, tarif de 10 %, règlement du TARGET, vente de 50 % des titres avec et sans rachat par la BCN_X, dévaluation de 10 % en parité.
 - `dev/e2e-exit.js` : annonce en année 2, conseil de représailles et sortie effective en 3, levier `rate`, passage flottant → parité, votes à six, panneau de change, board.
 
 ## 12.8 Décisions restantes (recommandation en gras)
 
-1. Vente des titres de X par le conseil : **sans** (bilans validés, `Bcb_X` transféré à la BCN_X) ou avec la variante où la banque centrale de l'union garde `Bcb_X` ?
+1. Part vendue par an : **50 %** de `BcbU_X`, réglable par l'administrateur, ou votée ?
 2. Transmission du change aux importations venant de l'union : **complète** (≈ 3 pts d'inflation pour 10 % de dépréciation) ou réduite ?
 3. Tarif de représailles : **10 %**, fixé par l'administrateur, ou montant voté ?
 4. Plusieurs sorties dans la même partie : **autorisées** (chaque pays sortant a sa monnaie, toutes contre l'euro) ? Coût de calcul à vérifier au-delà de deux.
