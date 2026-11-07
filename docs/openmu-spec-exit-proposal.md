@@ -1,6 +1,6 @@
-# §12 (proposition, révision 4 du 07/11) — Sortie de l'union monétaire
+# §12 (validée, révision 5 du 07/11) — Sortie de l'union monétaire
 
-Statut : **proposition**, rien n'est codé. Validé par Léo le 07/11 : bilans à la sortie (12.3) avec redénomination de **toute** la dette publique, y compris celle détenue par le reste du monde ; soldes TARGET ; sortie unilatérale ; régime de change choisi par le pays sortant ; la banque centrale de l'union **garde les titres de X** qu'elle détient, ce qui permet au conseil de les vendre ; montants des représailles (tarif, part vendue) votés par le conseil ; plusieurs sorties possibles dans une partie, toutes irréversibles. Pas de coûts de transition automatiques : ils passent par des chocs administrateur et par un conseil de représailles (12.5). Les ordres de grandeur marqués « cible » sont à mesurer avec `dev/engine-test.js` ; ceux marqués « mesuré » viennent de l'état de référence actuel (v2.0).
+Statut : **spécification validée par Léo**, rien n'est codé. Validé par Léo le 07/11 : bilans à la sortie (12.3) avec redénomination de **toute** la dette publique, y compris celle détenue par le reste du monde ; soldes TARGET ; sortie unilatérale ; régime de change choisi par le pays sortant ; la banque centrale de l'union **garde les titres de X** qu'elle détient, ce qui permet au conseil de les vendre ; montants des représailles (tarif, part vendue) votés par le conseil ; plusieurs sorties possibles dans une partie, toutes irréversibles ; transmission complète du change aux prix de toutes les importations du pays sorti. Pas de coûts de transition automatiques : ils passent par des chocs administrateur et par un conseil de représailles (12.5). Les ordres de grandeur marqués « cible » sont à mesurer avec `dev/engine-test.js` ; ceux marqués « mesuré » viennent de l'état de référence actuel (v2.0).
 
 ## 12.0 État actuel
 
@@ -112,7 +112,7 @@ exportations de X vers le RdM :       XR_X = xR*_X · monde · (e_X·xr / (xr0·
 ```
 π_X = … + ω · 100·Δ(e_X·xr)/(e_X·xr)_−1 + ω·((1 − sR)/sR) · 100·Δe_X/e_X,−1
 ```
-Avec sR = 0,5 (mesuré), une dépréciation de 10 % de la NC contre l'euro ajoute ≈ 3 points d'inflation l'année même. Elle est nulle en parité tenue contre l'euro (seul `xr` joue).
+Transmission complète (validé) : avec sR = 0,5 (mesuré), une dépréciation de 10 % de la NC contre l'euro ajoute ≈ 3 points d'inflation l'année même (≈ 1,5 par les importations venant du reste du monde, ≈ 1,5 par celles venant de l'union). Elle est nulle en parité tenue contre l'euro (seul `xr` joue).
 
 **Portefeuilles** : ménages de X : `λF = λF0 + λf1·(r_w − r_X − s_X)` (anticipations statiques, comme ch. 12). Reste du monde : demande de titres de X, en NC, `Bw_X = e_X · xr · Bw$*_X · (1 + χw·(r_X − r_w) − χs·s_X) · (1 + flowsX/100)`, avec `flowsX` le choc administrateur propre à X (12.5).
 
@@ -163,9 +163,8 @@ Le conseil est un lieu de négociation : X peut prendre des engagements (§7.4) 
 - `dev/engine-test.js`, bloc EXIT : sortie à la référence sans choc → rien ne bouge (`e_X` = 1, `T2_X` = `BcbU_X`) ; identités sur 20 graines × 40 ans : bilan de la BCN_X, identité de l'union avec `T2_X` et `BcbU_X`, somme des balances des paiements union + X + RdM = 0, richesse des ménages de X = actifs (en NC), en flottant et en parité ; ordres de grandeur imprimés : baisse de `r_X` d'un point, chocs `exitFlows` −20 et `exitConfidence` −3, tarif de 10 %, règlement du TARGET, vente de 50 % des titres avec et sans rachat par la BCN_X, dévaluation de 10 % en parité.
 - `dev/e2e-exit.js` : annonce en année 2, conseil de représailles et sortie effective en 3, levier `rate`, passage flottant → parité, votes à six, panneau de change, board.
 
-## 12.8 Décisions restantes (recommandation en gras)
+## 12.8 Décisions
 
-Tranché le 07/11 : part vendue et tarif votés par le conseil (médiane) ; plusieurs sorties possibles, irréversibles ; pas de réintégration.
+Tranché le 07/11 : part vendue et tarif votés par le conseil (médiane) ; plusieurs sorties possibles, irréversibles ; pas de réintégration ; transmission complète du change à toutes les importations du pays sorti.
 
-1. Transmission du change aux prix des importations venant de l'union : **complète** (une dépréciation de 10 % contre l'euro ajoute ≈ 3 pts d'inflation : ≈ 1,5 par les importations venant du reste du monde, comme aujourd'hui, ≈ 1,5 par celles venant de l'union) ou réduite au seul reste du monde (≈ 1,5 pt) ?
-2. Coût de calcul au-delà de deux sorties en flottant (un change de plus à résoudre par pays sorti) : à mesurer, sans doute acceptable jusqu'à trois.
+Reste à mesurer en codant : coût de calcul au-delà de deux sorties en flottant (un change de plus à résoudre par pays sorti) : à mesurer, sans doute acceptable jusqu'à trois.
