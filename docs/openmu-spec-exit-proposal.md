@@ -1,6 +1,6 @@
-# §12 (proposition, révision 3 du 07/11) — Sortie de l'union monétaire
+# §12 (proposition, révision 4 du 07/11) — Sortie de l'union monétaire
 
-Statut : **proposition**, rien n'est codé. Validé par Léo le 07/11 : bilans à la sortie (12.3) avec redénomination de **toute** la dette publique, y compris celle détenue par le reste du monde ; soldes TARGET ; sortie unilatérale ; régime de change choisi par le pays sortant ; la banque centrale de l'union **garde les titres de X** qu'elle détient, ce qui permet au conseil de les vendre. Pas de coûts de transition automatiques : ils passent par des chocs administrateur et par un conseil de représailles (12.5). Les ordres de grandeur marqués « cible » sont à mesurer avec `dev/engine-test.js` ; ceux marqués « mesuré » viennent de l'état de référence actuel (v2.0).
+Statut : **proposition**, rien n'est codé. Validé par Léo le 07/11 : bilans à la sortie (12.3) avec redénomination de **toute** la dette publique, y compris celle détenue par le reste du monde ; soldes TARGET ; sortie unilatérale ; régime de change choisi par le pays sortant ; la banque centrale de l'union **garde les titres de X** qu'elle détient, ce qui permet au conseil de les vendre ; montants des représailles (tarif, part vendue) votés par le conseil ; plusieurs sorties possibles dans une partie, toutes irréversibles. Pas de coûts de transition automatiques : ils passent par des chocs administrateur et par un conseil de représailles (12.5). Les ordres de grandeur marqués « cible » sont à mesurer avec `dev/engine-test.js` ; ceux marqués « mesuré » viennent de l'état de référence actuel (v2.0).
 
 ## 12.0 État actuel
 
@@ -15,6 +15,7 @@ Montrer ce qu'une sortie rend (un taux et un change à soi, la dévaluation exte
 - **Décision unilatérale** de l'équipe : choix `leave` avec les décisions de l'année N (secret tant que le tour est ouvert, révélé à la publication comme les votes). Pas de vote du conseil sur la sortie elle-même.
 - **Calendrier** : N est l'année de l'annonce (le pays est encore membre). La sortie est **effective au 1er janvier de N+1** : nouvelle monnaie, banque centrale nationale. Au début de N+1, avant les décisions, se tient le **conseil de représailles** (12.5).
 - **Irréversible** dans la partie (pas de `join`).
+- **Plusieurs sorties** possibles dans la même partie, chacune irréversible : chaque pays sorti a sa monnaie et son change contre l'euro ; les taux croisés entre deux pays sortis passent par l'euro (`e_Y / e_X`), et leurs échanges suivent les mêmes règles que ceux d'un pays sorti avec l'union. Chaque sortie ouvre son propre conseil de représailles. Les membres restants votent ; un pays sorti ne vote pas sur les représailles visant un autre pays sorti.
 - **Après la sortie**, le pays : choisit chaque année son **régime de change** (flottant ou parité contre l'euro) et, en parité, peut dévaluer ou réévaluer (12.4) ; obtient le levier `rate` du mode duel (points autour de r*, ±2, pas 0,25) ; garde les six autres leviers ; ne vote plus au conseil (taux, crise de réserves, crise de change) — les majorités se comptent sur les membres restants ; reste classé avec le même R.
 - **Disponibilité** : classes v1.3 et v2.0 seulement (il faut le compte financier et le change flottant de §9). Pas en v1.1/v1.2, pas en duel. Activation par classe : `sim.exit = true` (Control → Parameters), qui remplace `game.allowEuro`.
 
@@ -135,15 +136,15 @@ Le choc de confiance générique existant continue de toucher toute l'union.
 
 ### Conseil de représailles, automatique au début de N+1
 
-Un tour à part, comme le vote de crise de §7.6 : ouvert par la console au début de N+1, avant les décisions ; seuls les membres restants votent ; majorité des votants ; absent = non. Chaque question est un oui/non :
+Un tour à part, comme le vote de crise de §7.6 : ouvert par la console au début de N+1, avant les décisions ; seuls les membres restants votent. **Les montants sont votés** : chaque membre choisit un niveau sur une échelle courte, et l'issue est la **médiane** des votes exprimés (absent = 0). La médiane est le seul niveau qu'aucune majorité ne préfère changer dans un sens ou dans l'autre ; avec un vote oui/non, elle revient à la majorité des votants, comme pour les autres votes du conseil.
 
-1. **Tarif sur les importations venant de X** : `tU = sim.retaliationTariff` (10 % par défaut) sur les importations de tous les membres venant de X. Il renchérit les produits de X dans l'union (volume) et rapporte une recette aux importateurs, mais il renchérit aussi la consommation de l'union. Le tarif reste en place jusqu'à ce qu'un conseil ultérieur le lève : l'administrateur peut rouvrir le conseil n'importe quelle année. Cette question câble l'option `allowTariff` aujourd'hui morte.
-2. **Règlement immédiat du solde TARGET** (proposé seulement si `T2_X > 0`) : la BCN_X doit payer `T2_X` dans l'année, en réserves `R_X` d'abord ; ce qui manque la force à vendre de la NC contre des euros, donc à déprécier (flottant) ou à épuiser ses réserves (parité). Les réserves de l'union augmentent d'autant.
-3. **Vente des titres de X détenus par l'union** (validé) : la banque centrale de l'union vend dans l'année une part `sim.retaliationSale` (50 % par défaut) de `BcbU_X`. Deux effets, comme pour une attaque contre une monnaie :
+1. **Tarif sur les importations venant de X** : `tU` ∈ {0, 5, 10, 20} %, voté, sur les importations de tous les membres venant de X. Il renchérit les produits de X dans l'union (volume) et rapporte une recette aux importateurs, mais il renchérit aussi la consommation de l'union. Le tarif reste en place jusqu'à ce qu'un conseil ultérieur le change : l'administrateur peut rouvrir le conseil n'importe quelle année. Cette question câble l'option `allowTariff` aujourd'hui morte.
+2. **Règlement immédiat du solde TARGET** (oui/non, proposé seulement si `T2_X > 0`) : la BCN_X doit payer `T2_X` dans l'année, en réserves `R_X` d'abord ; ce qui manque la force à vendre de la NC contre des euros, donc à déprécier (flottant) ou à épuiser ses réserves (parité). Les réserves de l'union augmentent d'autant.
+3. **Vente des titres de X détenus par l'union** (validé) : la banque centrale de l'union vend dans l'année une part votée de `BcbU_X`, ∈ {0, 25, 50, 100} %. Deux effets, comme pour une attaque contre une monnaie :
    - **sur le taux de X** : les titres vendus doivent trouver preneur dans X. Par défaut, ce sont les ménages et les banques de X, et le taux de X monte jusqu'à ce qu'ils les absorbent (mécanisme de marché « sans backstop » de §9.7, appliqué au seul montant vendu ; plafond 25 %). L'équipe X peut décider que sa BCN les rachète (champ `absorb` de son formulaire, oui/non) : le taux ne monte pas, mais la BCN crée la NC correspondante ;
    - **sur le change de X** : l'union convertit la NC reçue en euros, ce qui est une sortie de capitaux pour X (`ΔBcbU_X < 0` dans `KA_X`) : la NC se déprécie (flottant) ou la BCN_X perd des réserves (parité).
 
-   Le dilemme pour X est donc entre un taux plus élevé (investissement, dette, prime) et une monnaie plus faible (inflation importée), mais il ne peut pas éviter le second. La vente se répète chaque année tant qu'un conseil ne la lève pas, jusqu'à épuisement des titres. Ordres de grandeur cibles pour la France (vente de 50 % ≈ 2,5 % du PIB de X en un an) : dépréciation 3 à 8 % en flottant, ou une perte de la moitié de `R_X` en parité ; sans rachat par la BCN, taux de X +1 à +3 points.
+   Le dilemme pour X est donc entre un taux plus élevé (investissement, dette, prime) et une monnaie plus faible (inflation importée), mais il ne peut pas éviter le second. La vente se répète chaque année au taux voté tant qu'un conseil ne le change pas, jusqu'à épuisement des titres. Ordres de grandeur cibles pour la France (vente de 50 % ≈ 2,5 % du PIB de X en un an) : dépréciation 3 à 8 % en flottant, ou une perte de la moitié de `R_X` en parité ; sans rachat par la BCN, taux de X +1 à +3 points.
 
 Le conseil est un lieu de négociation : X peut prendre des engagements (§7.4) avant le vote, par exemple garder une parité ou rembourser le TARGET.
 
@@ -164,8 +165,7 @@ Le conseil est un lieu de négociation : X peut prendre des engagements (§7.4) 
 
 ## 12.8 Décisions restantes (recommandation en gras)
 
-1. Part vendue par an : **50 %** de `BcbU_X`, réglable par l'administrateur, ou votée ?
-2. Transmission du change aux importations venant de l'union : **complète** (≈ 3 pts d'inflation pour 10 % de dépréciation) ou réduite ?
-3. Tarif de représailles : **10 %**, fixé par l'administrateur, ou montant voté ?
-4. Plusieurs sorties dans la même partie : **autorisées** (chaque pays sortant a sa monnaie, toutes contre l'euro) ? Coût de calcul à vérifier au-delà de deux.
-5. Réintégration : **non** dans cette version.
+Tranché le 07/11 : part vendue et tarif votés par le conseil (médiane) ; plusieurs sorties possibles, irréversibles ; pas de réintégration.
+
+1. Transmission du change aux prix des importations venant de l'union : **complète** (une dépréciation de 10 % contre l'euro ajoute ≈ 3 pts d'inflation : ≈ 1,5 par les importations venant du reste du monde, comme aujourd'hui, ≈ 1,5 par celles venant de l'union) ou réduite au seul reste du monde (≈ 1,5 pt) ?
+2. Coût de calcul au-delà de deux sorties en flottant (un change de plus à résoudre par pays sorti) : à mesurer, sans doute acceptable jusqu'à trois.
