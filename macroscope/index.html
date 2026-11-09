@@ -1343,5 +1343,34 @@ if(rm||!('IntersectionObserver' in window)){draw(10)}else{draw(0);
   (function f(n){const t=(n-t0)/1000;draw(t);if(t<4.3)requestAnimationFrame(f)})(t0)}})},{threshold:.35});io.observe(svgEl)}
 
 })();</script>
+<script>
+/* Free / Open / Instant: each word is shrunk just enough to fit its column, whatever the screen width and even when a
+   browser translator replaces it (some ignore translate="no"). Runs on load, on resize and on any change of the text. ES5. */
+(function () {
+  'use strict';
+  var words = document.querySelectorAll('.stats3 .stat b');
+  if (!words.length) return;
+  function fit(b) {
+    b.style.fontSize = '';
+    for (var k = 0; k < 3 && b.scrollWidth > b.clientWidth + 1; k++) {
+      var size = parseFloat(getComputedStyle(b).fontSize);
+      b.style.fontSize = (size * b.clientWidth / b.scrollWidth * 0.98).toFixed(2) + 'px';
+    }
+  }
+  var queued = false;
+  function fitAll() {
+    if (queued) return; queued = true;
+    (window.requestAnimationFrame || setTimeout)(function () { queued = false; Array.prototype.forEach.call(words, fit); });
+  }
+  fitAll();
+  window.addEventListener('resize', fitAll);
+  window.addEventListener('load', fitAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+  if (window.MutationObserver) {
+    var mo = new MutationObserver(fitAll);
+    Array.prototype.forEach.call(words, function (b) { mo.observe(b, { childList: true, subtree: true, characterData: true }); });
+  }
+})();
+</script>
 </body>
 </html>
