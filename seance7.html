@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IFM · Class 7 · The external constraint: OPEN-MU v1.2</title>
+<title>IFM · Class 7 · The external constraint: the Trade and Finance models</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
@@ -27,41 +27,25 @@ html,body{background:var(--bg);}
 .reveal a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
 .reveal strong{color:var(--navy)}
 .kicker{font-size:.62em;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35em}
-.src{position:absolute;left:48px;bottom:14px;font-size:.52em;color:var(--muted)}
 .small{font-size:.78em}.xs{font-size:.64em}.muted{color:var(--muted)}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
-.cols.c64{grid-template-columns:1.45fr 1fr}.cols.c46{grid-template-columns:1fr 1.45fr}.cols.c3{grid-template-columns:1fr 1fr 1fr;gap:22px}
+.cols.c64{grid-template-columns:1.45fr 1fr}.cols.c3{grid-template-columns:1fr 1fr 1fr;gap:20px}
 .cols>*,.cols>div{min-width:0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;box-shadow:0 1px 2px rgba(20,33,61,.04)}
 .card h3{margin-bottom:.3em}
 .pill{display:inline-block;padding:.12em .6em;border-radius:999px;font-size:.72em;font-weight:600;background:var(--gold-soft);color:#7a5f0e}
-.hl{background:linear-gradient(transparent 55%,var(--gold-soft) 55%);padding:0 .1em}
 .big{font-size:1.9em;font-weight:700;color:var(--navy);font-family:"Source Serif 4",serif;line-height:1}
-.chart{position:relative;width:100%;height:470px}
-.chart.sm{height:380px}
 .formula{background:var(--card);border-left:4px solid var(--gold);border-radius:8px;padding:10px 18px;margin:.5em 0;font-size:1.02em}
-section.divider{background:var(--navy);color:#fff}
-.reveal section.divider h1,.reveal section.divider h2{color:#fff}
-section.divider .kicker{color:var(--gold)}
-.toc{list-style:none;margin:1.2em 0 0!important;padding:0}
-.toc li{display:flex;gap:18px;align-items:baseline;padding:.42em 0;border-bottom:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.55);font-size:1.02em}
-.toc li b{font-family:"Source Serif 4",serif;color:var(--gold);width:1.6em}
-.toc li.on{color:#fff;font-weight:600}
 section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy) 60%);color:#fff}
 .reveal section.title h1{color:#fff;font-size:2.6em;margin-top:2.2em}
 .keys{font-size:.55em;color:rgba(255,255,255,.6);position:absolute;bottom:26px;left:48px}
 .keys kbd{border:1px solid rgba(255,255,255,.35);border-radius:4px;padding:1px 6px;margin:0 2px}
-.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.78em;margin:.6em 0}
-.chain .n{background:var(--card);border:1.5px solid var(--navy);border-radius:10px;padding:8px 14px;font-weight:600}
-.chain .n.up::before{content:"↑ ";color:var(--loss)}
-.chain .n.dn::before{content:"↓ ";color:var(--blue)}
-.chain .ar{color:var(--gold);font-weight:700;font-size:1.2em}
 .quiz{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:.8em}
 .quiz button{font:inherit;font-size:.8em;text-align:left;padding:16px 20px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink);transition:all .25s}
 .quiz button:hover{border-color:var(--navy)}
 .quiz button.right{background:var(--gain-soft);border-color:var(--gain);color:var(--gain);font-weight:600}
 .quiz button.wrong{background:var(--loss-soft);border-color:var(--loss);color:var(--loss);opacity:.75}
-.quiz-fb{font-size:.7em;margin-top:.8em;min-height:1.6em;color:var(--muted)}
+.fb{font-size:.7em;margin-top:.8em;min-height:1.6em;color:var(--muted)}
 .qtag{display:inline-block;background:var(--gold);color:#fff;border-radius:6px;padding:2px 10px;font-size:.6em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6em}
 .chk li{list-style:none;position:relative;padding-left:1.3em}
 .chk li::before{content:"";position:absolute;left:0;top:.5em;width:.55em;height:.55em;border-radius:2px;background:var(--gold)}
@@ -70,49 +54,29 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 .reveal .controls{color:var(--gold)}
 .reveal .katex{font-size:1.05em}
 .keyidea{background:var(--blue-soft);border-radius:12px;padding:14px 20px}
-.keyidea h3{margin:.2em 0}
-/* ---- class 6 additions ---- */
-.tbl{width:100%;border-collapse:collapse;font-size:.68em;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.tbl th{background:var(--navy);color:#fff;font-weight:600;padding:7px 12px;text-align:left}
-.tbl td{padding:6px 12px;border-top:1px solid var(--line);vertical-align:top}
-.tbl td.num,.tbl th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.tbl.bs td,.tbl.bs th{padding:3px 8px}
-.tbl tr.grp td{background:var(--blue-soft);color:var(--navy);font-weight:600;font-size:.9em;letter-spacing:.06em;text-transform:uppercase}
-.tbl .n{display:inline-block;width:1.5em;color:var(--muted)}
-.pos{color:var(--gain);font-weight:600}.neg{color:var(--loss);font-weight:600}
-.econ{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:.5em}
-.econ div{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.7em;text-align:center}
-.econ div b{display:block;font-family:"Source Serif 4",serif;font-size:1.5em;color:var(--navy)}
-.econ div.eu{border-color:var(--blue);background:var(--blue-soft)}
-.econ div.off{opacity:.5;border-style:dashed}
-.econ div .tag{display:inline-block;margin-top:4px;font-size:.78em;padding:1px 8px;border-radius:999px;background:var(--gold);color:#fff;font-weight:600}
-.timeline{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:.6em}
-.timeline .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;position:relative}
-.timeline .step .num{font-family:"Source Serif 4",serif;font-size:1.8em;color:var(--gold);font-weight:700;line-height:1}
-.timeline .step h3{margin:.3em 0 .2em}
-.timeline .step p{font-size:.72em;margin:.2em 0}
-.sign{display:inline-block;width:1.2em;height:1.2em;border-radius:50%;color:#fff;font-weight:700;text-align:center;line-height:1.2em;font-size:.8em}
-.sign.p{background:var(--gain)}.sign.m{background:var(--loss)}
 .eq{font-size:.86em}
-.eq .katex{font-size:1.02em}
-.note{font-size:.66em;color:var(--muted)}
-.screen{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:.66em}
-.screen .row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
-.screen .row:last-child{border-bottom:none}
-.screen .in{font-family:ui-monospace,Menlo,monospace;border:1px solid #cfc9b8;border-radius:6px;padding:1px 8px;min-width:3.2em;text-align:right;background:#fff}
-.screen .in.nz{background:var(--gold-soft);border-color:var(--gold);font-weight:700}
-.screen .btn{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;padding:3px 12px;font-weight:600}
+.tbl{width:100%;border-collapse:collapse;font-size:.62em;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tbl th{background:var(--navy);color:#fff;font-weight:600;padding:7px 12px;text-align:left;vertical-align:bottom}
+.tbl th small{display:block;font-weight:400;opacity:.75;font-size:.85em}
+.tbl td{padding:6px 12px;border-top:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:600;color:var(--navy)}
+.tbl .new{display:inline-block;background:var(--gold);color:#fff;font-size:.78em;font-weight:700;border-radius:4px;padding:0 6px;margin-right:6px}
+.tbl .dot{color:var(--muted)}
+.opt{font-size:.66em}
+.opt h3{font-size:1.25em;margin-bottom:.15em}
+.opt .on{font-size:.85em;color:var(--muted);margin:0 0 .4em}
+.vote{border-top:4px solid var(--gold)}
+.vote .ch{display:flex;gap:6px;flex-wrap:wrap;margin:.4em 0}
+.vote .ch span{font-size:.72em;border:1.5px solid var(--navy);border-radius:999px;padding:1px 10px;font-weight:600}
 </style>
 </head>
 <body>
 <div class="reveal"><div class="slides">
 
-<!-- ============ TITLE ============ -->
-<!-- ============ TITLE ============ -->
 <section class="title" data-background-color="#14213d">
   <div class="kicker">KEDGE Business School · Master · 2026</div>
   <h1>International Financial Macroeconomics</h1>
-  <p style="font-size:1.1em;color:#d9dce4">Class 7 — The external constraint: prices, capital flows and the exchange-rate regime (OPEN-MU v1.2 → v1.3)</p>
+  <p style="font-size:1.1em;color:#d9dce4">Class 7 — The external constraint: prices, capital flows and the exchange-rate regime (Macroscope: the Trade model and the Finance model)</p>
   <p style="margin-top:1.4em;color:#fff">Thomas Lagoarde-Ségot &amp; Léo Malherbe</p>
   <div class="keys"><a href="https://leomalherbe.github.io/internationalfinancialmacro/" style="color:#d9dce4">← Course home</a> &nbsp;·&nbsp; <kbd>→</kbd> next &nbsp; <kbd>F</kbd> full screen &nbsp; <kbd>O</kbd> overview &nbsp; <kbd>S</kbd> speaker notes</div>
 </section>
@@ -120,25 +84,23 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 <section>
   <div class="kicker">Today</div>
   <h2>Today’s roadmap</h2>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:1em">
-    <div class="card"><div class="big">A</div><h3 style="margin-top:.5em">Finishing the game</h3><p class="small muted">The last years of the union you started in class 6, on the model you know</p></div>
-    <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">What the game taught</h3><p class="small muted">Stimulus was cheap, the external constraint slow: why, in the model’s own terms</p></div>
-    <div class="card"><div class="big">C</div><h3 style="margin-top:.5em">The missing channel</h3><p class="small muted">Prices enter trade: competitiveness, internal devaluation, the Hume mechanism inside a union</p></div>
-    <div class="card"><div class="big">D</div><h3 style="margin-top:.5em">Playing version 1.2 — and opening the capital account</h3><p class="small muted">Smaller reserves, a new chart; then capital flows, a floating rate as an option, and the bond market’s verdict on your debt</p></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:1em">
+    <div class="card"><div class="big">A</div><h3 style="margin-top:.5em">What the game taught</h3><p class="small muted">Stimulus was cheap, the external constraint slow: why, in the model’s own terms</p></div>
+    <div class="card"><div class="big">B</div><h3 style="margin-top:.5em">Version 1 · Trade</h3><p class="small muted">Prices enter trade: competitiveness, internal devaluation, Hume’s mechanism inside a union</p></div>
+    <div class="card"><div class="big">C</div><h3 style="margin-top:.5em">Version 2 · Finance</h3><p class="small muted">Capital flows, a fixed or floating rate, the bond market’s verdict on your debt — the model you will play</p></div>
   </div>
-  <p class="small muted" style="margin-top:1.2em">Same union, same seven countries, same objective. What changes is the one thing class 6 could not do: make your prices matter.</p>
+  <p class="small muted" style="margin-top:1.2em">Same union, same objective, same four fiscal levers. What changes is what your prices and your debt do to you.</p>
 </section>
 
-<!-- ============ B ============ -->
 <section>
-  <div class="kicker">B · What the game taught</div>
+  <div class="kicker">A · What the game taught</div>
   <h2>Growth was easy. Why?</h2>
   <div class="cols">
     <div>
       <ul class="small">
         <li>Public demand +10 % bought <strong>+2.4 % of GDP</strong> and <strong>−1 point</strong> of unemployment at once, for −1.1 point on the budget and −0.7 on trade. In the objective function that is a <em>gain</em>.</li>
         <li>Inflation moved by +0.7 point — and changed nothing afterwards: a thermometer, not a force.</li>
-        <li>The only brake was the common stock of reserves: three months of imports, drained at ~15 % of a stimulus’s leak. With everybody stimulating, two to three years before the alert.</li>
+        <li>The only brake was the common stock of reserves: three months of imports, drained slowly by each member’s leak. With everybody stimulating, several years before the alert.</li>
         <li>Austerity never paid in R; it only paid in reserves — which belong to everyone.</li>
       </ul>
       <div class="keyidea" style="margin-top:8px"><span class="qtag">Diagnosis</span>
@@ -147,29 +109,43 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
     <div class="card">
       <h3>What a real union does to a stimulating member</h3>
       <ul class="small chk">
-        <li>Its prices rise faster than its partners’ (Phillips).</li>
-        <li>Its goods become dearer — inside the union <em>and</em> outside.</li>
+        <li>Its prices rise faster than its partners’.</li>
+        <li>Its goods become more costly — inside the union <em>and</em> outside.</li>
         <li>It exports less, imports more: the trade deficit widens year after year.</li>
         <li>Without an exchange rate of its own, the only way back is to inflate <em>less</em> than the others: <strong>internal devaluation</strong>.</li>
       </ul>
-      <p class="small muted" style="margin-top:.5em">Germany 2000–2010, Southern Europe 2010–2015.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <span class="qtag">Check</span>
-  <h2>In the class-6 model, a country that inflates 1 point faster than its partners for five years…</h2>
-  <div class="quiz" data-answer="2" data-fb="Inflation was computed on the model but fed back into nothing: no price entered any trade flow. Only the exchange rate with the rest of the world moved relative prices — and it was fixed.">
-    <button>loses 5 % of its exports to the union</button><button>loses 3.5 % of its exports (elasticity 0.7)</button><button>loses nothing: prices did not enter trade</button><button>gains, because its nominal GDP is higher</button>
-  </div>
-  <p class="fb"></p>
+  <div class="kicker">B · Where we are going</div>
+  <h2>Macroscope now comes as two models, plus options</h2>
+  <table class="tbl">
+    <tr><th style="width:30%">Read left to right: Finance keeps everything in Trade</th><th>version 1 · Trade<small>first course in macroeconomics</small></th><th>version 2 · Finance<small>this course: international financial macroeconomics</small></th></tr>
+    <tr><td>What it adds</td><td>The class-6 union, <strong>plus relative prices in trade</strong>; fixed exchange rate, a common pool of reserves (three months of imports)</td><td>Capital flows and portfolio choice; a <strong>fixed or floating</strong> rate, year by year; a risk premium on public debt; a central bank that may or may not stand behind it</td></tr>
+    <tr><td>Shocks</td><td>World demand, household confidence, the share of spending on imports, a devaluation</td><td><span class="new">NEW</span>the exchange-rate regime, capital flows up to a sudden stop, the world interest rate, the central bank’s backstop</td></tr>
+    <tr><td>Your decisions</td><td>Public demand, social benefits, income tax, consumption tax · votes on the central bank’s rate and on a reserves crisis</td><td><span class="new">NEW</span>a third answer to a reserves crisis (float) · a vote on a currency crisis</td></tr>
+    <tr><td>What you learn</td><td>Multipliers and import leakages, twin deficits, the external constraint, competitiveness and internal devaluation</td><td>Interest rates, capital flows and the exchange rate; pegs, sudden stops, spreads</td></tr>
+  </table>
+  <p class="small muted" style="margin-top:.7em">Every equation, version by version: <a href="https://leomalherbe.github.io/macroscope/model.html">the model page</a>.</p>
 </section>
 
-<!-- ============ C ============ -->
 <section>
-  <div class="kicker">C · The missing channel</div>
-  <h2>Version 1.2: the price level enters trade</h2>
+  <div class="kicker">B · Where we are going</div>
+  <h2>Options a class can switch on</h2>
+  <div class="cols" style="grid-template-columns:repeat(4,1fr);gap:16px">
+    <div class="card opt"><h3>Climate</h3><p class="on">Trade or Finance</p><p>World emissions and climate disasters as shocks; a carbon tax and green public investment as levers; emissions as a sixth term of R, weight zero until voters decide otherwise.</p></div>
+    <div class="card opt"><h3>Tariffs</h3><p class="on">Trade or Finance</p><p>A common external tariff voted by the members, and the rest of the world’s tariff on the union as a shock: what a tariff does to prices, trade, the budget and the partners.</p></div>
+    <div class="card opt"><h3>Modest and wealthy households</h3><p class="on">Trade or Finance</p><p>Two groups that differ in income, taxes, benefits and propensity to consume: who gains, who pays, and how the sharing feeds back on demand.</p></div>
+    <div class="card opt"><h3>Leaving the union</h3><p class="on">Finance only</p><p>A member leaves with its own currency and policy rate; the others choose their response. More policy space against the partners’ backlash.</p></div>
+  </div>
+  <p class="small muted" style="margin-top:1em">A class keeps its model and options from the first year to the last. Ours today: <strong>Finance</strong>, with every option but the climate.</p>
+</section>
+
+<section>
+  <div class="kicker">B · Version 1 · Trade</div>
+  <h2>The price level enters trade</h2>
   <div class="cols c64" style="gap:22px">
     <div>
       <div class="formula eq" style="font-size:.82em;margin:.18em 0;padding:5px 16px">\( P^{rel}_{i} = P^{rel}_{i,-1}\,\frac{1+\pi_i/100}{1+\pi^*/100} \)</div>
@@ -178,7 +154,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
       <ul class="small" style="margin-top:.5em">
         <li>\(P^{rel}\): your price level <strong>relative to the reference path</strong> — everybody, the rest of the world included, inflates at \(\pi^* = 2\) %; only the <em>excess</em> counts. At the reference, \(P^{rel} = 1\) everywhere and nothing moves.</li>
         <li>Inflation is still the class-6 thermometer, without inertia; what is new is that its <strong>level accumulates</strong> and reallocates trade with a one-year lag.</li>
-        <li>Elasticities 0.7 inside and outside the union; every identity of class 6 still holds.</li>
+        <li>Elasticities 0.7 inside and outside the union; every identity of class 6 still holds, and the reserves are the same three months of imports.</li>
       </ul>
     </div>
     <div class="card" style="font-size:.64em">
@@ -192,7 +168,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 </section>
 
 <section>
-  <div class="kicker">C · The missing channel</div>
+  <div class="kicker">B · Version 1 · Trade</div>
   <h2>A lone stimulus now erodes — and leaves a deficit behind</h2>
   <div class="cols c64">
     <div style="height:420px"><canvas data-chart="erosion"></canvas></div>
@@ -202,7 +178,7 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
         <li>GDP gain: <strong>+2.4 %</strong> in year 1, <strong>+1.2 %</strong> in year 6 (class 6: it kept rising to +2.6 %).</li>
         <li>Trade balance: −0.7 point in year 1, <strong>−1.4</strong> in year 6 (class 6: −0.7 throughout).</li>
         <li>Price level: +0.5 % above the union after one year, <strong>+2.2 %</strong> after six.</li>
-        <li>Partners gain a little from France’s imports (+0.2 % of GDP) — and keep gaining as France loses competitiveness.</li>
+        <li>Partners gain a little from France’s imports (+0.14 % of GDP for Germany) — and keep gaining (+0.22 %) as France loses competitiveness.</li>
       </ul>
       <p class="xs muted" style="margin-top:.5em">Stop the stimulus after three years: GDP falls <em>below</em> the reference (−0.8 %) because the prices do not come back by themselves.</p>
     </div>
@@ -210,130 +186,82 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
 </section>
 
 <section>
-  <div class="kicker">C · The missing channel</div>
-  <h2>Internal devaluation: the mirror image</h2>
-  <div class="cols">
-    <div>
-      <ul class="small">
-        <li>France cuts public demand by 10 % for six years: GDP −2.4 % then −1.2 %; the trade balance improves from +0.7 to <strong>+1.5 points</strong>; prices 2 % <em>below</em> the union’s.</li>
-        <li>The cost is paid first (output, unemployment), the gain comes slowly (competitiveness) — and stays: once prices are lower, the surplus persists after the austerity ends.</li>
-        <li>Inside a union there is no other way to regain competitiveness: no exchange rate, no tariffs. This is the adjustment the euro area imposed on Greece, Spain and Portugal after 2010.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Hume’s mechanism, in a union</h3>
-      <p class="small">A country that stimulates inflates, loses competitiveness, runs a deficit; its partners gain the demand and the surplus. Relative prices do the adjustment that the exchange rate cannot — slowly, and at the expense of output. David Hume described it for gold in 1752; a monetary union is a gold standard with a central bank.</p>
-      <p class="small muted" style="margin-top:.6em">Symmetric stimulus by all members: no change in relative prices inside the union, no reallocation — only the deficit with the rest of the world.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="kicker">C · The missing channel</div>
-  <h2>Smaller reserves: the alert comes in two years, not five</h2>
-  <div class="cols c64">
-    <div style="height:400px"><canvas data-chart="reserves"></canvas></div>
-    <div class="card" style="font-size:.78em">
-      <h3>Reserves of the union, % of the initial stock, no reaction</h3>
-      <ul class="small chk">
-        <li>Initial stock: <strong>1.5 months</strong> of imports from the rest of the world (class 6: three).</li>
-        <li>World demand −5 % every year: 69 → 40 → <strong>15 %</strong> — alert at the end of year 3, exhausted in year 4.</li>
-        <li>World demand −10 %: 37 % after one year, <strong>exhausted in year 2</strong> — straight to the forced devaluation, no vote.</li>
-        <li>Every member stimulating by 5 %: 88 → 73 → 54 %, with no shock at all.</li>
-      </ul>
-      <p class="xs muted" style="margin-top:.5em">Same rules as before: alert at 25 %, crisis vote before the decisions of the next year, forced devaluation of 15 % when the stock is gone and the deficit continues.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <span class="qtag">Check</span>
-  <h2>In version 1.2, Germany stimulates by 10 % and Italy does nothing. After three years, Italy’s trade balance is…</h2>
-  <div class="quiz" data-answer="1" data-fb="Germany’s extra demand raises Italy’s exports at once (class 6 effect), and Germany’s rising prices shift German demand towards Italian goods with a one-year lag (new effect). Both work in Italy’s favour.">
-    <button>unchanged: Italy did nothing</button><button>better: more German demand, and German goods became dearer</button><button>worse: German inflation is imported by Italy</button><button>worse: Italy’s reserves pay for Germany’s deficit</button>
-  </div>
-  <p class="fb"></p>
-</section>
-
-<!-- ============ D ============ -->
-<section>
-  <div class="kicker">D · Playing version 1.2</div>
+  <div class="kicker">B · Version 1 · Trade</div>
   <h2>What changes on your page — and in your strategy</h2>
   <div class="cols">
     <div>
       <h3>On the page</h3>
       <ul class="small chk">
         <li>A new line in your results: <strong>price level vs the union</strong> — your competitiveness, in %.</li>
-        <li>A chart, <strong>« Your objective, year by year »</strong>: each year, the contributions of the five dimensions to R stacked above and below zero, and R itself as a dashed line. The board shows the seven countries side by side.</li>
-        <li>The model page (equations, notation, orders of magnitude) is updated: read it before deciding.</li>
+        <li>Every result is split in three: <strong>your own policy</strong>, <strong>the other governments</strong>, <strong>the shocks</strong>. Your analysis has to use it.</li>
+        <li>A chart, <strong>« Your objective, year by year »</strong>; the board shows every country side by side.</li>
+        <li>The desk is in English or French, with a beginner’s guide on every lever and vote; the model page has every equation.</li>
       </ul>
     </div>
     <div class="card">
       <h3>In your strategy</h3>
       <ul class="small chk">
         <li>A stimulus still pays in year 1 — and costs more every year after. Ask: <em>for how long?</em></li>
-        <li>Your inflation is now your competitiveness: the VAT lever moves both.</li>
+        <li>Your inflation is now your competitiveness: the consumption-tax lever moves both.</li>
         <li>Watch your partners’ prices: their inflation is your export market.</li>
-        <li>The reserves run out twice as fast. The crisis vote will come; decide beforehand whether you want austerity or a devaluation — and line up the votes at the council.</li>
+        <li>The crisis vote will come; decide beforehand what you want — and line up the votes at the council.</li>
       </ul>
     </div>
   </div>
-  <p class="small muted" style="margin-top:.8em">Same four levers, same objective, same two votes. The union you govern is simply less forgiving.</p>
 </section>
 
 <section>
-  <div class="kicker">D · Playing version 1.2</div>
-  <h2>Reading the new chart</h2>
+  <div class="kicker">B · Version 1 · Trade</div>
+  <h2>Reading the chart</h2>
   <div class="cols c64">
     <div class="card" style="padding:10px">
       <svg viewBox="0 0 640 240" width="100%" style="display:block">
         <line x1="44" x2="620" y1="26" y2="26" stroke="#e6e2d6"/><line x1="44" x2="620" y1="66" y2="66" stroke="#e6e2d6"/><line x1="44" x2="620" y1="106" y2="106" stroke="#5b6475" stroke-width="1.4"/><line x1="44" x2="620" y1="146" y2="146" stroke="#e6e2d6"/><line x1="44" x2="620" y1="186" y2="186" stroke="#e6e2d6"/>
         <text x="38" y="30" font-size="11" text-anchor="end" fill="#5b6475">+0.5</text><text x="38" y="110" font-size="11" text-anchor="end" fill="#5b6475">0</text><text x="38" y="190" font-size="11" text-anchor="end" fill="#5b6475">−0.5</text>
-        <g><rect x="110" y="68" width="56" height="38" fill="#2f5d9e" stroke="#fff"/><rect x="110" y="52" width="56" height="16" fill="#b23b3b" stroke="#fff"/><rect x="110" y="106" width="56" height="11" fill="#c29d2c" stroke="#fff"/><rect x="110" y="117" width="56" height="18" fill="#2f7d4f" stroke="#fff"/><rect x="110" y="135" width="56" height="11" fill="#7a4fa3" stroke="#fff"/></g>
-        <g><rect x="302" y="72" width="56" height="34" fill="#2f5d9e" stroke="#fff"/><rect x="302" y="58" width="56" height="14" fill="#b23b3b" stroke="#fff"/><rect x="302" y="106" width="56" height="10" fill="#c29d2c" stroke="#fff"/><rect x="302" y="116" width="56" height="19" fill="#2f7d4f" stroke="#fff"/><rect x="302" y="135" width="56" height="15" fill="#7a4fa3" stroke="#fff"/></g>
-        <g><rect x="494" y="78" width="56" height="28" fill="#2f5d9e" stroke="#fff"/><rect x="494" y="66" width="56" height="12" fill="#b23b3b" stroke="#fff"/><rect x="494" y="106" width="56" height="8" fill="#c29d2c" stroke="#fff"/><rect x="494" y="114" width="56" height="20" fill="#2f7d4f" stroke="#fff"/><rect x="494" y="134" width="56" height="22" fill="#7a4fa3" stroke="#fff"/></g>
-        <polyline fill="none" stroke="#1b2437" stroke-width="2.4" stroke-dasharray="6 4" points="44,106 138,102 330,108 522,116"/>
-        <circle cx="138" cy="102" r="4" fill="#1b2437" stroke="#fff"/><circle cx="330" cy="108" r="4" fill="#1b2437" stroke="#fff"/><circle cx="522" cy="116" r="4" fill="#1b2437" stroke="#fff"/>
+        <g><rect x="110" y="68" width="56" height="38" fill="#122ddb" stroke="#fff"/><rect x="110" y="52" width="56" height="16" fill="#7f8ff2" stroke="#fff"/><rect x="110" y="106" width="56" height="11" fill="#ff7a59" stroke="#fff"/><rect x="110" y="117" width="56" height="18" fill="#ffc2ad" stroke="#fff"/><rect x="110" y="135" width="56" height="11" fill="#cfd5ea" stroke="#fff"/></g>
+        <g><rect x="302" y="72" width="56" height="34" fill="#122ddb" stroke="#fff"/><rect x="302" y="58" width="56" height="14" fill="#7f8ff2" stroke="#fff"/><rect x="302" y="106" width="56" height="10" fill="#ff7a59" stroke="#fff"/><rect x="302" y="116" width="56" height="19" fill="#ffc2ad" stroke="#fff"/><rect x="302" y="135" width="56" height="15" fill="#cfd5ea" stroke="#fff"/></g>
+        <g><rect x="494" y="78" width="56" height="28" fill="#122ddb" stroke="#fff"/><rect x="494" y="66" width="56" height="12" fill="#7f8ff2" stroke="#fff"/><rect x="494" y="106" width="56" height="8" fill="#ff7a59" stroke="#fff"/><rect x="494" y="114" width="56" height="20" fill="#ffc2ad" stroke="#fff"/><rect x="494" y="134" width="56" height="22" fill="#cfd5ea" stroke="#fff"/></g>
+        <polyline fill="none" stroke="#0a1670" stroke-width="2.4" stroke-dasharray="6 4" points="44,106 138,102 330,108 522,116"/>
+        <circle cx="138" cy="102" r="4" fill="#0a1670" stroke="#fff"/><circle cx="330" cy="108" r="4" fill="#0a1670" stroke="#fff"/><circle cx="522" cy="116" r="4" fill="#0a1670" stroke="#fff"/>
         <text x="138" y="206" font-size="11" text-anchor="middle" fill="#5b6475">year 1</text><text x="330" y="206" font-size="11" text-anchor="middle" fill="#5b6475">year 2</text><text x="522" y="206" font-size="11" text-anchor="middle" fill="#5b6475">year 3</text>
-        <g font-size="11" fill="#1b2437"><rect x="44" y="222" width="14" height="11" fill="#2f5d9e"/><text x="62" y="232">GDP</text><rect x="110" y="222" width="14" height="11" fill="#b23b3b"/><text x="128" y="232">Unemployment</text><rect x="230" y="222" width="14" height="11" fill="#c29d2c"/><text x="248" y="232">Inflation</text><rect x="320" y="222" width="14" height="11" fill="#2f7d4f"/><text x="338" y="232">Public balance</text><rect x="440" y="222" width="14" height="11" fill="#7a4fa3"/><text x="458" y="232">Trade balance</text><line x1="560" x2="574" y1="228" y2="228" stroke="#1b2437" stroke-width="2.5" stroke-dasharray="5 3"/><text x="578" y="232">R</text></g>
+        <g font-size="11" fill="#1b2437"><rect x="44" y="222" width="14" height="11" fill="#122ddb"/><text x="62" y="232">GDP</text><rect x="110" y="222" width="14" height="11" fill="#7f8ff2"/><text x="128" y="232">Unemployment</text><rect x="230" y="222" width="14" height="11" fill="#ff7a59"/><text x="248" y="232">Inflation</text><rect x="320" y="222" width="14" height="11" fill="#ffc2ad"/><text x="338" y="232">Public balance</text><rect x="440" y="222" width="14" height="11" fill="#cfd5ea"/><text x="458" y="232">Trade balance</text><line x1="560" x2="574" y1="228" y2="228" stroke="#0a1670" stroke-width="2.5" stroke-dasharray="5 3"/><text x="578" y="232">R</text></g>
       </svg>
     </div>
     <div>
       <ul class="small">
         <li>Each bar is one year. Above zero: what <strong>helped</strong> your score (GDP up, unemployment down…); below zero: what <strong>hurt</strong> it. Each segment is weight × deviation, so the segments add up exactly to R.</li>
         <li>The dashed line is R, year by year — the ranking sums it over the years.</li>
-        <li>Here: a stimulus. GDP and employment carry the score in year 1; the trade balance eats more of it each year, and R drifts below zero by year 3. That drift is the new channel.</li>
+        <li>Here: a stimulus. GDP and employment carry the score in year 1; the trade balance eats more of it each year, and R drifts below zero by year 3. That drift is the price channel.</li>
       </ul>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="kicker">D · Opening the capital account</div>
+  <div class="kicker">C · Version 2 · Finance</div>
   <h2>So far, nothing but goods crossed the union’s border</h2>
   <div class="cols">
     <div>
       <ul class="small">
         <li>The rest of the world bought the union’s exports and sold it imports — and held none of its assets. The union held none of theirs.</li>
         <li>So the balance of payments had a current account and reserves, nothing else: no capital account, no portfolio choice, no interest-rate parity.</li>
-        <li>Class 4 told you where that fails: capital flows are larger than trade flows, and they move on <strong>returns</strong>, not on goods.</li>
         <li>Godley &amp; Lavoie’s chapter 12 adds exactly that: households of each economy hold both countries’ bills; the exchange rate is fixed if reserves absorb, floating if they do not.</li>
       </ul>
     </div>
     <div class="card">
-      <h3>Version 1.3 — what is added</h3>
+      <h3>The Finance model — what is added to Trade</h3>
       <ul class="small chk">
-        <li>The rest of the world holds union government bills, <strong>30 % of the union’s GDP</strong>; union households hold foreign bills, <strong>15 % of their wealth</strong>.</li>
+        <li>The rest of the world holds union government bills, <strong>15 % of the union’s GDP</strong>; union households hold foreign bills, <strong>about 7 % of their wealth</strong>.</li>
         <li>Both portfolios move with the <strong>interest-rate differential</strong> \(r - r_w\) (static exchange-rate expectations).</li>
         <li>The balance of payments gains a financial account: \(CA' + KA = xr\cdot\Delta R\).</li>
-        <li>A per-year <strong>regime</strong> chosen by the administrator: fixed or floating — switchable during the game.</li>
+        <li>A <strong>regime</strong> set by the administrator — fixed or floating — kept from one year to the next until it is changed.</li>
       </ul>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="kicker">D · Opening the capital account</div>
+  <div class="kicker">C · Version 2 · Finance</div>
   <h2>Fixed or floating: the same equation, a different unknown</h2>
   <div class="cols">
     <div class="card">
@@ -341,76 +269,93 @@ section.title{background:radial-gradient(circle at 85% 20%,#24365e 0,var(--navy)
       <div class="formula eq" style="font-size:.8em;padding:5px 14px">\( xr \text{ given} \quad\Rightarrow\quad \Delta R = \frac{CA' + KA}{xr} \)</div>
       <ul class="small chk">
         <li>Reserves absorb whatever trade and capital do not balance.</li>
-        <li>A sudden stop drains them; the alert and the crisis vote work as before.</li>
-        <li>The rate vote is a reserves decision: a hike attracts capital and slows the drain.</li>
+        <li>The rate vote is a reserves decision: +0.5 point draws capital in, reserves <strong>+25 %</strong>; union GDP −0.6 % the next year.</li>
       </ul>
     </div>
     <div class="card">
       <h3>Floating exchange rate</h3>
       <div class="formula eq" style="font-size:.8em;padding:5px 14px">\( R \text{ given} \quad\Rightarrow\quad CA'(xr) + KA(xr) = 0 \)</div>
       <ul class="small chk">
-        <li>No reserves crisis: the currency moves instead — depreciation raises import prices and inflation for everyone, then restores exports.</li>
-        <li>The rate vote is a <strong>currency</strong> decision: hike → inflows → appreciation → lost competitiveness, cheaper imports.</li>
-        <li>A depreciation of more than 10 % in a year opens a vote: <strong>defend</strong> (rate +1 pt) or <strong>let it float</strong>.</li>
+        <li>No reserves crisis: the currency moves instead — depreciation raises import prices, then restores exports.</li>
+        <li>The rate vote is a <strong>currency</strong> decision: +0.5 point → inflows → <strong>appreciation of 3.7 %</strong> → inflation −0.5 point, union GDP −0.9 % the next year.</li>
       </ul>
     </div>
   </div>
-  <p class="small muted" style="margin-top:.7em">Mundell–Fleming, written with stocks: the regime decides whether the adjustment falls on the central bank’s balance sheet or on the price of the currency.</p>
+  <p class="small muted" style="margin-top:.5em">Mundell–Fleming, written with stocks: the regime decides whether the adjustment falls on the central bank’s balance sheet or on the price of the currency.</p>
 </section>
 
 <section>
-  <div class="kicker">D · Opening the capital account</div>
-  <h2>The bond market looks at your debt — and the central bank decides whether to stand behind you</h2>
-  <div class="cols c64">
+  <div class="kicker">C · Version 2 · Finance</div>
+  <h2>The bond market looks at your debt; the central bank decides whether to stand behind you</h2>
+  <div class="cols c64" style="font-size:.94em">
     <div>
-      <div class="formula eq" style="font-size:.82em;margin:.18em 0;padding:5px 16px">\( s_i = \varphi \cdot \max\!\left(0,\; \frac{B_i}{Y_i} - 1.10\right), \qquad \varphi = 5 \;\;(\text{1 point at 130\% of GDP}) \)</div>
+      <div class="formula eq" style="font-size:.82em;margin:.18em 0;padding:5px 16px">\( s_i = \varphi \cdot \max\!\left(0,\; \frac{B_{i,-1}}{Y_{i,-1}} - 1.10\right), \quad \varphi = 5 \)</div>
       <ul class="small" style="margin-top:.5em">
-        <li>Above 110 % of GDP, a member pays a <strong>spread</strong> on its bills — to its households, its banks, and the rest of the world. The part paid abroad is a leak in the current account; the part paid at home is income.</li>
+        <li>Above 110 % of last year’s GDP, a member pays a <strong>spread</strong> — 1 point at 130 % — to its households, its banks, and the rest of the world. The part paid abroad is a leak in the current account; the part paid at home is income.</li>
+        <li>France, public demand and benefits +10 % for eight years: debt 104 → <strong>123 %</strong>, a spread from year 5, <strong>0.5 point</strong> in year 8; public balance −2.9 points (Trade model: −2.8).</li>
         <li>Foreign investors <strong>flee</strong> high-spread members: their bills are sold, the union’s balance of payments feels it — reserves in a fixed regime, the currency in a floating one. One member’s debt is everybody’s external constraint.</li>
-        <li>The common central bank buys the bills nobody wants, at the common rate: that is the <strong>backstop</strong> that keeps spreads contained (OMT 2012, TPI 2022).</li>
+        <li>The common central bank buys the bills nobody wants, at the common rate: the <strong>backstop</strong> that keeps spreads contained (OMT 2012, TPI 2022).</li>
       </ul>
     </div>
     <div class="card" style="font-size:.8em">
-      <h3>Two new administrator shocks</h3>
+      <h3>Three new administrator shocks</h3>
       <ul class="small chk">
-        <li><strong>Sudden stop</strong>: the rest of the world cuts its holdings of union bills by x %. Fixed: the reserves pay. Floating: the currency drops.</li>
-        <li><strong>Backstop off</strong>: the central bank stops absorbing the bills of members above the threshold. Their spread applies to their whole debt, the flight is no longer cushioned — Greece 2010, Italy 2011.</li>
+        <li><strong>Sudden stop</strong>: the rest of the world cuts its holdings of union bills by x %. Fixed: −5 % costs a fifth of the reserves, −20 % puts them under the alert at once. Floating: −20 % → the currency drops 13 %, inflation +1.7 points, then the trade balance improves.</li>
+        <li><strong>World interest rate</strong>: capital leaves when \(r_w\) rises above the union’s rate.</li>
+        <li><strong>Backstop off</strong>: same French stimulus, spread <strong>1.3 points</strong> in year 8, public balance −3.2 — Greece 2010, Italy 2011.</li>
       </ul>
-      <p class="xs muted" style="margin-top:.5em">Both are announced in the communiqué and replayed year by year like the other shocks.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <span class="qtag">Check</span>
-  <h2>Floating regime. The council votes a rate hike of 0.5 point. In the year that follows…</h2>
-  <div class="quiz" data-answer="1" data-fb="Capital flows in, the currency appreciates, import prices fall (less inflation) and exports become dearer; investment falls with the usual lag. A hike is contractionary twice: through investment and through the exchange rate.">
-    <button>the currency depreciates, exports recover</button><button>the currency appreciates, inflation falls, GDP falls</button><button>nothing changes: the rate only matters for investment</button><button>the reserves rise</button>
+  <div class="kicker">C · Version 2 · Finance</div>
+  <h2>Three votes at the council</h2>
+  <div class="cols c3">
+    <div class="card vote">
+      <h3>The central bank’s rate</h3>
+      <div class="ch"><span>cut</span><span>hold</span><span>hike</span></div>
+      <p class="small">Every year, with your decisions. ±0.5 point, <strong>permanent</strong>. Majority of the countries that vote.</p>
+      <p class="xs muted">Fixed: a reserves decision. Floating: a currency decision.</p>
+    </div>
+    <div class="card vote">
+      <h3>A reserves crisis</h3>
+      <div class="ch"><span>austerity</span><span>devaluation</span><span>float</span></div>
+      <p class="small">When the reserves ended the year under the alert, before the next decisions. The choices lie on a line; the <strong>median vote wins</strong>.</p>
+      <p class="xs muted">Austerity caps public demand and benefits at −5 %; devaluation 10 %; float only exists in Finance.</p>
+    </div>
+    <div class="card vote">
+      <h3>A currency crisis</h3>
+      <div class="ch"><span>defend</span><span>let it float</span></div>
+      <p class="small">Floating regime, depreciation of more than 10 % in a year. Defend = rate +1 point.</p>
+      <p class="xs muted">Spend output to save the currency, or let import prices do the adjusting.</p>
+    </div>
   </div>
-  <p class="fb"></p>
+  <p class="small muted" style="margin-top:.9em">Votes are secret until the year is run. Pledges made at the council are recorded — and compared with the votes. The administrator may also hold an <strong>election</strong>: the weights of R change for a country or the whole union, from a given year.</p>
 </section>
 
 <section>
-  <div class="kicker">D · Playing version 1.2</div>
+  <div class="kicker">Today’s session</div>
   <h2>How the session unfolds</h2>
   <div class="cols">
     <div>
-      <h3>A · Finish the class-6 game</h3>
+      <h3>A new union: version 2 · Finance</h3>
       <ul class="small chk">
-        <li>Your union continues on the class-6 model until its last year: nothing changes for the game you started.</li>
-        <li>Final ranking on the board, then a short debrief: who drained the reserves, who kept their pledges, what the crisis vote did.</li>
+        <li>New class, new PINs; two to seven countries, one per team. The regime is the administrator’s first decision; each year’s shocks come in a communiqué.</li>
+        <li>Each decision comes with its justification: <em>what does this do to my prices, my debt and the union’s currency, and for how long do I plan to keep it?</em></li>
       </ul>
     </div>
-    <div>
-      <h3>B · A new union, version 1.2</h3>
+    <div class="card">
+      <h3>Options on</h3>
       <ul class="small chk">
-        <li>New class, new PINs, new countries; the same communiqué rhythm — in version 1.2, or 1.3 with capital flows, the regime being the administrator’s first decision.</li>
-        <li>One rule of thumb before each decision: <em>what does this do to my prices, and for how long do I plan to keep it?</em></li>
-        <li>At the end: compare the two games. Same levers, same players — a different economy.</li>
+        <li><strong>Tariffs</strong>: a common external tariff to vote, and the rest of the world may retaliate.</li>
+        <li><strong>Modest and wealthy households</strong>: who gains and who pays, for every lever.</li>
+        <li><strong>Leaving the union</strong>: any member may announce its exit; the others decide their response.</li>
+        <li class="muted">Climate: off.</li>
       </ul>
     </div>
   </div>
-  <p class="small muted" style="margin-top:1em">Reading: Godley &amp; Lavoie (2007), chapter 6, §6.9–6.11 (fixed exchange rates and the adjustment of prices); Lavoie (2015), <em>The Eurozone: similarities to and differences from Keynes’s plan</em>.</p>
+  <p class="small muted" style="margin-top:1em">Reading: Godley &amp; Lavoie (2007), chapter 6, §6.9–6.11 (fixed exchange rates and the adjustment of prices) and chapter 12 (capital flows, fixed and flexible exchange rates); Lavoie (2015), <em>The Eurozone: similarities to and differences from Keynes’s plan</em>.</p>
 </section>
 
 </div></div>
@@ -427,33 +372,17 @@ Chart.defaults.plugins.legend.labels.boxWidth=14;
 const grid={color:'#ece9e0'};
 const charts={};
 
-/* ---------- quizzes ---------- */
-document.querySelectorAll('.quiz').forEach(q=>{
-  const ans=+q.dataset.answer, fb=q.nextElementSibling;
-  q.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{
-    q.querySelectorAll('button').forEach((bb,j)=>{bb.classList.remove('right','wrong'); if(j===ans) bb.classList.add('right'); else if(j===i) bb.classList.add('wrong');});
-    fb.textContent=(i===ans?'✓ Correct. ':'Not quite. ')+q.dataset.fb;
-  }));
-});
 
-/* ---------- engine magnitudes (OPEN-MU 1.1 vs 1.2) ---------- */
+/* ---------- engine magnitudes (OPEN-MU: class-6 model vs version 1 · Trade) ---------- */
 const YEARS=['year 1','year 2','year 3','year 4','year 5','year 6'];
-const ER={ gdp12:[2.39,2.10,1.84,1.62,1.42,1.24], gdp11:[2.39,2.44,2.49,2.52,2.55,2.56], tb12:[-0.68,-0.88,-1.05,-1.19,-1.32,-1.43], tb11:[-0.68,-0.69,-0.70,-0.71,-0.72,-0.73] };
-const RS={ labels:['start','year 1','year 2','year 3','year 4'], w5:[100,69,40,15,-9], w10:[100,37,-20,-71,null], all5:[100,88,73,54,33], w5old:[100,84,69,53,38] };
+const ER={ gdpT:[2.39,2.10,1.84,1.62,1.42,1.24], gdp6:[2.39,2.44,2.48,2.52,2.56,2.60], tbT:[-0.68,-0.88,-1.05,-1.19,-1.32,-1.43], tb6:[-0.68,-0.69,-0.71,-0.72,-0.73,-0.74] };
 function build(k,el){
   if(k==='erosion') return new Chart(el,{type:'line',data:{labels:YEARS,datasets:[
-    {label:'GDP, v1.2 (%)',data:ER.gdp12,borderColor:C.blue,backgroundColor:C.blue,tension:.25},
-    {label:'GDP, class 6 (%)',data:ER.gdp11,borderColor:C.blue,borderDash:[6,4],backgroundColor:C.blue,tension:.25},
-    {label:'Trade balance, v1.2 (pt GDP)',data:ER.tb12,borderColor:'#7a4fa3',backgroundColor:'#7a4fa3',tension:.25},
-    {label:'Trade balance, class 6 (pt GDP)',data:ER.tb11,borderColor:'#7a4fa3',borderDash:[6,4],backgroundColor:'#7a4fa3',tension:.25}
+    {label:'GDP, Trade (%)',data:ER.gdpT,borderColor:C.blue,backgroundColor:C.blue,tension:.25},
+    {label:'GDP, class 6 (%)',data:ER.gdp6,borderColor:C.blue,borderDash:[6,4],backgroundColor:C.blue,tension:.25},
+    {label:'Trade balance, Trade (pt GDP)',data:ER.tbT,borderColor:'#7a4fa3',backgroundColor:'#7a4fa3',tension:.25},
+    {label:'Trade balance, class 6 (pt GDP)',data:ER.tb6,borderColor:'#7a4fa3',borderDash:[6,4],backgroundColor:'#7a4fa3',tension:.25}
   ]},options:{maintainAspectRatio:false,animation:{duration:400},plugins:{legend:{position:'top',align:'start'}},scales:{x:{grid:{display:false}},y:{grid,title:{display:true,text:'deviation from the reference path'}}}}});
-  if(k==='reserves') return new Chart(el,{type:'line',data:{labels:RS.labels,datasets:[
-    {label:'World demand −5 % (v1.2)',data:RS.w5,borderColor:C.navy,backgroundColor:C.navy,tension:.2},
-    {label:'World demand −10 % (v1.2)',data:RS.w10,borderColor:C.loss,backgroundColor:C.loss,tension:.2},
-    {label:'Every member stimulates +5 % (v1.2)',data:RS.all5,borderColor:C.gold,backgroundColor:C.gold,tension:.2},
-    {label:'World demand −5 % (class 6, 3 months)',data:RS.w5old,borderColor:C.navy,borderDash:[6,4],backgroundColor:C.navy,tension:.2}
-  ]},options:{maintainAspectRatio:false,animation:{duration:400},plugins:{legend:{position:'top',align:'start'},annotation:undefined},
-    scales:{x:{grid:{display:false}},y:{grid,min:-80,max:100,title:{display:true,text:'reserves, % of the initial stock (alert at 25)'}}}}});
 }
 function initCharts(slide){
   if(!slide) return;
