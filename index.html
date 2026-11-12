@@ -40,6 +40,9 @@ main{padding:44px 0 64px}
 .topics{list-style:none;margin:0;padding:0;font-size:.9rem;color:var(--muted)}
 .topics li{padding:3px 0 3px 1.2em;position:relative}
 .topics li::before{content:"";position:absolute;left:0;top:.72em;width:.45em;height:.45em;border-radius:2px;background:var(--gold)}
+.cls.game{background:var(--gold-soft);border-color:#e4d4a0}
+.cls.game:hover{border-color:var(--gold)}
+.gtext{margin:0;font-size:.9rem;color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
 .btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.88rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1.5px solid var(--navy)}
 .btn.primary{background:var(--navy);color:#fff}
@@ -161,28 +164,35 @@ const CLASSES = [
       "The real game and the council of ministers"
     ],
     links: [
-      { label: "Slides", url: "seance6", primary: true },
-      { label: "Policy desk (teams)", url: "https://leomalherbe.github.io/macroscope/desk" },
-      { label: "The model (equations)", url: "https://leomalherbe.github.io/macroscope/model" },
-      { label: "About Macroscope", url: "https://leomalherbe.github.io/macroscope/" }
+      { label: "Slides", url: "seance6", primary: true }
     ]
   },
   {
     n: 7,
-    title: "The external constraint: prices, competitiveness and the reserves (OPEN-MU v1.2)",
+    title: "The external constraint: prices, capital flows and the exchange-rate regime",
     topics: [
-      "Finishing the class-6 game",
-      "What the game taught: why growth was easy",
-      "The missing channel: the price level enters trade",
-      "Playing version 1.2"
+      "What the game taught",
+      "Version 1 · Trade: prices enter trade",
+      "Version 2 · Finance: capital flows, fixed or floating, the bond market",
+      "Today’s session: playing the Finance model"
     ],
     links: [
-      { label: "Slides", url: "seance7", primary: true },
-      { label: "Policy desk (teams)", url: "https://leomalherbe.github.io/macroscope/desk" },
-      { label: "The model (equations)", url: "https://leomalherbe.github.io/macroscope/model" }
+      { label: "Slides", url: "seance7", primary: true }
     ]
   }
 ];
+
+/* Macroscope: the policy game used in classes 6–7 (its own site) */
+const GAME = {
+  title: "Macroscope",
+  text: "The economic policy game used in classes 6 and 7.",
+  links: [
+    { label: "Policy desk (teams)", url: "https://leomalherbe.github.io/macroscope/desk", primary: true },
+    { label: "The model (equations)", url: "https://leomalherbe.github.io/macroscope/model" },
+    { label: "About Macroscope", url: "https://leomalherbe.github.io/macroscope/" }
+  ]
+};
+
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const box = document.getElementById('classes');
 box.innerHTML = CLASSES.map(c => `
@@ -194,7 +204,16 @@ box.innerHTML = CLASSES.map(c => `
     <ul class="topics">${c.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
     <div class="links">${c.links.map(l =>
       `<a class="btn ${l.primary ? 'primary' : 'ghost'}" href="${esc(l.url)}">${esc(l.label)} →</a>`).join('')}</div>
-  </article>`).join('');
+  </article>`).join('') + `
+  <article class="cls game">
+    <div class="top">
+      <div class="num">◆</div>
+      <div><div class="lbl">Policy game</div><h3>${esc(GAME.title)}</h3></div>
+    </div>
+    <p class="gtext">${esc(GAME.text)}</p>
+    <div class="links">${GAME.links.map(l =>
+      `<a class="btn ${l.primary ? 'primary' : 'ghost'}" href="${esc(l.url)}">${esc(l.label)} →</a>`).join('')}</div>
+  </article>`;
 document.getElementById('count').textContent = CLASSES.length + (CLASSES.length > 1 ? ' classes online' : ' class online');
 </script>
 </body>
